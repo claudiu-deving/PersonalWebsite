@@ -1,0 +1,8 @@
+export enum TEXTTYPE {
+  TEXT,
+  CODE,
+  WHITESPACE,
+  IMAGE,
+  UNORDERED_LIST,
+  ORDERED_LIST,
+}

@@ -1,0 +1,31 @@
+<article *ngIf="!isEditMode; else editMode">
+  <header>
+    <div>
+      <h1 class="title">{{ title }}</h1>
+      <p>{{ date_value | date }}</p>
+      <button (click)="toggleEditMode()">Edit</button>
+    </div>
+  </header>
+  <div [innerHTML]="getSafeHtmlContent(content)"></div>
+</article>
+
+<ng-template #editMode>
+  <header>
+    <div>
+      <h1 class="title">{{ title }}</h1>
+      <p>{{ date_value | date }}</p>
+      <button (click)="toggleEditMode()">Save</button>
+    </div>
+  </header>
+  <div class="blog-edit-wrapper">
+    <textarea
+      class="blog-edit-input"
+      [(ngModel)]="unparsedContent"
+      (ngModelChange)="refresh(unparsedContent)"
+    ></textarea>
+    <div
+      class="blog-edit-output"
+      [innerHTML]="getSafeHtmlContent(content)"
+    ></div>
+  </div>
+</ng-template>

@@ -1,0 +1,6 @@
+/.angular
+/.editorconfig
+/.hintrc
+/.vscode
+/dist
+/node_modules

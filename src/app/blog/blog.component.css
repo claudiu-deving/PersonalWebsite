@@ -1,0 +1,27 @@
+header{
+    position: relative;
+}
+
+header div{
+    justify-content: center;
+    margin: auto;
+}
+
+header p{
+    position:absolute ;
+    font-size: 14px;
+   top:0;
+   right: 0;
+}
+
+.blog-edit-wrapper{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.blog-edit-input{
+    margin: 10px;
+}
+.blog-edit-output{
+    margin: 10px;
+}
