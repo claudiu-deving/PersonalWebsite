@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BlogPostService } from 'src/app/blog-service.service';
 import { Observable } from 'rxjs';
-import { Parser } from '../utils/parser';
+import { Parser } from '../utils/parsing/parser';
 @Component({
   selector: 'app-blog',
   templateUrl: './blog.component.html',

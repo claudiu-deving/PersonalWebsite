@@ -1,6 +1,6 @@
 import { Block } from './Block';
 import { CodeBlock } from './CodeBlock';
-import { Resources } from './Resources';
+import { Resources } from './parsing/Resources';
 import { TEXTTYPE } from './TEXTTYPE';
 import { TestBed } from '@angular/core/testing';
 

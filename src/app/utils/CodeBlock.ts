@@ -1,9 +1,7 @@
-import { RegexHelper } from './RegexHelper';
-import { Resources } from './Resources';
-import { ParsingRule } from './ParsingRule';
+import { Resources } from './parsing/Resources';
+import { ParsingRule } from './parsing/ParsingRule';
 import { TEXTTYPE } from './TEXTTYPE';
 import { Block } from './Block';
-import { FunctionGuards } from './FunctionGuards';
 
 export class CodeBlock extends Block {
   constructor(startIndex: number, endIndex: number, lines: string[]) {

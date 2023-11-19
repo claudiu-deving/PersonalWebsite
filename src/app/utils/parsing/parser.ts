@@ -1,7 +1,7 @@
 import SuperExpresive from 'super-expressive';
-import { TEXTTYPE } from './TEXTTYPE';
-import { Block } from './Block';
-import { CodeBlock } from './CodeBlock';
+import { TEXTTYPE } from '../TEXTTYPE';
+import { Block } from '../Block';
+import { CodeBlock } from '../CodeBlock';
 import { Injectable } from '@angular/core';
 
 @Injectable({

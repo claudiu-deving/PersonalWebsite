@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Parser } from './parser';
-import { TEXTTYPE } from './TEXTTYPE';
-import { RegexHelper } from './RegexHelper';
+import { TEXTTYPE } from '../TEXTTYPE';
+import { RegexHelper } from '../RegexHelper';
 
 describe('Parser', () => {
   let parser: Parser;

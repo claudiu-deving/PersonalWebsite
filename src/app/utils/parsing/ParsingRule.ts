@@ -1,5 +1,5 @@
 import { Guard } from './FunctionGuards';
-import { RegexHelper } from './RegexHelper';
+import { RegexHelper } from '../RegexHelper';
 import { Resources } from './Resources';
 
 export class RegExpWithKey {
