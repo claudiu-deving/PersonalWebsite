@@ -49,9 +49,7 @@ export class BlogComponent implements OnInit {
   }
 
   refresh(unescaped: string) {
-    var escaped = JSON.stringify(unescaped);
-
-    this.content = this.parser.parse(escaped);
+    this.content = this.parser.parse(unescaped);
   }
 
   ngOnInit() {
