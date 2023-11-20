@@ -98,6 +98,8 @@ export class FunctionGuards {
     'void',
     'volatile',
     'while',
+    'get',
+    'set',
   ];
 
   static readonly cSharpPrimitiveTypes: string[] = [

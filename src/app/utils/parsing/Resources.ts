@@ -50,11 +50,19 @@ export class Resources {
     'keyword',
     (line: string) => FunctionGuards.checkForKeywords(line)
   );
+
+  static readonly classDeclaration: SimpleParsingRule = new SimpleParsingRule(
+    new RegExpWithKey('__cld', new RegExp('\\b[A-Z]\\w+', 'g')),
+    'class ',
+    (line: string) => true
+  );
+
   static rules: ParsingRule[] = [
     this.quotes,
     this.specificClass,
     this.method,
     this.staticClass,
     this.keyword,
+    this.classDeclaration,
   ];
 }
