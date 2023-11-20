@@ -53,7 +53,7 @@ export class Resources {
 
   static readonly classDeclaration: SimpleParsingRule = new SimpleParsingRule(
     new RegExpWithKey('__cld', new RegExp('\\b[A-Z]\\w+', 'g')),
-    'class',
+    'class ',
     (line: string) => true
   );
 
