@@ -53,16 +53,53 @@ export class Resources {
 
   static readonly classDeclaration: SimpleParsingRule = new SimpleParsingRule(
     new RegExpWithKey('__cld', new RegExp('\\b[A-Z]\\w+', 'g')),
-    'class ',
+    'class',
+    (line: string) => true
+  );
+
+  static readonly comment: SimpleParsingRule = new SimpleParsingRule(
+    new RegExpWithKey('__cmt', new RegExp('\\/\\/.*$', 'mg')),
+    'comment',
+    (line: string) => true
+  );
+
+  static readonly digit: SimpleParsingRule = new SimpleParsingRule(
+    new RegExpWithKey('__dgt', new RegExp('(?<=[0-9 =></*+-])\\d+', 'g')),
+    'digit',
+    (line: string) => true
+  );
+
+  static readonly lt: SimpleParsingRule = new SimpleParsingRule(
+    new RegExpWithKey('__lt', new RegExp('\\<', 'g')),
+    'lt',
+    (line: string) => true,
+    new Array<string>('&lt;')
+  );
+
+  static readonly gt: SimpleParsingRule = new SimpleParsingRule(
+    new RegExpWithKey('__gt', new RegExp('\\>', 'g')),
+    'gt',
+    (line: string) => true,
+    new Array<string>('&gt;')
+  );
+
+  static readonly variable: SimpleParsingRule = new SimpleParsingRule(
+    new RegExpWithKey('__var', new RegExp('(?<!_)\\b[A-Za-z0-9<]+', 'g')),
+    'variable',
     (line: string) => true
   );
 
   static rules: ParsingRule[] = [
+    this.comment,
+    this.digit,
     this.quotes,
     this.specificClass,
     this.method,
     this.staticClass,
     this.keyword,
     this.classDeclaration,
+    this.lt,
+    this.gt,
+    this.variable,
   ];
 }

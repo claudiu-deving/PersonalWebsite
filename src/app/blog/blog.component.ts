@@ -44,7 +44,7 @@ export class BlogComponent implements OnInit {
   unparsedContent: string = '';
   getContent() {
     this.BlogPostService.getBlog(this.title).subscribe((x) => {
-      this.content = x.content;
+      this.content = this.parser.parse(x.content);
     });
   }
 

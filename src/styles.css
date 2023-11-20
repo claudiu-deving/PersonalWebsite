@@ -185,3 +185,9 @@ header h1{
 pre{
     overflow-x: auto;
 }
+.comment{
+    color: #57A64A;
+}
+.digit{
+    color: #B5CEA8;
+}
