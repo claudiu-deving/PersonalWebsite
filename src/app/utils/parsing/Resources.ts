@@ -89,6 +89,12 @@ export class Resources {
     (line: string) => true
   );
 
+  static readonly interface: SimpleParsingRule = new SimpleParsingRule(
+    new RegExpWithKey('__itf', new RegExp('I\\w+', 'g')),
+    'interface',
+    (line: string) => true
+  );
+
   static rules: ParsingRule[] = [
     this.comment,
     this.digit,
@@ -97,6 +103,7 @@ export class Resources {
     this.method,
     this.staticClass,
     this.keyword,
+    this.interface,
     this.classDeclaration,
     this.lt,
     this.gt,
