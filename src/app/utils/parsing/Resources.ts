@@ -12,11 +12,9 @@ export class Resources {
   static readonly replacementPlaceholder = '{word.Value}';
 
   static readonly quotes: SimpleParsingRule = new SimpleParsingRule(
-    new RegExpWithKey('__qts', new RegExp('(?<=")(.*)(?=")', 'g')),
+    new RegExpWithKey('__qts', new RegExp('"[^"]*"', 'g')),
     'string',
-    (line: string) => FunctionGuards.checkForQuotes(line),
-    ['"', '"'],
-    '"'
+    (line: string) => FunctionGuards.checkForQuotes(line)
   );
 
   static readonly staticClass: SimpleParsingRule = new SimpleParsingRule(
@@ -51,6 +49,17 @@ export class Resources {
     (line: string) => FunctionGuards.checkForKeywords(line)
   );
 
+  static readonly using: SimpleParsingRule = new SimpleParsingRule(
+    new RegExpWithKey('__usg', new RegExp('(?<=using ).+', 'g')),
+    'none',
+    (line: string) => true
+  );
+
+  static readonly namespace: SimpleParsingRule = new SimpleParsingRule(
+    new RegExpWithKey('__nms', new RegExp('(?<=namespace ).+', 'g')),
+    'none',
+    (line: string) => true
+  );
   static readonly classDeclaration: SimpleParsingRule = new SimpleParsingRule(
     new RegExpWithKey('__cld', new RegExp('\\b[A-Z]\\w+', 'g')),
     'class',
@@ -64,7 +73,10 @@ export class Resources {
   );
 
   static readonly digit: SimpleParsingRule = new SimpleParsingRule(
-    new RegExpWithKey('__dgt', new RegExp('(?<=[0-9 =></*+-])\\d+', 'g')),
+    new RegExpWithKey(
+      '__dgt',
+      new RegExp('(?<=[\\d()\\[\\]=\\> </*+-])\\d+', 'g')
+    ),
     'digit',
     (line: string) => true
   );
@@ -95,18 +107,34 @@ export class Resources {
     (line: string) => true
   );
 
+  static readonly brackets: SimpleParsingRule = new SimpleParsingRule(
+    new RegExpWithKey('__brk', new RegExp('[\\(\\|\\)\\[\\]{};.]', 'g')),
+    'none',
+    (line: string) => true
+  );
+
+  static readonly operators: SimpleParsingRule = new SimpleParsingRule(
+    new RegExpWithKey('__opr', new RegExp('[\\+\\-\\*\\/=\\>\\<]', 'g')),
+    'none',
+    (line: string) => true
+  );
+
   static rules: ParsingRule[] = [
-    this.comment,
-    this.digit,
-    this.quotes,
     this.specificClass,
+    this.comment,
+    this.quotes,
+    this.digit,
     this.method,
+    this.using,
     this.staticClass,
+    this.namespace,
     this.keyword,
     this.interface,
     this.classDeclaration,
+    this.operators,
     this.lt,
     this.gt,
     this.variable,
+    this.brackets,
   ];
 }

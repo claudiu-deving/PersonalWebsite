@@ -4,8 +4,8 @@ import { TEXTTYPE } from './TEXTTYPE';
 import { Block } from './Block';
 
 export class CodeBlock extends Block {
-  constructor(startIndex: number, endIndex: number, lines: string[]) {
-    super(startIndex, endIndex, lines, TEXTTYPE.CODE);
+  constructor(lines: string[]) {
+    super(lines, TEXTTYPE.CODE);
   }
 
   public override build(blockCount: number): string[] {
