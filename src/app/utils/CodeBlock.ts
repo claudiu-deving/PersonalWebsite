@@ -15,6 +15,7 @@ export class CodeBlock extends Block {
     );
     for (let i = 0; i < this.lines.length; i++) {
       const element = this.lines[i];
+      if (element == '<code>' || element == '</code>') continue;
       let parsed = this.processCodeLine(element);
       for (let kvp of this.keysWithReplacers) {
         parsed = parsed.replace(kvp[0], kvp[1]);
