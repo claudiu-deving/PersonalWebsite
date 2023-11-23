@@ -7,20 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
   </head>
- 
+
   <body>
     <app-root></app-root>
+    <script>
+      function CopyToClipboard(id) {
+        var r = document.createRange();
+        r.selectNode(document.getElementById(id));
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(r);
+        console.log(r);
+        document.execCommand("copy");
+        window.getSelection().removeAllRanges();
+      }
+    </script>
   </body>
   <!--<script src="assets/scripts/codewidthcontrol.js"></script>-->
-  <script>
-    function CopyToClipboard(id) {
-      var r = document.createRange();
-      r.selectNode(document.getElementById(id));
-      window.getSelection().removeAllRanges();
-      window.getSelection().addRange(r);
-      console.log(r);
-      document.execCommand("copy");
-      window.getSelection().removeAllRanges();
-    }
-  </script>
 </html>

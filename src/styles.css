@@ -81,6 +81,7 @@ header h1{
     color: #E7EE41;
 }
 .code{
+    position: relative;
     display: flex;
     justify-content: space-between;
     color:var(--cosmic-latte);
@@ -96,7 +97,7 @@ header h1{
 
 .copy-button{
     position:absolute;
-    top:calc(50%-height/2);
+    top:10px;
     right:5px;
     margin-right: 0;
     border-radius: 0;
