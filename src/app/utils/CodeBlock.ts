@@ -11,7 +11,7 @@ export class CodeBlock extends Block {
   public override build(blockCount: number): string[] {
     let result = new Array<string>();
     result.push(
-      `"<div class="code"> <button class="copy-button" onclick="CopyToClipboard("codeblock${blockCount}")">Copy code</button><pre id="codeblock${blockCount}">`
+      `"<div class="code"> <button class="copy-button" onclick="CopyToClipboard('codeblock${blockCount}')">Copy code</button><pre id="codeblock${blockCount}">`
     );
     for (let i = 0; i < this.lines.length; i++) {
       const element = this.lines[i];
