@@ -161,14 +161,24 @@ export class Parser {
           this.sortAndAddToDictionary(values, result, j);
         }
       } else {
+        //A new group has started
+
+        //Add the previous group to the dictionary
         this.sortAndAddToDictionary(values, result, j);
+
+        //Reset the values array
         j++;
         values = new Array<number>();
+
+        //Add the current value to the new group
         values.push(currentValue);
+
+        if (i === indices.length - 1) {
+          this.sortAndAddToDictionary(values, result, j);
+        }
       }
       last = currentValue;
     }
-
     return result;
   }
   private sortAndAddToDictionary(

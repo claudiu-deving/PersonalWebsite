@@ -6,17 +6,14 @@ export class TextBlock extends Block {
     super(lines, TEXTTYPE.TEXT);
   }
 
-  public override build(blockCount?: number | undefined): string[] {
+  public override build(_blockCount?: number | undefined): string[] {
     let result = new Array<string>();
-    result.push(
-      `<div class="paragraph">
-      <p>`
-    );
+    result.push(`<pre><div class="paragraph">`);
     for (let i = 0; i < this.lines.length; i++) {
       const element = this.lines[i];
-      result.push(element);
+      result.push('<p>' + element + '</p>');
     }
-    result.push('</p></div>');
+    result.push('</div></pre>');
     return result;
   }
 }

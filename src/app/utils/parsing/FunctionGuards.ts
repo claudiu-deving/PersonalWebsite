@@ -95,6 +95,7 @@ export class FunctionGuards {
     'using',
     'using static',
     'virtual',
+    'var',
     'void',
     'volatile',
     'while',

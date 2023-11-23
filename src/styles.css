@@ -16,7 +16,6 @@
 }
 body{
     background-color: var(--background);
-  
     font-family: Source Serif Pro, serif;
 }
 article{
@@ -35,9 +34,7 @@ article{
     color:var(--text-paragraph);
 }
 
-article .paragraph{
-    margin-bottom: 40px;
-}
+
 header{
     display: flex;
     border-bottom: 1px solid #444;
@@ -184,7 +181,16 @@ header h1{
 
 
 pre{
-    overflow-x: auto;
+   
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;      /* CSS 3 */
+    white-space: pre-wrap;     /* Opera 7 */
+    word-wrap: break-word;  
+}
+ .paragraph{
+    margin-bottom: 30px;
+    font-family: Source Serif Pro, serif;
 }
 .comment{
     color: #57A64A;
