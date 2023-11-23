@@ -4,8 +4,8 @@ import { TEXTTYPE } from './TEXTTYPE';
 import { Block } from './Block';
 
 export class CodeBlock extends Block {
-  constructor(startIndex: number, endIndex: number, lines: string[]) {
-    super(startIndex, endIndex, lines, TEXTTYPE.CODE);
+  constructor(lines: string[]) {
+    super(lines, TEXTTYPE.CODE);
   }
 
   public override build(blockCount: number): string[] {
@@ -15,6 +15,7 @@ export class CodeBlock extends Block {
     );
     for (let i = 0; i < this.lines.length; i++) {
       const element = this.lines[i];
+      if (element == '<code>' || element == '</code>') continue;
       let parsed = this.processCodeLine(element);
       for (let kvp of this.keysWithReplacers) {
         parsed = parsed.replace(kvp[0], kvp[1]);

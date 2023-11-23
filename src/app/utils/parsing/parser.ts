@@ -1,65 +1,14 @@
 import SuperExpresive from 'super-expressive';
 import { TEXTTYPE } from '../TEXTTYPE';
 import { Block } from '../Block';
-import { CodeBlock } from '../CodeBlock';
 import { Injectable } from '@angular/core';
+import { BlockFactory } from '../BlockFactory';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Parser {
-  public orderedList: RegExp = SuperExpresive()
-    .allowMultipleMatches.lineByLine.startOfInput.anyOf.digit.char('.')
-    .end()
-    .toRegex();
-
-  public unescapeString(str: string): string {
-    var result = decodeURI(str)
-      .replace(/\\\\/g, '\\') // Unescape backslashes
-      .replace(/\\n/g, '\n') // Unescape newlines
-      .replace(/\\r/g, '\r') // Unescape carriage returns
-      .replace(/\\t/g, '\t'); // Unescape tabs
-
-    return result;
-    // ... add more as needed
-  }
-  public determineLineType(line: string, currentTypeFlag: TEXTTYPE): TEXTTYPE {
-    if (line.startsWith('<code>')) {
-      currentTypeFlag = TEXTTYPE.CODE;
-      return TEXTTYPE.CODE;
-    }
-    if (line.startsWith('</code>')) {
-      currentTypeFlag = TEXTTYPE.TEXT;
-      return TEXTTYPE.CODE;
-    }
-    if (line.length == 0 && currentTypeFlag != TEXTTYPE.CODE) {
-      return TEXTTYPE.WHITESPACE;
-    }
-    if (currentTypeFlag == TEXTTYPE.CODE) {
-      return TEXTTYPE.CODE;
-    }
-    if (line.startsWith('<3Image3>')) {
-      return TEXTTYPE.IMAGE;
-    }
-    if (line.startsWith('-')) {
-      return TEXTTYPE.UNORDERED_LIST;
-    }
-    if (this.orderedList.exec(line)?.length != 0) {
-      return TEXTTYPE.ORDERED_LIST;
-    }
-    return TEXTTYPE.TEXT;
-  }
-
-  private mapTextTypesWithIndices(lines: string[]): Map<number, TEXTTYPE> {
-    let types = new Map<number, TEXTTYPE>();
-    let currentTypeFlag = TEXTTYPE.TEXT;
-    for (let index = 0; index < lines.length; index++) {
-      const element = lines[index];
-      let type = this.determineLineType(element, currentTypeFlag);
-      types.set(index, type);
-    }
-    return types;
-  }
+  currentTypeFlag: TEXTTYPE = TEXTTYPE.TEXT;
 
   public parse(content: string): string {
     var result: string = '';
@@ -77,6 +26,56 @@ export class Parser {
       }
     }
     return result;
+  }
+
+  public unescapeString(str: string): string {
+    var result = decodeURI(str)
+      .replace(/\\\\/g, '\\') // Unescape backslashes
+      .replace(/\\n/g, '\n') // Unescape newlines
+      .replace(/\\r/g, '\r') // Unescape carriage returns
+      .replace(/\\t/g, '\t'); // Unescape tabs
+
+    return result;
+    // ... add more as needed
+  }
+
+  public determineLineType(line: string): TEXTTYPE {
+    var matchForOrderedList = line.match('\\d(?=\\.)');
+
+    if (line.startsWith('<code>')) {
+      this.currentTypeFlag = TEXTTYPE.CODE;
+      return TEXTTYPE.CODE;
+    }
+    if (line.startsWith('</code>')) {
+      this.currentTypeFlag = TEXTTYPE.TEXT;
+      return TEXTTYPE.CODE;
+    }
+    if (this.currentTypeFlag === TEXTTYPE.CODE) {
+      return TEXTTYPE.CODE;
+    }
+    if ((line.length == 1 && line == ' ') || line.length == 0) {
+      return TEXTTYPE.WHITESPACE;
+    }
+    if (line.startsWith('<3Image3>')) {
+      return TEXTTYPE.IMAGE;
+    }
+    if (line.startsWith('-')) {
+      return TEXTTYPE.UNORDERED_LIST;
+    }
+    if (matchForOrderedList != null) {
+      return TEXTTYPE.ORDERED_LIST;
+    }
+    return TEXTTYPE.TEXT;
+  }
+
+  public mapTextTypesWithIndices(lines: string[]): Map<number, TEXTTYPE> {
+    let types = new Map<number, TEXTTYPE>();
+    for (let index = 0; index < lines.length; index++) {
+      const element = lines[index];
+      let type = this.determineLineType(element);
+      types.set(index, type);
+    }
+    return types;
   }
 
   private reverseDictionary(
@@ -111,18 +110,28 @@ export class Parser {
   ): Array<Block> {
     let blocks = new Array<Block>();
     for (let entry of reversed) {
-      if (entry[0] === TEXTTYPE.CODE) {
-        let consecutive = this.groupConsecutiveValues(entry[1]);
-        for (let consecutiveEntry of consecutive) {
-          let numbers = consecutiveEntry[1];
-          var subSection = lines.slice(numbers[0], numbers[numbers.length]);
-          let block = new CodeBlock(
-            numbers[0],
-            numbers[numbers.length],
-            subSection
-          );
-          blocks.push(block);
+      switch (entry[0]) {
+        case TEXTTYPE.CODE: {
+          let consecutive = this.groupConsecutiveValues(entry[1]);
+          for (let consecutiveEntry of consecutive) {
+            blocks.push(
+              BlockFactory.createBlock(consecutiveEntry, TEXTTYPE.CODE, lines)
+            );
+          }
+          break;
         }
+        case TEXTTYPE.TEXT: {
+          let consecutive = this.groupConsecutiveValues(entry[1]);
+          for (let consecutiveEntry of consecutive) {
+            blocks.push(
+              BlockFactory.createBlock(consecutiveEntry, TEXTTYPE.TEXT, lines)
+            );
+          }
+          break;
+        }
+
+        default:
+          break;
       }
     }
     return blocks;
@@ -141,6 +150,9 @@ export class Parser {
       if (i === 0) {
         values.push(currentValue);
         last = currentValue;
+        if (i === indices.length - 1) {
+          this.sortAndAddToDictionary(values, result, j);
+        }
         continue;
       }
       if (currentValue === last + 1) {
@@ -164,7 +176,7 @@ export class Parser {
     result: Map<number, Array<number>>,
     j: number
   ) {
-    values.sort();
+    values.sort((a, b) => a - b);
     result.set(j, values);
   }
 }

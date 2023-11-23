@@ -3,7 +3,7 @@
     <div>
       <h1 class="title">{{ title }}</h1>
       <p>{{ date_value | date }}</p>
-      <button (click)="toggleEditMode()">Edit</button>
+      <button type="button" (click)="toggleEditMode()">Edit</button>
     </div>
   </header>
   <div [innerHTML]="getSafeHtmlContent(content)"></div>
@@ -14,7 +14,7 @@
     <div>
       <h1 class="title">{{ title }}</h1>
       <p>{{ date_value | date }}</p>
-      <button (click)="toggleEditMode()">Save</button>
+      <button type="button" (click)="toggleEditMode()">Save</button>
     </div>
   </header>
   <div class="blog-edit-wrapper">
