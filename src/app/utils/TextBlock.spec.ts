@@ -57,4 +57,14 @@ describe('Text blocks tests', () => {
       '</p></div></pre>',
     ]);
   });
+
+  it('should process a line with a link', () => {
+    const result = textBlock.processHiperLinks(
+      'This is a [link](https://www.google.com)'
+    );
+
+    expect(result).toEqual(
+      'This is a <a href="https://www.google.com">link</a>'
+    );
+  });
 });

@@ -22,6 +22,7 @@ export class TextBlock extends Block {
     if (line.startsWith('#')) {
       line = this.processHeading(line);
     }
+    this.processHiperLinks(line);
     return line;
   }
   processHeading(line: string): string {
@@ -32,6 +33,20 @@ export class TextBlock extends Block {
     }
     line = line.substring(1); //subsract the space
     line = `<h${numberOfHeadings}>${line}</h${numberOfHeadings}>`;
+    return line;
+  }
+
+  processHiperLinks(line: string): string {
+    const nameRegEx = RegExp('(?<=\\[).+(?=\\])');
+    const addressRegEx = RegExp('(?<=\\().+(?=\\))');
+    let name = nameRegEx.exec(line);
+    let address = addressRegEx.exec(line);
+    if (name && address) {
+      line = line.replace(
+        `[${name}](${address})`,
+        `<a href="${address}">${name}</a>`
+      );
+    }
     return line;
   }
 }
