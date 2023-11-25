@@ -22,7 +22,25 @@ export class TextBlock extends Block {
     if (line.startsWith('#')) {
       line = this.processHeading(line);
     }
-    this.processHiperLinks(line);
+    line = this.processHiperLinks(line);
+    line = this.processBold(line);
+    line = this.processItalic(line);
+    return line;
+  }
+  processItalic(line: string): string {
+    const regEx = RegExp('(?<=_).+(?=_)');
+    let match = regEx.exec(line);
+    if (match) {
+      line = line.replace(`_${match}_`, `<em>${match}</em>`);
+    }
+    return line;
+  }
+  processBold(line: string): string {
+    const regEx = RegExp('(?<=\\*).+(?=\\*)');
+    let match = regEx.exec(line);
+    if (match) {
+      line = line.replace(`*${match}*`, `<strong>${match}</strong>`);
+    }
     return line;
   }
   processHeading(line: string): string {

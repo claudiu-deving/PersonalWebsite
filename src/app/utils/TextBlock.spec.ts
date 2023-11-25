@@ -67,4 +67,44 @@ describe('Text blocks tests', () => {
       'This is a <a href="https://www.google.com">link</a>'
     );
   });
+
+  it('should process a line with a bold text', () => {
+    const result = textBlock.processBold('This is a *bold* text');
+
+    expect(result).toEqual('This is a <strong>bold</strong> text');
+  });
+
+  it('should process a line with a italic text', () => {
+    const result = textBlock.processItalic('This is a _italic_ text');
+
+    expect(result).toEqual('This is a <em>italic</em> text');
+  });
+
+  it('should process a line with a italic and bold text', () => {
+    const result = textBlock.processLine('This is a _italic_ and *bold* text');
+
+    expect(result).toEqual(
+      'This is a <em>italic</em> and <strong>bold</strong> text'
+    );
+  });
+
+  it('should process a line with a italic and bold text', () => {
+    const result = textBlock.processLine(
+      'This is a _italic_ and *bold* and [link](https://www.google.com) text'
+    );
+
+    expect(result).toEqual(
+      'This is a <em>italic</em> and <strong>bold</strong> and <a href="https://www.google.com">link</a> text'
+    );
+  });
+
+  it('should process a line with both italic and bold for the same word', () => {
+    const result = textBlock.processLine(
+      'This is a _italic and *bold* and [link](https://www.google.com) text_'
+    );
+
+    expect(result).toEqual(
+      'This is a <em>italic and <strong>bold</strong> and <a href="https://www.google.com">link</a> text</em>'
+    );
+  });
 });
