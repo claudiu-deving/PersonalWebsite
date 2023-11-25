@@ -1,7 +1,10 @@
 import { TEXTTYPE } from './TEXTTYPE';
 import { Block } from './Block';
-import { CodeBlock } from './CodeBlock';
+import { CodeBlock, WhitespaceBlock } from './CodeBlock';
 import { TextBlock } from './TextBlock';
+import { ImageBlock } from './ImageBlock';
+import { OrderedListBlock } from './OrderedListBlock';
+import { UnorderedListBlock } from './UnorderedListBlock';
 
 export class BlockFactory {
   public static createBlock(
@@ -16,8 +19,16 @@ export class BlockFactory {
         return new CodeBlock(subSection);
       case TEXTTYPE.TEXT:
         return new TextBlock(subSection);
+      case TEXTTYPE.WHITESPACE:
+        return new WhitespaceBlock(subSection);
+      case TEXTTYPE.IMAGE:
+        return new ImageBlock(subSection);
+      case TEXTTYPE.ORDERED_LIST:
+        return new OrderedListBlock(subSection);
+      case TEXTTYPE.UNORDERED_LIST:
+        return new UnorderedListBlock(subSection);
       default:
-        return new TextBlock(subSection);
+        return new WhitespaceBlock(subSection);
     }
   }
 
