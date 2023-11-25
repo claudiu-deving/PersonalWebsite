@@ -17,6 +17,7 @@ export class TextBlock extends Block {
     result.push('</p></div></pre>');
     return result;
   }
+
   processLine(line: string): string {
     if (line.startsWith('#')) {
       line = this.processHeading(line);
