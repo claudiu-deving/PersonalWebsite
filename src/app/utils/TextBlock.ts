@@ -8,12 +8,29 @@ export class TextBlock extends Block {
 
   public override build(_blockCount?: number | undefined): string[] {
     let result = new Array<string>();
-    result.push(`<pre><div class="paragraph">`);
+    result.push(`<pre><div class="paragraph"><p>`);
     for (let i = 0; i < this.lines.length; i++) {
-      const element = this.lines[i];
-      result.push('<p>' + element + '</p>');
+      let element = this.lines[i];
+      element = this.processLine(element);
+      result.push(element);
     }
-    result.push('</div></pre>');
+    result.push('</p></div></pre>');
     return result;
+  }
+  processLine(line: string): string {
+    if (line.startsWith('#')) {
+      line = this.processHeading(line);
+    }
+    return line;
+  }
+  processHeading(line: string): string {
+    let numberOfHeadings = 0;
+    while (line.startsWith('#')) {
+      numberOfHeadings++;
+      line = line.substring(1);
+    }
+    line = line.substring(1); //subsract the space
+    line = `<h${numberOfHeadings}>${line}</h${numberOfHeadings}>`;
+    return line;
   }
 }

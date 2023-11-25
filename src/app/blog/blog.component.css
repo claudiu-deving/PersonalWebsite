@@ -21,7 +21,9 @@ header p{
 
 .blog-edit-input{
     margin: 10px;
+    width: 90%;
 }
 .blog-edit-output{
     margin: 10px;
+    width: 90%;
 }
