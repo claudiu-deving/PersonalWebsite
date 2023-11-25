@@ -5,7 +5,7 @@ import { TEXTTYPE } from './TEXTTYPE';
 import { TestBed } from '@angular/core/testing';
 
 // Add tests for processCodeLine
-describe('Block', () => {
+describe('Code blocks tests', () => {
   let block: CodeBlock;
 
   beforeEach(() => {
