@@ -1,8 +1,9 @@
 import { Block } from './Block';
 import { CodeBlock } from './CodeBlock';
-import { TEXTTYPE } from './TEXTTYPE';
+import { BlockType } from '../blocks/BlockType';
 import { TextBlock } from './TextBlock';
 import { BlockFactory } from './BlockFactory';
+import { WhitespaceBlock } from './WhitespaceBlock';
 
 describe('BlockFactory', () => {
   let lines: string[];
@@ -25,7 +26,7 @@ describe('BlockFactory', () => {
 
   it('should create a CodeBlock when type is CODE', () => {
     const consecutiveEntry: [number, number[]] = [0, [0, 1, 2]];
-    const type = TEXTTYPE.CODE;
+    const type = BlockType.CODE;
 
     const result: Block = BlockFactory.createBlock(
       consecutiveEntry,
@@ -39,7 +40,7 @@ describe('BlockFactory', () => {
 
   it('should create a TextBlock when type is TEXT', () => {
     const consecutiveEntry: [number, number[]] = [3, [3, 4]];
-    const type = TEXTTYPE.TEXT;
+    const type = BlockType.TEXT;
 
     const result: Block = BlockFactory.createBlock(
       consecutiveEntry,
@@ -51,9 +52,9 @@ describe('BlockFactory', () => {
     expect(result.lines).toEqual(['test', 'test']);
   });
 
-  it('should create a TextBlock by default', () => {
+  it('should create a WhiteSpace by default', () => {
     const consecutiveEntry: [number, number[]] = [5, [5]];
-    const type = TEXTTYPE.WHITESPACE;
+    const type = BlockType.WHITESPACE;
 
     const result: Block = BlockFactory.createBlock(
       consecutiveEntry,
@@ -61,7 +62,7 @@ describe('BlockFactory', () => {
       lines
     );
 
-    expect(result).toBeInstanceOf(TextBlock);
+    expect(result).toBeInstanceOf(WhitespaceBlock);
     expect(result.lines).toEqual(['']);
   });
 });

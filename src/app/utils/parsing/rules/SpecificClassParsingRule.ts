@@ -1,6 +1,7 @@
-import { Guard } from './FunctionGuards';
-import { Resources } from './Resources';
-import { ParsingRule, RegExpWithKey } from './ParsingRule';
+import { Guard } from '../FunctionGuards';
+import { Resources } from '../resources/Resources';
+import { ParsingRule } from './ParsingRule';
+import { RegExpWithKey } from '../resources/RegExpWithKey';
 
 export class SpecificClassParsingRule extends ParsingRule {
   constructor(

@@ -1,9 +1,9 @@
 import { Block } from './Block';
-import { TEXTTYPE } from './TEXTTYPE';
+import { BlockType } from '../blocks/BlockType';
 
 export class TextBlock extends Block {
   constructor(lines: string[]) {
-    super(lines, TEXTTYPE.TEXT);
+    super(lines, BlockType.TEXT);
   }
 
   public override build(_blockCount?: number | undefined): string[] {

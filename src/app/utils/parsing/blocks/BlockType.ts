@@ -1,4 +1,4 @@
-export enum TEXTTYPE {
+export enum BlockType {
   TEXT,
   CODE,
   WHITESPACE,

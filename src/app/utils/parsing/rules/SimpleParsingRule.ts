@@ -1,16 +1,8 @@
-import { Guard } from './FunctionGuards';
-import { RegexHelper } from '../RegexHelper';
-import { Resources } from './Resources';
-
-export class RegExpWithKey {
-  constructor(public readonly key: string, public readonly pattern: RegExp) {}
-}
-
-export abstract class ParsingRule {
-  public abstract processLine(line: string): string;
-  public keysWithReplacers: Map<string, string> = new Map<string, string>();
-  public replacement?: string;
-}
+import { Guard } from '../FunctionGuards';
+import { RegexHelper } from '../resources/RegexHelper';
+import { Resources } from '../resources/Resources';
+import { ParsingRule } from './ParsingRule';
+import { RegExpWithKey } from '../resources/RegExpWithKey';
 
 export class SimpleParsingRule extends ParsingRule {
   public override processLine(line: string): string {
@@ -57,7 +49,7 @@ export class SimpleParsingRule extends ParsingRule {
 
   public introduceIntoDictionary(indexedKey: string, element: string) {
     this.keysWithReplacers.set(
-      indexedKey, //Something like __qts0
+      indexedKey,
       this.replacement!.replace(Resources.replacementPlaceholder, element) +
         '</span>'
     );
@@ -75,27 +67,6 @@ export class SimpleParsingRule extends ParsingRule {
     for (let i = 0; i < this.trimmer.length; i++) {
       const element = this.trimmer[i];
       line = line.replace(element, '');
-    }
-    return line;
-  }
-}
-
-export class KeywordParsingRule extends SimpleParsingRule {
-  public override processLine(line: string): string {
-    line = this.findKeywords(line);
-    return line;
-  }
-
-  private findKeywords(line: string): string {
-    let matches = RegexHelper.getMatch(line, this.patternWithKey.pattern);
-    if (matches.length == 0) return line;
-    for (let i = 0; i < matches.length; i++) {
-      const element = matches[i];
-      if (this.guard(element) == false) continue;
-      let indexedKey = `${this.patternWithKey.key}${i}`;
-      line = line.replace(element, indexedKey);
-      this.setReplacement(element);
-      this.introduceIntoDictionary(indexedKey, element);
     }
     return line;
   }

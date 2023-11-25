@@ -81,14 +81,6 @@ describe('Text blocks tests', () => {
   });
 
   it('should process a line with a italic and bold text', () => {
-    const result = textBlock.processLine('This is a _italic_ and *bold* text');
-
-    expect(result).toEqual(
-      'This is a <em>italic</em> and <strong>bold</strong> text'
-    );
-  });
-
-  it('should process a line with a italic and bold text', () => {
     const result = textBlock.processLine(
       'This is a _italic_ and *bold* and [link](https://www.google.com) text'
     );

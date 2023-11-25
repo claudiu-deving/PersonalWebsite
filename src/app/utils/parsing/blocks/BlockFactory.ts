@@ -1,6 +1,8 @@
-import { TEXTTYPE } from './TEXTTYPE';
+import { BlockType } from '../blocks/BlockType';
+
 import { Block } from './Block';
-import { CodeBlock, WhitespaceBlock } from './CodeBlock';
+import { CodeBlock } from './CodeBlock';
+import { WhitespaceBlock } from './WhitespaceBlock';
 import { TextBlock } from './TextBlock';
 import { ImageBlock } from './ImageBlock';
 import { OrderedListBlock } from './OrderedListBlock';
@@ -9,23 +11,23 @@ import { UnorderedListBlock } from './UnorderedListBlock';
 export class BlockFactory {
   public static createBlock(
     consecutiveEntry: [number, number[]],
-    type: TEXTTYPE,
+    type: BlockType,
     lines: string[]
   ): Block {
     let subSection = this.determineSubSection(consecutiveEntry, lines);
 
     switch (type) {
-      case TEXTTYPE.CODE:
+      case BlockType.CODE:
         return new CodeBlock(subSection);
-      case TEXTTYPE.TEXT:
+      case BlockType.TEXT:
         return new TextBlock(subSection);
-      case TEXTTYPE.WHITESPACE:
+      case BlockType.WHITESPACE:
         return new WhitespaceBlock(subSection);
-      case TEXTTYPE.IMAGE:
+      case BlockType.IMAGE:
         return new ImageBlock(subSection);
-      case TEXTTYPE.ORDERED_LIST:
+      case BlockType.ORDERED_LIST:
         return new OrderedListBlock(subSection);
-      case TEXTTYPE.UNORDERED_LIST:
+      case BlockType.UNORDERED_LIST:
         return new UnorderedListBlock(subSection);
       default:
         return new WhitespaceBlock(subSection);
