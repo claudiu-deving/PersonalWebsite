@@ -129,6 +129,54 @@ export class Parser {
           }
           break;
         }
+        case TEXTTYPE.WHITESPACE: {
+          let consecutive = this.groupConsecutiveValues(entry[1]);
+          for (let consecutiveEntry of consecutive) {
+            blocks.push(
+              BlockFactory.createBlock(
+                consecutiveEntry,
+                TEXTTYPE.WHITESPACE,
+                lines
+              )
+            );
+          }
+          break;
+        }
+        case TEXTTYPE.IMAGE: {
+          let consecutive = this.groupConsecutiveValues(entry[1]);
+          for (let consecutiveEntry of consecutive) {
+            blocks.push(
+              BlockFactory.createBlock(consecutiveEntry, TEXTTYPE.IMAGE, lines)
+            );
+          }
+          break;
+        }
+        case TEXTTYPE.ORDERED_LIST: {
+          let consecutive = this.groupConsecutiveValues(entry[1]);
+          for (let consecutiveEntry of consecutive) {
+            blocks.push(
+              BlockFactory.createBlock(
+                consecutiveEntry,
+                TEXTTYPE.ORDERED_LIST,
+                lines
+              )
+            );
+          }
+          break;
+        }
+        case TEXTTYPE.UNORDERED_LIST: {
+          let consecutive = this.groupConsecutiveValues(entry[1]);
+          for (let consecutiveEntry of consecutive) {
+            blocks.push(
+              BlockFactory.createBlock(
+                consecutiveEntry,
+                TEXTTYPE.UNORDERED_LIST,
+                lines
+              )
+            );
+          }
+          break;
+        }
 
         default:
           break;

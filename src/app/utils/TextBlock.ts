@@ -17,9 +17,29 @@ export class TextBlock extends Block {
     result.push('</p></div></pre>');
     return result;
   }
+
   processLine(line: string): string {
     if (line.startsWith('#')) {
       line = this.processHeading(line);
+    }
+    line = this.processHiperLinks(line);
+    line = this.processBold(line);
+    line = this.processItalic(line);
+    return line;
+  }
+  processItalic(line: string): string {
+    const regEx = RegExp('(?<=_).+(?=_)');
+    let match = regEx.exec(line);
+    if (match) {
+      line = line.replace(`_${match}_`, `<em>${match}</em>`);
+    }
+    return line;
+  }
+  processBold(line: string): string {
+    const regEx = RegExp('(?<=\\*).+(?=\\*)');
+    let match = regEx.exec(line);
+    if (match) {
+      line = line.replace(`*${match}*`, `<strong>${match}</strong>`);
     }
     return line;
   }
@@ -31,6 +51,20 @@ export class TextBlock extends Block {
     }
     line = line.substring(1); //subsract the space
     line = `<h${numberOfHeadings}>${line}</h${numberOfHeadings}>`;
+    return line;
+  }
+
+  processHiperLinks(line: string): string {
+    const nameRegEx = RegExp('(?<=\\[).+(?=\\])');
+    const addressRegEx = RegExp('(?<=\\().+(?=\\))');
+    let name = nameRegEx.exec(line);
+    let address = addressRegEx.exec(line);
+    if (name && address) {
+      line = line.replace(
+        `[${name}](${address})`,
+        `<a href="${address}">${name}</a>`
+      );
+    }
     return line;
   }
 }
