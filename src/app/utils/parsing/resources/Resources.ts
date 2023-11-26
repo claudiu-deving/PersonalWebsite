@@ -1,11 +1,9 @@
-import { FunctionGuards } from './FunctionGuards';
-import {
-  ParsingRule,
-  RegExpWithKey,
-  SimpleParsingRule,
-  KeywordParsingRule,
-} from './ParsingRule';
-import { SpecificClassParsingRule } from './SpecificClassParsingRule';
+import { FunctionGuards } from '../FunctionGuards';
+import { ParsingRule } from '../rules/ParsingRule';
+import { RegExpWithKey } from './RegExpWithKey';
+import { SimpleParsingRule } from '../rules/SimpleParsingRule';
+import { KeywordParsingRule } from '../rules/KeywordParsingRule';
+import { SpecificClassParsingRule } from '../rules/SpecificClassParsingRule';
 
 export class Resources {
   static readonly preSpanPattern = '<span class="{class}">';

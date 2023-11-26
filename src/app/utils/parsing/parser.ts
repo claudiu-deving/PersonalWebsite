@@ -1,14 +1,14 @@
 import SuperExpresive from 'super-expressive';
-import { TEXTTYPE } from '../TEXTTYPE';
-import { Block } from '../Block';
+import { BlockType } from './blocks/BlockType';
+import { Block } from './blocks/Block';
 import { Injectable } from '@angular/core';
-import { BlockFactory } from '../BlockFactory';
+import { BlockFactory } from './blocks/BlockFactory';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Parser {
-  currentTypeFlag: TEXTTYPE = TEXTTYPE.TEXT;
+  currentTypeFlag: BlockType = BlockType.TEXT;
 
   public parse(content: string): string {
     var result: string = '';
@@ -18,7 +18,7 @@ export class Parser {
     let blocks = this.createBlocks(lines, reversed);
     let blockCount = 0;
     for (let block of blocks) {
-      if (block.type === TEXTTYPE.CODE) {
+      if (block.type === BlockType.CODE) {
         result += block.build(blockCount).join('\n');
         blockCount++;
       } else {
@@ -28,6 +28,7 @@ export class Parser {
     return result;
   }
 
+  //TODO: Move this to a separate class
   public unescapeString(str: string): string {
     var result = decodeURI(str)
       .replace(/\\\\/g, '\\') // Unescape backslashes
@@ -36,40 +37,39 @@ export class Parser {
       .replace(/\\t/g, '\t'); // Unescape tabs
 
     return result;
-    // ... add more as needed
   }
 
-  public determineLineType(line: string): TEXTTYPE {
+  public determineLineType(line: string): BlockType {
     var matchForOrderedList = line.match('\\d(?=\\.)');
 
     if (line.startsWith('<code>')) {
-      this.currentTypeFlag = TEXTTYPE.CODE;
-      return TEXTTYPE.CODE;
+      this.currentTypeFlag = BlockType.CODE;
+      return BlockType.CODE;
     }
     if (line.startsWith('</code>')) {
-      this.currentTypeFlag = TEXTTYPE.TEXT;
-      return TEXTTYPE.CODE;
+      this.currentTypeFlag = BlockType.TEXT;
+      return BlockType.CODE;
     }
-    if (this.currentTypeFlag === TEXTTYPE.CODE) {
-      return TEXTTYPE.CODE;
+    if (this.currentTypeFlag === BlockType.CODE) {
+      return BlockType.CODE;
     }
     if ((line.length == 1 && line == ' ') || line.length == 0) {
-      return TEXTTYPE.WHITESPACE;
+      return BlockType.WHITESPACE;
     }
     if (line.startsWith('<3Image3>')) {
-      return TEXTTYPE.IMAGE;
+      return BlockType.IMAGE;
     }
     if (line.startsWith('-')) {
-      return TEXTTYPE.UNORDERED_LIST;
+      return BlockType.UNORDERED_LIST;
     }
     if (matchForOrderedList != null) {
-      return TEXTTYPE.ORDERED_LIST;
+      return BlockType.ORDERED_LIST;
     }
-    return TEXTTYPE.TEXT;
+    return BlockType.TEXT;
   }
 
-  public mapTextTypesWithIndices(lines: string[]): Map<number, TEXTTYPE> {
-    let types = new Map<number, TEXTTYPE>();
+  public mapTextTypesWithIndices(lines: string[]): Map<number, BlockType> {
+    let types = new Map<number, BlockType>();
     for (let index = 0; index < lines.length; index++) {
       const element = lines[index];
       let type = this.determineLineType(element);
@@ -79,12 +79,12 @@ export class Parser {
   }
 
   private reverseDictionary(
-    dictionary: Map<number, TEXTTYPE>
-  ): Map<TEXTTYPE, Array<number>> {
-    let types = new Map<TEXTTYPE, Array<number>>();
+    dictionary: Map<number, BlockType>
+  ): Map<BlockType, Array<number>> {
+    let types = new Map<BlockType, Array<number>>();
     if (dictionary == null) return types;
     if (dictionary.values().next() == null) return types;
-    let distinctValues = new Array<TEXTTYPE>();
+    let distinctValues = new Array<BlockType>();
     for (let value of dictionary.values()) {
       if (!distinctValues.includes(value)) {
         distinctValues.push(value);
@@ -106,71 +106,71 @@ export class Parser {
 
   private createBlocks(
     lines: string[],
-    reversed: Map<TEXTTYPE, Array<number>>
+    reversed: Map<BlockType, Array<number>>
   ): Array<Block> {
     let blocks = new Array<Block>();
     for (let entry of reversed) {
       switch (entry[0]) {
-        case TEXTTYPE.CODE: {
+        case BlockType.CODE: {
           let consecutive = this.groupConsecutiveValues(entry[1]);
           for (let consecutiveEntry of consecutive) {
             blocks.push(
-              BlockFactory.createBlock(consecutiveEntry, TEXTTYPE.CODE, lines)
+              BlockFactory.createBlock(consecutiveEntry, BlockType.CODE, lines)
             );
           }
           break;
         }
-        case TEXTTYPE.TEXT: {
+        case BlockType.TEXT: {
           let consecutive = this.groupConsecutiveValues(entry[1]);
           for (let consecutiveEntry of consecutive) {
             blocks.push(
-              BlockFactory.createBlock(consecutiveEntry, TEXTTYPE.TEXT, lines)
+              BlockFactory.createBlock(consecutiveEntry, BlockType.TEXT, lines)
             );
           }
           break;
         }
-        case TEXTTYPE.WHITESPACE: {
+        case BlockType.WHITESPACE: {
           let consecutive = this.groupConsecutiveValues(entry[1]);
           for (let consecutiveEntry of consecutive) {
             blocks.push(
               BlockFactory.createBlock(
                 consecutiveEntry,
-                TEXTTYPE.WHITESPACE,
+                BlockType.WHITESPACE,
                 lines
               )
             );
           }
           break;
         }
-        case TEXTTYPE.IMAGE: {
+        case BlockType.IMAGE: {
           let consecutive = this.groupConsecutiveValues(entry[1]);
           for (let consecutiveEntry of consecutive) {
             blocks.push(
-              BlockFactory.createBlock(consecutiveEntry, TEXTTYPE.IMAGE, lines)
+              BlockFactory.createBlock(consecutiveEntry, BlockType.IMAGE, lines)
             );
           }
           break;
         }
-        case TEXTTYPE.ORDERED_LIST: {
+        case BlockType.ORDERED_LIST: {
           let consecutive = this.groupConsecutiveValues(entry[1]);
           for (let consecutiveEntry of consecutive) {
             blocks.push(
               BlockFactory.createBlock(
                 consecutiveEntry,
-                TEXTTYPE.ORDERED_LIST,
+                BlockType.ORDERED_LIST,
                 lines
               )
             );
           }
           break;
         }
-        case TEXTTYPE.UNORDERED_LIST: {
+        case BlockType.UNORDERED_LIST: {
           let consecutive = this.groupConsecutiveValues(entry[1]);
           for (let consecutiveEntry of consecutive) {
             blocks.push(
               BlockFactory.createBlock(
                 consecutiveEntry,
-                TEXTTYPE.UNORDERED_LIST,
+                BlockType.UNORDERED_LIST,
                 lines
               )
             );
@@ -229,6 +229,8 @@ export class Parser {
     }
     return result;
   }
+
+  //TODO: Move this to a separate class
   private sortAndAddToDictionary(
     values: Array<number>,
     result: Map<number, Array<number>>,

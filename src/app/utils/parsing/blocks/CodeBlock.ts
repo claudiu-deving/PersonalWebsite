@@ -1,21 +1,11 @@
-import { Resources } from './parsing/Resources';
-import { ParsingRule } from './parsing/ParsingRule';
-import { TEXTTYPE } from './TEXTTYPE';
+import { Resources } from '../resources/Resources';
+import { ParsingRule } from '../rules/ParsingRule';
+import { BlockType } from '../blocks/BlockType';
 import { Block } from './Block';
-
-export class WhitespaceBlock extends Block {
-  constructor(lines: string[]) {
-    super(lines, TEXTTYPE.WHITESPACE);
-  }
-
-  public override build(blockCount: number): string[] {
-    return ['<p></p>'];
-  }
-}
 
 export class CodeBlock extends Block {
   constructor(lines: string[]) {
-    super(lines, TEXTTYPE.CODE);
+    super(lines, BlockType.CODE);
   }
 
   public override build(blockCount: number): string[] {

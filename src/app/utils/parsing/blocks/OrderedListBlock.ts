@@ -1,9 +1,10 @@
 import { Block } from './Block';
-import { TEXTTYPE } from './TEXTTYPE';
+import { BlockType } from '../blocks/BlockType';
+
 
 export class OrderedListBlock extends Block {
   constructor(lines: string[]) {
-    super(lines, TEXTTYPE.ORDERED_LIST);
+    super(lines, BlockType.ORDERED_LIST);
   }
 
   public override build(blockCount?: number | undefined): string[] {

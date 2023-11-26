@@ -1,9 +1,10 @@
 import { Block } from './Block';
-import { TEXTTYPE } from './TEXTTYPE';
+import { BlockType } from '../blocks/BlockType';
+
 
 export class ImageBlock extends Block {
   constructor(lines: string[]) {
-    super(lines, TEXTTYPE.IMAGE);
+    super(lines, BlockType.IMAGE);
   }
   public override build(blockCount?: number | undefined): string[] {
     let result = new Array<string>();
