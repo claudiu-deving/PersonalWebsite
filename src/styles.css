@@ -25,7 +25,6 @@ article{
     line-height: 32px;
     margin: auto;
     font-size: 20px;
-
     margin-bottom:40px;
     justify-content: center; 
     background-color: var(--cosmic-latte);
@@ -205,4 +204,11 @@ pre{
 
 .none {
     color:#DCDCDC
+}
+
+.error{
+    color: red;
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+    display: block;
 }

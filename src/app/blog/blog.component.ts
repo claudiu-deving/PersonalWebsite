@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BlogPostService } from 'src/app/blog-service.service';
-import { Observable } from 'rxjs';
-import { Parser } from '../utils/parsing/Parser';
+import { Parser } from '../utils/parsing/parser';
+
 @Component({
   selector: 'app-blog',
   templateUrl: './blog.component.html',
@@ -12,14 +12,16 @@ export class BlogComponent implements OnInit {
   @Input() content = '';
   @Input() title = '';
   @Input() date_value: string = new Date().toDateString();
+  @Input() isEditable: boolean = false;
   isEditMode = false;
+  parsedContent: SafeHtml = '';
 
   toggleEditMode() {
     this.isEditMode = !this.isEditMode;
     if (this.isEditMode) {
       this.getContent();
     } else {
-      this.BlogPostService.update(this.title, this.content);
+      this.BlogPostService.update(this.title, this.unparsedContent);
     }
   }
   copyToClipboard(element: HTMLElement): void {
@@ -46,13 +48,13 @@ export class BlogComponent implements OnInit {
     this.BlogPostService.getBlog(this.title).subscribe((x) => {
       let content: string = x.content;
       this.content = this.parser.parse(content);
+      this.parsedContent = this.getSafeHtmlContent(this.content);
       this.unparsedContent = content;
     });
   }
 
   refresh(unescaped: string) {
-    this.content = this.parser.parse(unescaped);
-    console.log(JSON.stringify(unescaped));
+    this.parsedContent = this.getSafeHtmlContent(this.parser.parse(unescaped));
   }
 
   ngOnInit() {

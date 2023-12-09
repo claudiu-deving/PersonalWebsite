@@ -1,0 +1,22 @@
+
+.login-button{
+    width: 80%;
+    border: 1px solid #444;
+    border-radius: 5px;
+    margin: auto;
+    background-color: transparent;
+}
+.login-button:hover{
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    box-shadow: #444 0px 0px 5px 0px;
+}
+
+.login-button:active{
+    transform: scale(0.9);
+}
+
+.login-button:focus-visible{
+    border: 1px solid blue;
+}

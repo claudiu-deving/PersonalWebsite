@@ -1,0 +1,14 @@
+<div class="input-form">
+  <label [for]="inputId">{{ label }} </label>
+  <input
+    [class.invalid]="control.invalid && control.touched && control.dirty"
+    [formControl]="control"
+    [type]="inputId === ('password' || 'confirmPassword') ? 'password' : 'text'"
+    [id]="inputId"
+  />
+  <ng-container *ngIf="control.invalid && control.touched && control.dirty">
+    <div *ngFor="let error of control.errors | keyvalue" class="error">
+      {{ errorMessages[error.key] }}
+    </div>
+  </ng-container>
+</div>

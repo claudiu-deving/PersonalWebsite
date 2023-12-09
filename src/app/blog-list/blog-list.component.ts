@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BlogPostService } from 'src/app/blog-service.service';
-import { AuthentificationAuthorizationService } from '../AuthentificationAuthorization.service';
+import { AuthentificationAuthorizationService } from '../auth/services/AuthentificationAuthorization.service';
 import { Observable, Subscription } from 'rxjs';
+import { LoginFormComponent } from '../auth/components/login-form/login-form.component';
 
 @Component({
   selector: 'app-blog-list',
@@ -10,29 +11,13 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class BlogListComponent implements OnInit {
   blogs: any;
-  private eventSubscription: Subscription;
   constructor(
     private BlogPostService: BlogPostService,
     private AuthentificationAuthorizationService: AuthentificationAuthorizationService
   ) {
-    this.eventSubscription =
-      this.AuthentificationAuthorizationService.eventObservable.subscribe(
-        (data: Observable<any>) => {
-          this.authentificationChanged(data);
-        }
-      );
-  }
-
-  private authentificationChanged(data: Observable<any>) {
-    if (data != null) {
-      this.BlogPostService.getBlogs().subscribe((response) => {
-        this.blogs = response;
-        console.log('Blogs retrieved');
-      });
-    } else {
-      this.blogs = null;
-      console.log('Blogs cleared');
-    }
+    AuthentificationAuthorizationService.eventObservable.subscribe((event) => {
+      this.GetBlogs();
+    });
   }
 
   copyToClipboard(element: HTMLElement): void {
@@ -46,7 +31,19 @@ export class BlogListComponent implements OnInit {
     selection!.removeAllRanges();
   }
   ngOnInit() {
+    this.GetBlogs();
+  }
+
+  private GetBlogs() {
     this.BlogPostService.getBlogs().subscribe((response) => {
+      const username = localStorage.getItem('username');
+      if (username != null) {
+        response.forEach((blog: { author: any; isEditable: boolean }) => {
+          if (blog.author.username == username) {
+            blog.isEditable = true;
+          }
+        });
+      }
       this.blogs = response;
     });
   }

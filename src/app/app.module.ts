@@ -6,7 +6,8 @@ import { BlogComponent } from './blog/blog.component';
 import { BlogListComponent } from './blog-list/blog-list.component';
 import { DynamicLoadDirective } from './DynamicLoad.directive';
 import { HeaderComponent } from './header/header.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,7 @@ import { FormsModule } from '@angular/forms';
     DynamicLoadDirective,
     HeaderComponent,
   ],
-  imports: [BrowserModule, HttpClientModule, FormsModule],
+  imports: [BrowserModule, HttpClientModule, FormsModule, AuthModule],
   providers: [],
   bootstrap: [AppComponent],
 })

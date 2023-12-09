@@ -10,26 +10,11 @@ export class BlogPostService {
   constructor(private http: HttpClient) {}
 
   getBlogs(): Observable<any> {
-    const token = localStorage.getItem('accessToken');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-
-    if (token != null) {
-      return this.http.get<any>(this.apiUrl + 'blogposts', {
-        headers: headers,
-      });
-    }
-    return new Observable<any>();
+    return this.http.get<any>(this.apiUrl + 'blogposts');
   }
 
   getBlog(title: string): Observable<any> {
-    const token = localStorage.getItem('accessToken');
-    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    if (token != null) {
-      return this.http.get<any>(this.apiUrl + 'blogposts/unparsed/' + 50, {
-        headers: headers,
-      });
-    }
-    return new Observable<any>();
+    return this.http.get<any>(this.apiUrl + 'blogposts/unparsed/' + 50);
   }
 
   parse(content: string): Observable<string> {
@@ -48,18 +33,22 @@ export class BlogPostService {
 
   update(title: string, content: string) {
     const token = localStorage.getItem('accessToken');
+    const url = this.apiUrl + 'BlogPosts/' + 50;
 
     const headers = new HttpHeaders()
       .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json');
+      .set('Content-Type', 'application/json')
+      .set('Accept', '*/*');
+    const body = { title, content };
     if (token != null) {
-      this.http.put<any>(
-        this.apiUrl + 'blogposts/' + 50,
+      const response = this.http.put<any>(
+        url,
         { title, content },
         {
           headers: headers,
         }
       );
+      response.subscribe((x) => console.log(x));
     }
   }
 }

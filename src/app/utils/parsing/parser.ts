@@ -12,6 +12,7 @@ export class Parser {
 
   public parse(content: string): string {
     var result: string = '';
+    this.currentTypeFlag = BlockType.TEXT;
     content = this.unescapeString(content);
     var lines = content.split(content.includes('\r\n') ? '\r\n' : '\n');
     var reversed = this.reverseDictionary(this.mapTextTypesWithIndices(lines));

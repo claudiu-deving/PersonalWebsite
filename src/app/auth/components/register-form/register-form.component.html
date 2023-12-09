@@ -1,0 +1,39 @@
+<div class="modal-background" *ngIf="display === 'open-register'">
+  <div class="modal">
+    <header>
+      <h1>Register</h1>
+      <button class="close" (click)="close()">X</button>
+    </header>
+
+    <app-input
+      [control]="formGroup.controls.username"
+      inputId="username"
+      label="Username"
+    ></app-input>
+    <app-input
+      [control]="formGroup.controls.email"
+      inputId="email"
+      label="E-mail"
+    ></app-input>
+    <app-input
+      [control]="formGroup.controls.password"
+      inputId="password"
+      label="Password"
+    ></app-input>
+    <app-input
+      [control]="formGroup.controls.retypePassword"
+      inputId="confirmPassword"
+      label="Confirm Password"
+    ></app-input>
+    <p class="error">{{ message }}</p>
+    <button
+      class="submit"
+      type="submit"
+      [disabled]="formGroup.invalid"
+      (click)="onSubmit()"
+    >
+      Register
+    </button>
+    <div class="separator"></div>
+  </div>
+</div>
