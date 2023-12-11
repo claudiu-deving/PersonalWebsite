@@ -51,4 +51,20 @@ export class BlogPostService {
       response.subscribe((x) => console.log(x));
     }
   }
+
+  delete(title: string) {
+    const token = localStorage.getItem('accessToken');
+    const url = this.apiUrl + 'BlogPosts/' + 50;
+
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+      .set('Accept', '*/*');
+    if (token != null) {
+      const response = this.http.delete<any>(url, {
+        headers: headers,
+      });
+      response.subscribe((x) => console.log(x));
+    }
+  }
 }

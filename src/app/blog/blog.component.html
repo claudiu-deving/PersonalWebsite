@@ -9,6 +9,7 @@
         <h1 class="title">{{ title }}</h1>
         <p>{{ date_value | date }}</p>
         <button type="button" (click)="toggleEditMode()">Edit</button>
+        <button type="button" (click)="delete()">Delete</button>
       </div>
     </header>
     <div [innerHTML]="parsedContent"></div>

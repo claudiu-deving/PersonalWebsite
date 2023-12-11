@@ -23,6 +23,7 @@ export class AuthentificationAuthorizationService {
     localStorage.removeItem('username');
     this.eventSubject.next(null);
   }
+
   verify(username: string, password: string): Observable<any> {
     // This Observable will be returned and subscribed to by the caller.
     return this.http.post<any>(this.apiUrl, { username, password }).pipe(

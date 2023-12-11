@@ -60,4 +60,8 @@ export class BlogComponent implements OnInit {
   ngOnInit() {
     this.getContent();
   }
+
+  delete() {
+    this.BlogPostService.delete(this.title);
+  }
 }
