@@ -47,4 +47,16 @@ export class BlogListComponent implements OnInit {
       this.blogs = response;
     });
   }
+
+  createBlog() {
+    const username = localStorage.getItem('username');
+
+    let userId = '';
+    this.AuthentificationAuthorizationService.getUserId(username!).subscribe(
+      (x) => {
+        userId = x;
+        this.BlogPostService.create('New blog', 'New blog', userId);
+      }
+    );
+  }
 }

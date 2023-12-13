@@ -13,6 +13,7 @@ export class BlogComponent implements OnInit {
   @Input() title = '';
   @Input() date_value: string = new Date().toDateString();
   @Input() isEditable: boolean = false;
+  @Input() id: number = 0;
   isEditMode = false;
   parsedContent: SafeHtml = '';
 
@@ -21,7 +22,7 @@ export class BlogComponent implements OnInit {
     if (this.isEditMode) {
       this.getContent();
     } else {
-      this.BlogPostService.update(this.title, this.unparsedContent);
+      this.BlogPostService.update(this.id, this.title, this.unparsedContent);
     }
   }
   copyToClipboard(element: HTMLElement): void {
@@ -45,7 +46,7 @@ export class BlogComponent implements OnInit {
   }
   unparsedContent: string = '';
   getContent() {
-    this.BlogPostService.getBlog(this.title).subscribe((x) => {
+    this.BlogPostService.getBlog(this.id).subscribe((x) => {
       let content: string = x.content;
       this.content = this.parser.parse(content);
       this.parsedContent = this.getSafeHtmlContent(this.content);
@@ -59,5 +60,9 @@ export class BlogComponent implements OnInit {
 
   ngOnInit() {
     this.getContent();
+  }
+
+  delete() {
+    this.BlogPostService.delete(this.id);
   }
 }
