@@ -4,12 +4,18 @@
 
 <ng-template #editable>
   <article>
+    <div class="preheader">
+      <button class="editButton" type="button" (click)="toggleEditMode()">
+        Edit
+      </button>
+      <button class="saveButton" type="button" (click)="delete()">
+        Delete
+      </button>
+    </div>
     <header>
       <div>
         <h1 class="title">{{ title }}</h1>
         <p>{{ date_value | date }}</p>
-        <button type="button" (click)="toggleEditMode()">Edit</button>
-        <button type="button" (click)="delete()">Delete</button>
       </div>
     </header>
     <div [innerHTML]="parsedContent"></div>
@@ -30,11 +36,16 @@
 
 <ng-template #editMode>
   <article>
+    <div class="preheader">
+      <button class="saveButton" type="button" (click)="toggleEditMode()">
+        Save
+      </button>
+    </div>
     <header>
       <div>
-        <h1 class="title">{{ title }}</h1>
+        <textarea class="title" [(ngModel)]="title"></textarea>
+
         <p>{{ date_value | date }}</p>
-        <button type="button" (click)="toggleEditMode()">Save</button>
       </div>
     </header>
     <div class="blog-edit-wrapper">

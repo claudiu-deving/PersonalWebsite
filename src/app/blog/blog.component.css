@@ -27,3 +27,24 @@ header p{
     margin: 10px;
     width: 90%;
 }
+
+article{
+   border: 1px solid #ccc;
+}
+
+.editButton{
+    margin: 10px;
+}
+.deleteButton{
+    margin: 10px;
+}
+.saveButton{
+    margin-left: auto;
+}
+
+.preheader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+}

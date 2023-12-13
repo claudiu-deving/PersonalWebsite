@@ -1,9 +1,12 @@
+<button type="button" (click)="createBlog()">Create</button>
+
 <div *ngFor="let blog of blogs">
   <app-blog
     [title]="blog.title"
     [date_value]="blog.date"
     [content]="blog.content"
     [isEditable]="blog.isEditable"
+    [id]="blog.id"
   >
   </app-blog>
 </div>

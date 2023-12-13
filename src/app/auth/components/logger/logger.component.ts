@@ -34,6 +34,7 @@ export class LoggerComponent implements OnInit {
   }
   ngOnInit() {
     let token = localStorage.getItem('accessToken');
+
     if (token) {
       this.login = 'Log Out';
     }
