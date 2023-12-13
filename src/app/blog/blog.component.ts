@@ -14,6 +14,8 @@ export class BlogComponent implements OnInit {
   @Input() date_value: string = new Date().toDateString();
   @Input() isEditable: boolean = false;
   @Input() id: number = 0;
+  @Input() isApprovable: boolean = false;
+  @Input() isApproved: boolean = false;
   isEditMode = false;
   parsedContent: SafeHtml = '';
 
@@ -59,10 +61,16 @@ export class BlogComponent implements OnInit {
   }
 
   ngOnInit() {
+    // this.isApprovable = true;
+    const isEditable = this.isEditable;
     this.getContent();
   }
 
   delete() {
     this.BlogPostService.delete(this.id);
+  }
+
+  approve() {
+    this.BlogPostService.approve(this.id);
   }
 }

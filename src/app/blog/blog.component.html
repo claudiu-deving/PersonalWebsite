@@ -1,8 +1,16 @@
-<ng-container *ngIf="isEditable; else readOnly">
-  <ng-container *ngIf="isEditMode; then editMode; else editable" />
+<ng-container *ngIf="isApprovable; then adminView; else isAuthor">
+  <ng-container *ngIf="isEditMode; then adminViewInEdit; else adminView">
+  </ng-container>
 </ng-container>
 
-<ng-template #editable>
+<ng-template #isAuthor>
+  <ng-container *ngIf="isEditable; else guestView">
+    <ng-container *ngIf="isEditMode; then authorViewInEdit; else authorView">
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #authorView>
   <article>
     <div class="preheader">
       <button class="editButton" type="button" (click)="toggleEditMode()">
@@ -21,8 +29,31 @@
     <div [innerHTML]="parsedContent"></div>
   </article>
 </ng-template>
+<ng-template #authorViewInEdit>
+  <article>
+    <div class="preheader">
+      <button class="saveButton" type="button" (click)="toggleEditMode()">
+        Save
+      </button>
+    </div>
+    <header>
+      <div>
+        <textarea class="title" [(ngModel)]="title"></textarea>
+        <p>{{ date_value | date }}</p>
+      </div>
+    </header>
+    <div class="blog-edit-wrapper">
+      <textarea
+        class="blog-edit-input"
+        [(ngModel)]="unparsedContent"
+        (ngModelChange)="refresh(unparsedContent)"
+      ></textarea>
+      <div class="blog-edit-output" [innerHTML]="parsedContent"></div>
+    </div>
+  </article>
+</ng-template>
 
-<ng-template #readOnly>
+<ng-template #guestView>
   <article>
     <header>
       <div>
@@ -34,17 +65,38 @@
   </article>
 </ng-template>
 
-<ng-template #editMode>
+<ng-template #adminView>
+  <article>
+    <div class="preheader">
+      <button class="editButton" type="button" (click)="toggleEditMode()">
+        Edit
+      </button>
+      <button class="saveButton" type="button" (click)="delete()">
+        Delete
+      </button>
+      <button class="approveCheckbox" (click)="approve()">Approve</button>
+    </div>
+    <header>
+      <div>
+        <h1 class="title">{{ title }}</h1>
+        <p>{{ date_value | date }}</p>
+      </div>
+    </header>
+    <div [innerHTML]="parsedContent"></div>
+  </article>
+</ng-template>
+
+<ng-template #adminViewInEdit>
   <article>
     <div class="preheader">
       <button class="saveButton" type="button" (click)="toggleEditMode()">
         Save
       </button>
+      <button class="approveCheckbox" (click)="approve()">Approve</button>
     </div>
     <header>
       <div>
         <textarea class="title" [(ngModel)]="title"></textarea>
-
         <p>{{ date_value | date }}</p>
       </div>
     </header>
