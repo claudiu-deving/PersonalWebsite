@@ -31,20 +31,25 @@ header p{
 article{
    border: 1px solid #ccc;
 }
-
+.approveCheckbox{
+    margin-left: auto;
+    grid-column: 2;
+    grid-row: 1;
+}
 .editButton{
-    margin: 10px;
+    margin-left: auto;
+
 }
 .deleteButton{
-    margin: 10px;
+    margin-left: auto;
+    grid-column: 3;
 }
 .saveButton{
     margin-left: auto;
 }
 
 .preheader{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     margin: 10px;
 }

@@ -61,8 +61,6 @@ export class BlogComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.isApprovable = true;
-    const isEditable = this.isEditable;
     this.getContent();
   }
 
