@@ -90,4 +90,20 @@ export class BlogPostService {
       response.subscribe((x) => console.log(x));
     }
   }
+
+  approve(id: number) {
+    const token = localStorage.getItem('accessToken');
+    const url = this.apiUrl + 'BlogPosts' + '/approve/' + id;
+
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+      .set('Accept', '*/*');
+    if (token != null) {
+      const response = this.http.put<any>(url, true, {
+        headers: headers,
+      });
+      response.subscribe((x) => console.log(x));
+    }
+  }
 }

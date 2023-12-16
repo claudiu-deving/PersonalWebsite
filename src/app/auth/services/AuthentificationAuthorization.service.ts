@@ -24,7 +24,7 @@ export class AuthentificationAuthorizationService {
   logout() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('username');
-    this.eventSubject.next(null);
+    this.emitEvent('null');
   }
 
   verify(username: string, password: string): Observable<any> {
@@ -85,6 +85,21 @@ export class AuthentificationAuthorizationService {
           return result.userId;
         } else {
           return '';
+        }
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => new Error('An error occurred'));
+      })
+    );
+  }
+
+  public isAdmin(username: string): Observable<any> {
+    return this.http.get<any>(this.apiUrl + `/admin/${username}`).pipe(
+      tap((result) => {
+        if (result) {
+          return result;
+        } else {
+          return false;
         }
       }),
       catchError((error: HttpErrorResponse) => {

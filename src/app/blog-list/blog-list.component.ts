@@ -37,14 +37,33 @@ export class BlogListComponent implements OnInit {
   private GetBlogs() {
     this.BlogPostService.getBlogs().subscribe((response) => {
       const username = localStorage.getItem('username');
-      if (username != null) {
-        response.forEach((blog: { author: any; isEditable: boolean }) => {
-          if (blog.author.username == username) {
-            blog.isEditable = true;
-          }
-        });
+      if (username == null) {
+        this.blogs = response.filter(
+          (x: { isApproved: boolean }) => x.isApproved
+        );
+        return;
       }
-      this.blogs = response;
+      this.AuthentificationAuthorizationService.isAdmin(username).subscribe(
+        (isAdmin) => {
+          response.forEach(
+            (blog: {
+              author: any;
+              isEditable: boolean;
+              isApproved: boolean;
+              isApprovable: boolean;
+            }) => {
+              if (blog.author.username == username) {
+                blog.isEditable = true;
+              }
+              if (isAdmin) {
+                blog.isEditable = true;
+                blog.isApprovable = true;
+              }
+            }
+          );
+          this.blogs = response;
+        }
+      );
     });
   }
 
