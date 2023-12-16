@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BlogPostService {
-  private apiUrl = 'http://localhost:5000/api/';
+  private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
   getBlogs(): Observable<any> {
-    return this.http.get<any>(this.apiUrl + 'blogposts');
+    return this.http.get<any>(this.apiUrl + '/blogposts');
   }
 
   getBlog(id: number): Observable<any> {
-    return this.http.get<any>(this.apiUrl + 'BlogPosts/' + id);
+    return this.http.get<any>(this.apiUrl + '/BlogPosts/' + id);
   }
 
   parse(content: string): Observable<string> {
@@ -33,7 +34,7 @@ export class BlogPostService {
 
   update(id: number, title: string, content: string) {
     const token = localStorage.getItem('accessToken');
-    const url = this.apiUrl + 'BlogPosts/' + id;
+    const url = this.apiUrl + '/BlogPosts/' + id;
 
     const headers = new HttpHeaders()
       .set('Authorization', `Bearer ${token}`)
@@ -54,7 +55,7 @@ export class BlogPostService {
 
   delete(id: number) {
     const token = localStorage.getItem('accessToken');
-    const url = this.apiUrl + 'BlogPosts/' + id;
+    const url = this.apiUrl + '/BlogPosts/' + id;
 
     const headers = new HttpHeaders()
       .set('Authorization', `Bearer ${token}`)
@@ -70,7 +71,7 @@ export class BlogPostService {
 
   create(title: string, content: string, userId: string) {
     const token = localStorage.getItem('accessToken');
-    const url = this.apiUrl + 'BlogPosts';
+    const url = this.apiUrl + '/BlogPosts';
     if (userId == null || userId == '') {
       return;
     }
@@ -93,7 +94,7 @@ export class BlogPostService {
 
   approve(id: number) {
     const token = localStorage.getItem('accessToken');
-    const url = this.apiUrl + 'BlogPosts' + '/approve/' + id;
+    const url = this.apiUrl + '/BlogPosts' + '/approve/' + id;
 
     const headers = new HttpHeaders()
       .set('Authorization', `Bearer ${token}`)

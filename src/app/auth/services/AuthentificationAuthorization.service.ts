@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, Subject, tap } from 'rxjs';
 import { catchError, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthentificationAuthorizationService {
-  private apiUrl = 'http://localhost:5000/api/Auth';
+  private apiUrl = environment.apiUrl + '/Auth';
   constructor(private http: HttpClient) {}
 
   public UserId: string = '';
@@ -55,7 +56,7 @@ export class AuthentificationAuthorizationService {
   register(username: string, email: string, password: string): Observable<any> {
     // This Observable will be returned and subscribed to by the caller.
     return this.http
-      .post<any>('http://localhost:5000/api/Auth/register', {
+      .post<any>(this.apiUrl + '/register', {
         username,
         email,
         password,

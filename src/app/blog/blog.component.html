@@ -1,7 +1,9 @@
-<ng-container *ngIf="isApprovable; then adminView; else isAuthor">
+<ng-container *ngIf="isApprovable; then isAdmin; else isAuthor"> </ng-container>
+
+<ng-template #isAdmin>
   <ng-container *ngIf="isEditMode; then adminViewInEdit; else adminView">
   </ng-container>
-</ng-container>
+</ng-template>
 
 <ng-template #isAuthor>
   <ng-container *ngIf="isEditable; else guestView">
@@ -13,10 +15,14 @@
 <ng-template #authorView>
   <article>
     <div class="preheader">
-      <button class="editButton" type="button" (click)="toggleEditMode()">
+      <button
+        class="button editButton"
+        type="button"
+        (click)="toggleEditMode()"
+      >
         Edit
       </button>
-      <button class="saveButton" type="button" (click)="delete()">
+      <button class="button deleteButton" type="button" (click)="delete()">
         Delete
       </button>
     </div>
@@ -32,7 +38,11 @@
 <ng-template #authorViewInEdit>
   <article>
     <div class="preheader">
-      <button class="saveButton" type="button" (click)="toggleEditMode()">
+      <button
+        class="button saveButton"
+        type="button"
+        (click)="toggleEditMode()"
+      >
         Save
       </button>
     </div>
@@ -68,13 +78,19 @@
 <ng-template #adminView>
   <article>
     <div class="preheader">
-      <button class="editButton" type="button" (click)="toggleEditMode()">
+      <button
+        class="button editButton"
+        type="button"
+        (click)="toggleEditMode()"
+      >
         Edit
       </button>
-      <button class="saveButton" type="button" (click)="delete()">
+      <button class="button deleteButton" type="button" (click)="delete()">
         Delete
       </button>
-      <button class="approveCheckbox" (click)="approve()">Approve</button>
+      <button class="button approveCheckbox" (click)="approve()">
+        Approve
+      </button>
     </div>
     <header>
       <div>
@@ -89,10 +105,16 @@
 <ng-template #adminViewInEdit>
   <article>
     <div class="preheader">
-      <button class="saveButton" type="button" (click)="toggleEditMode()">
+      <button
+        class="button saveButton"
+        type="button"
+        (click)="toggleEditMode()"
+      >
         Save
       </button>
-      <button class="approveCheckbox" (click)="approve()">Approve</button>
+      <button type="button" class="button approveCheckbox" (click)="approve()">
+        Approve
+      </button>
     </div>
     <header>
       <div>

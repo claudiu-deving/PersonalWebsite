@@ -30,13 +30,21 @@ export class BlogListComponent implements OnInit {
     console.debug('Copy pressed!');
     selection!.removeAllRanges();
   }
+
+  userLoggedIn: boolean = false;
+
   ngOnInit() {
     this.GetBlogs();
   }
 
   private GetBlogs() {
+    const username = localStorage.getItem('username');
+    if (username != null) {
+      this.userLoggedIn = true;
+    } else {
+      this.userLoggedIn = false;
+    }
     this.BlogPostService.getBlogs().subscribe((response) => {
-      const username = localStorage.getItem('username');
       if (username == null) {
         this.blogs = response.filter(
           (x: { isApproved: boolean }) => x.isApproved

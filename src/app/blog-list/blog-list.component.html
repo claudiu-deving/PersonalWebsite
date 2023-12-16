@@ -1,4 +1,6 @@
-<button type="button" (click)="createBlog()">Create</button>
+<ng-container *ngIf="userLoggedIn">
+  <button type="button" (click)="createBlog()">Create</button>
+</ng-container>
 
 <div *ngFor="let blog of blogs">
   <app-blog
