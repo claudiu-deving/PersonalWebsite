@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BlogPostService } from 'src/app/blog-service.service';
 import { Parser } from '../utils/parsing/parser';
+import { DialogService } from '../shared/components/dialog/dialog.service';
 
 @Component({
   selector: 'app-blog',
@@ -9,14 +10,14 @@ import { Parser } from '../utils/parsing/parser';
   styleUrls: ['./blog.component.css'],
 })
 export class BlogComponent implements OnInit {
-  @Input() content = '';
-  @Input() title = '';
+  @Input() content = 'Enter here the content of the blog post';
+  @Input() title = 'Blogpost title';
   @Input() date_value: string = new Date().toDateString();
   @Input() isEditable: boolean = false;
   @Input() id: number = 0;
   @Input() isApprovable: boolean = false;
   @Input() isApproved: boolean = false;
-  isEditMode = false;
+  @Input() isEditMode = false;
   parsedContent: SafeHtml = '';
 
   toggleEditMode() {
@@ -27,27 +28,19 @@ export class BlogComponent implements OnInit {
       this.BlogPostService.update(this.id, this.title, this.unparsedContent);
     }
   }
-  copyToClipboard(element: HTMLElement): void {
-    const range = document.createRange();
-    range.selectNodeContents(element);
-    const selection = window.getSelection();
-    selection!.removeAllRanges();
-    selection!.addRange(range);
-    document.execCommand('copy');
-    console.debug('Copy pressed!');
-    selection!.removeAllRanges();
-  }
 
   constructor(
     private sanitizer: DomSanitizer,
     private BlogPostService: BlogPostService,
-    private parser: Parser
+    private parser: Parser,
+    private dialogService: DialogService
   ) {}
   getSafeHtmlContent(content: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(content);
   }
-  unparsedContent: string = '';
+  unparsedContent: string = 'Enter here the content of the blog post';
   getContent() {
+    if (this.id === 0 || this.id == undefined) return;
     this.BlogPostService.getBlog(this.id).subscribe((x) => {
       let content: string = x.content;
       this.content = this.parser.parse(content);
@@ -65,7 +58,11 @@ export class BlogComponent implements OnInit {
   }
 
   delete() {
-    this.BlogPostService.delete(this.id);
+    this.dialogService.open().subscribe((result) => {
+      if (result) {
+        this.BlogPostService.delete(this.id);
+      }
+    });
   }
 
   approve() {
