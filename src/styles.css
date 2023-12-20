@@ -145,13 +145,16 @@ header h1{
     margin: auto;
     display: flex;
 }
+img{
+    margin:auto;
+}
+
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
     .image{
         height: 150px;
     }
-
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */

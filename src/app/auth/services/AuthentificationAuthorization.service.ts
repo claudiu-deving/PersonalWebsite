@@ -44,11 +44,22 @@ export class AuthentificationAuthorizationService {
           }
         }),
         catchError((error: HttpErrorResponse) => {
-          if (error.status === 401) {
-            // throwError as a function that returns a function
-            return throwError(() => new Error('Invalid username or password'));
+          switch (error.status) {
+            case 401: {
+              return throwError(
+                () => new Error('Invalid username or password')
+              );
+            }
+            case 403: {
+              return throwError(
+                () =>
+                  new Error('You exceeded the allowed limit of login attemps!')
+              );
+            }
+            default: {
+              return throwError(() => new Error('An error occurred'));
+            }
           }
-          return throwError(() => new Error('An error occurred'));
         })
       );
   }

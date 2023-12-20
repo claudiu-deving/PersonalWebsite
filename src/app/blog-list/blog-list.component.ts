@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BlogPostService } from 'src/app/blog-service.service';
 import { AuthentificationAuthorizationService } from '../auth/services/AuthentificationAuthorization.service';
-import { Observable, Subscription } from 'rxjs';
-import { LoginFormComponent } from '../auth/components/login-form/login-form.component';
 
 @Component({
   selector: 'app-blog-list',
@@ -10,7 +8,7 @@ import { LoginFormComponent } from '../auth/components/login-form/login-form.com
   styleUrls: ['./blog-list.component.css'],
 })
 export class BlogListComponent implements OnInit {
-  blogs: any;
+  blogs: Array<any> = [];
   constructor(
     private BlogPostService: BlogPostService,
     private AuthentificationAuthorizationService: AuthentificationAuthorizationService
@@ -18,17 +16,21 @@ export class BlogListComponent implements OnInit {
     AuthentificationAuthorizationService.eventObservable.subscribe((event) => {
       this.GetBlogs();
     });
-  }
-
-  copyToClipboard(element: HTMLElement): void {
-    const range = document.createRange();
-    range.selectNodeContents(element);
-    const selection = window.getSelection();
-    selection!.removeAllRanges();
-    selection!.addRange(range);
-    document.execCommand('copy');
-    console.debug('Copy pressed!');
-    selection!.removeAllRanges();
+    BlogPostService.eventObservable.subscribe((event) => {
+      var blog = this.blogs.find((x) => x.id == event.id);
+      if (event.action == 'delete') {
+        this.blogs.splice(this.blogs.indexOf(blog), 1);
+        return;
+      }
+      if (event.action == 'create') {
+        BlogPostService.getBlog(event.id).subscribe((x) => {
+          x.isEditable = true;
+          x.isEditMode = false;
+          this.blogs.splice(0, 1, x);
+        });
+        return;
+      }
+    });
   }
 
   userLoggedIn: boolean = false;
@@ -49,6 +51,7 @@ export class BlogListComponent implements OnInit {
         this.blogs = response.filter(
           (x: { isApproved: boolean }) => x.isApproved
         );
+        this.sortFromNewestToOldest();
         return;
       }
       this.AuthentificationAuthorizationService.isAdmin(username).subscribe(
@@ -69,21 +72,28 @@ export class BlogListComponent implements OnInit {
               }
             }
           );
+
           this.blogs = response;
+          this.sortFromNewestToOldest();
         }
       );
     });
   }
 
-  createBlog() {
-    const username = localStorage.getItem('username');
+  private sortFromNewestToOldest() {
+    this.blogs.sort((a: { modified: Date }, b: { modified: Date }) => {
+      return new Date(b.modified).getTime() - new Date(a.modified).getTime();
+    });
+  }
 
-    let userId = '';
-    this.AuthentificationAuthorizationService.getUserId(username!).subscribe(
-      (x) => {
-        userId = x;
-        this.BlogPostService.create('New blog', 'New blog', userId);
-      }
-    );
+  createBlog() {
+    let blog = {
+      title: 'New blog',
+      content: 'New blog',
+      isEditMode: true,
+      isEditable: true,
+    };
+
+    this.blogs.unshift(blog);
   }
 }

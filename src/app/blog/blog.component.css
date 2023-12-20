@@ -53,3 +53,24 @@ article{
     grid-template-columns: 1fr 1fr 1fr;
     margin: 10px;
 }
+
+@media only screen and (max-width: 400px) {
+    .preheader{
+     grid-template-columns: 1fr;
+     grid-template-rows: 1fr 1fr;
+    }
+    .deleteButton{
+        grid-column: 1;
+        grid-row: 2;
+        margin-bottom: 10px;
+    }
+    .approveCheckbox{
+        grid-column: 1;
+        grid-row: 3;
+    }
+    .editButton{
+        grid-column: 1;
+        grid-row: 1;
+        margin-bottom: 10px;
+    }
+}

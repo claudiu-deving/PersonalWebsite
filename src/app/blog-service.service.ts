@@ -1,15 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from '../environments/environment';
+import { AuthentificationAuthorizationService } from './auth/services/AuthentificationAuthorization.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BlogPostService {
   private apiUrl = environment.apiUrl;
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private AuthentificationAuthorizationService: AuthentificationAuthorizationService
+  ) {}
 
+  private eventSubject = new Subject<any>();
+
+  // Observable that can be subscribed to
+  public eventObservable = this.eventSubject.asObservable();
+
+  // Method to trigger the event
+  emitEvent(data: any) {
+    this.eventSubject.next(data);
+  }
   getBlogs(): Observable<any> {
     return this.http.get<any>(this.apiUrl + '/blogposts');
   }
@@ -18,22 +31,17 @@ export class BlogPostService {
     return this.http.get<any>(this.apiUrl + '/BlogPosts/' + id);
   }
 
-  parse(content: string): Observable<string> {
-    const token = localStorage.getItem('accessToken');
-
-    const headers = new HttpHeaders()
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json');
-    if (token != null) {
-      return this.http.post<any>(this.apiUrl + 'parse', content, {
-        headers: headers,
-      });
-    }
-    return new Observable<string>();
-  }
-
   update(id: number, title: string, content: string) {
     const token = localStorage.getItem('accessToken');
+    const username = localStorage.getItem('username');
+    if (id == 0 || id == undefined) {
+      this.AuthentificationAuthorizationService.getUserId(username!).subscribe(
+        (userId) => {
+          this.create(title, content, userId);
+        }
+      );
+      return;
+    }
     const url = this.apiUrl + '/BlogPosts/' + id;
 
     const headers = new HttpHeaders()
@@ -49,7 +57,7 @@ export class BlogPostService {
           headers: headers,
         }
       );
-      response.subscribe((x) => console.log(x));
+      response.subscribe();
     }
   }
 
@@ -65,8 +73,9 @@ export class BlogPostService {
       const response = this.http.delete<any>(url, {
         headers: headers,
       });
-      response.subscribe((x) => console.log(x));
+      response.subscribe();
     }
+    this.emitEvent({ id: id, action: 'delete' });
   }
 
   create(title: string, content: string, userId: string) {
@@ -88,7 +97,9 @@ export class BlogPostService {
           headers: headers,
         }
       );
-      response.subscribe((x) => console.log(x));
+      response.subscribe((response) => {
+        this.emitEvent({ id: response.id, action: 'create' });
+      });
     }
   }
 
@@ -104,7 +115,7 @@ export class BlogPostService {
       const response = this.http.put<any>(url, true, {
         headers: headers,
       });
-      response.subscribe((x) => console.log(x));
+      response.subscribe();
     }
   }
 }
