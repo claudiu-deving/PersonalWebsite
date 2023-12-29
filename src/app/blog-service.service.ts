@@ -33,13 +33,8 @@ export class BlogPostService {
 
   update(id: number, title: string, content: string) {
     const token = localStorage.getItem('accessToken');
-    const username = localStorage.getItem('username');
     if (id == 0 || id == undefined) {
-      this.AuthentificationAuthorizationService.getUserId(username!).subscribe(
-        (userId) => {
-          this.create(title, content, userId);
-        }
-      );
+      this.create(title, content);
       return;
     }
     const url = this.apiUrl + '/BlogPosts/' + id;
@@ -48,7 +43,6 @@ export class BlogPostService {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
       .set('Accept', '*/*');
-    const body = { title, content };
     if (token != null) {
       const response = this.http.put<any>(
         url,
@@ -78,13 +72,9 @@ export class BlogPostService {
     this.emitEvent({ id: id, action: 'delete' });
   }
 
-  create(title: string, content: string, userId: string) {
+  create(title: string, content: string) {
     const token = localStorage.getItem('accessToken');
     const url = this.apiUrl + '/BlogPosts';
-    if (userId == null || userId == '') {
-      return;
-    }
-
     const headers = new HttpHeaders()
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
@@ -92,7 +82,7 @@ export class BlogPostService {
     if (token != null) {
       const response = this.http.post<any>(
         url,
-        { title, content, userId },
+        { title, content },
         {
           headers: headers,
         }

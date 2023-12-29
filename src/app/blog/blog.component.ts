@@ -3,6 +3,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BlogPostService } from 'src/app/blog-service.service';
 import { Parser } from '../utils/parsing/parser';
 import { DialogService } from '../shared/components/dialog/dialog.service';
+import { ViewType } from '../shared/types/ViewType.enum';
 
 @Component({
   selector: 'app-blog',
@@ -12,20 +13,25 @@ import { DialogService } from '../shared/components/dialog/dialog.service';
 export class BlogComponent implements OnInit {
   @Input() content = 'Enter here the content of the blog post';
   @Input() title = 'Blogpost title';
-  @Input() date_value: string = new Date().toDateString();
+  @Input() author = 'Author';
+  @Input() view: ViewType = ViewType.GUEST;
+  @Input() created: string = new Date().toDateString();
+  @Input() modified: string = new Date().toDateString();
   @Input() isEditable: boolean = false;
   @Input() id: number = 0;
   @Input() isApprovable: boolean = false;
   @Input() isApproved: boolean = false;
   @Input() isEditMode = false;
   parsedContent: SafeHtml = '';
-
-  toggleEditMode() {
+  editOrSave: string = 'Edit';
+  public toggleEditMode() {
     this.isEditMode = !this.isEditMode;
     if (this.isEditMode) {
       this.getContent();
+      this.editOrSave = 'Save';
     } else {
       this.BlogPostService.update(this.id, this.title, this.unparsedContent);
+      this.editOrSave = 'Edit';
     }
   }
 
@@ -54,6 +60,11 @@ export class BlogComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.isEditMode) {
+      this.editOrSave = 'Save';
+    } else {
+      this.editOrSave = 'Edit';
+    }
     this.getContent();
   }
 

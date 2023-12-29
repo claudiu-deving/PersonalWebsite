@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Observable, Subject, tap } from 'rxjs';
 import { catchError, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
@@ -37,7 +41,6 @@ export class AuthentificationAuthorizationService {
           if (result && result.token) {
             // Set the token in localStorage
             localStorage.setItem('accessToken', result.token);
-            localStorage.setItem('username', username);
             this.UserId = result.userId;
             // Now we can emit the event since the token is set
             this.emitEvent(result);
@@ -101,6 +104,25 @@ export class AuthentificationAuthorizationService {
       }),
       catchError((error: HttpErrorResponse) => {
         return throwError(() => new Error('An error occurred'));
+      })
+    );
+  }
+
+  public getLoggedInUserData(): Observable<any> {
+    const token = localStorage.getItem('accessToken');
+    if (token == null) return new Observable<any>();
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+      .set('Accept', '*/*');
+
+    return this.http.get<any>(this.apiUrl + '/role', { headers: headers }).pipe(
+      tap((result) => {
+        if (result) {
+          return result;
+        } else {
+          return '';
+        }
       })
     );
   }

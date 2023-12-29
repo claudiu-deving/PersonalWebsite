@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 export class LoggerComponent implements OnInit {
   display: 'open' | 'close' = 'close';
   @Input() login = 'Log In';
+  username: string = '';
   constructor(
     private AuthentificationAuthorizationService: AuthentificationAuthorizationService,
     private modalService: ModalService
@@ -18,16 +19,28 @@ export class LoggerComponent implements OnInit {
       (event) => {
         if (event) {
           this.login = 'Log Out';
+          this.setUsername();
         }
       }
     );
+
+    this.setUsername();
   }
   showModal: boolean = false;
+
+  private setUsername() {
+    this.AuthentificationAuthorizationService.getLoggedInUserData().subscribe(
+      (user) => {
+        this.username = user.username;
+      }
+    );
+  }
 
   verify() {
     if (this.login == 'Log Out') {
       this.AuthentificationAuthorizationService.logout();
       this.login = 'Log In';
+      this.username = '';
       return;
     }
     this.modalService.openLogin();
@@ -37,6 +50,7 @@ export class LoggerComponent implements OnInit {
 
     if (token) {
       this.login = 'Log Out';
+      this.setUsername();
     }
   }
 }

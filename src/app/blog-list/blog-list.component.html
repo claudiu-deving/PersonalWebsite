@@ -5,8 +5,10 @@
 <div *ngFor="let blog of blogs">
   <app-blog
     [title]="blog.title"
-    [date_value]="blog.date"
+    [author]="blog.author.username"
+    [created]="blog.modified"
     [content]="blog.content"
+    [view]="blog.view"
     [isEditable]="blog.isEditable"
     [isApprovable]="blog.isApprovable"
     [isEditMode]="blog.isEditMode"

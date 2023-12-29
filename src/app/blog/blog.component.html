@@ -1,134 +1,91 @@
-<ng-container *ngIf="isApprovable; then isAdmin; else isAuthor"> </ng-container>
-
-<ng-template #isAdmin>
-  <ng-container *ngIf="isEditMode; then adminViewInEdit; else adminView">
+<ng-container [ngSwitch]="view">
+  <ng-container *ngSwitchCase="0">
+    <ng-container
+      *ngTemplateOutlet="commonArticle; context: { $implicit: null }"
+    ></ng-container>
   </ng-container>
-</ng-template>
+  <ng-container *ngSwitchCase="1">
+    <ng-container
+      *ngTemplateOutlet="commonArticle; context: { $implicit: authorPreheader }"
+    ></ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="2">
+    <ng-container
+      *ngTemplateOutlet="commonArticle; context: { $implicit: adminPreheader }"
+    ></ng-container>
+  </ng-container>
+  <ng-container *ngSwitchDefault>
+    <ng-container
+      *ngTemplateOutlet="commonArticle; context: { $implicit: authorPreheader }"
+    ></ng-container>
+  </ng-container>
+</ng-container>
 
-<ng-template #isAuthor>
-  <ng-container *ngIf="isEditable; else guestView">
-    <ng-container *ngIf="isEditMode; then authorViewInEdit; else authorView">
+<ng-template #commonArticle let-preheaderContent>
+  <article>
+    <div>
+      <ng-container *ngTemplateOutlet="preheaderContent"></ng-container>
+    </div>
+    <ng-container *ngIf="isEditMode; then blogInEditMode; else blogInReadMode">
     </ng-container>
-  </ng-container>
-</ng-template>
-
-<ng-template #authorView>
-  <article>
-    <div class="preheader">
-      <button
-        class="button editButton"
-        type="button"
-        (click)="toggleEditMode()"
-      >
-        Edit
-      </button>
-      <button class="button deleteButton" type="button" (click)="delete()">
-        Delete
-      </button>
-    </div>
-    <header>
-      <div>
-        <h1 class="title">{{ title }}</h1>
-        <p>{{ date_value | date }}</p>
-      </div>
-    </header>
-    <div [innerHTML]="parsedContent"></div>
-  </article>
-</ng-template>
-<ng-template #authorViewInEdit>
-  <article>
-    <div class="preheader">
-      <button
-        class="button saveButton"
-        type="button"
-        (click)="toggleEditMode()"
-      >
-        Save
-      </button>
-    </div>
-    <header>
-      <div>
-        <textarea class="title" [(ngModel)]="title"></textarea>
-        <p>{{ date_value | date }}</p>
-      </div>
-    </header>
-    <div class="blog-edit-wrapper">
-      <textarea
-        class="blog-edit-input"
-        [(ngModel)]="unparsedContent"
-        (ngModelChange)="refresh(unparsedContent)"
-      ></textarea>
-      <div class="blog-edit-output" [innerHTML]="parsedContent"></div>
-    </div>
   </article>
 </ng-template>
 
-<ng-template #guestView>
-  <article>
-    <header>
-      <div>
-        <h1 class="title">{{ title }}</h1>
-        <p>{{ date_value | date }}</p>
-      </div>
-    </header>
-    <div [innerHTML]="parsedContent"></div>
-  </article>
+<ng-template #blogInEditMode>
+  <header>
+    <div>
+      By:
+      <strong
+        ><em>
+          <p>{{ author }}</p>
+        </em></strong
+      >
+      <textarea class="title" [(ngModel)]="title"></textarea>
+      <p>{{ created | date }}</p>
+    </div>
+  </header>
+  <div class="blog-edit-wrapper">
+    <textarea
+      class="blog-edit-input"
+      [(ngModel)]="unparsedContent"
+      (ngModelChange)="refresh(unparsedContent)"
+    ></textarea>
+    <div class="blog-edit-output" [innerHTML]="parsedContent"></div>
+  </div>
 </ng-template>
 
-<ng-template #adminView>
-  <article>
-    <div class="preheader">
-      <button
-        class="button editButton"
-        type="button"
-        (click)="toggleEditMode()"
+<ng-template #blogInReadMode>
+  <header>
+    <div>
+      By:
+      <strong
+        ><em>
+          <p>{{ author }}</p>
+        </em></strong
       >
-        Edit
-      </button>
-      <button class="button deleteButton" type="button" (click)="delete()">
-        Delete
-      </button>
-      <button class="button approveCheckbox" (click)="approve()">
-        Approve
-      </button>
+      <h1 class="title">{{ title }}</h1>
+      <p>{{ created | date }}</p>
     </div>
-    <header>
-      <div>
-        <h1 class="title">{{ title }}</h1>
-        <p>{{ date_value | date }}</p>
-      </div>
-    </header>
-    <div [innerHTML]="parsedContent"></div>
-  </article>
+  </header>
+  <div [innerHTML]="parsedContent"></div>
 </ng-template>
 
-<ng-template #adminViewInEdit>
-  <article>
-    <div class="preheader">
-      <button
-        class="button saveButton"
-        type="button"
-        (click)="toggleEditMode()"
-      >
-        Save
-      </button>
-      <button type="button" class="button approveCheckbox" (click)="approve()">
-        Approve
-      </button>
-    </div>
-    <header>
-      <div>
-        <textarea class="title" [(ngModel)]="title"></textarea>
-        <p>{{ date_value | date }}</p>
-      </div>
-    </header>
-    <div class="blog-edit-wrapper">
-      <textarea
-        class="blog-edit-input"
-        [(ngModel)]="unparsedContent"
-        (ngModelChange)="refresh(unparsedContent)"
-      ></textarea>
-      <div class="blog-edit-output" [innerHTML]="parsedContent"></div>
-    </div>
-  </article>
+<ng-template #authorPreheader>
+  <div class="preheader">
+    <button class="button editButton" type="button" (click)="toggleEditMode()">
+      {{ editOrSave }}
+    </button>
+    <button class="button deleteButton" type="button" (click)="delete()">
+      Delete
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #adminPreheader>
+  <div class="preheader admin">
+    <button class="button deleteButton" type="button" (click)="delete()">
+      Delete
+    </button>
+    <button class="button approveButton" (click)="approve()">Approve</button>
+  </div>
 </ng-template>

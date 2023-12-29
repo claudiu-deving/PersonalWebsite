@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BlogPostService } from 'src/app/blog-service.service';
 import { AuthentificationAuthorizationService } from '../auth/services/AuthentificationAuthorization.service';
+import { ViewType } from '../shared/types/ViewType.enum';
 
 @Component({
   selector: 'app-blog-list',
@@ -26,6 +27,7 @@ export class BlogListComponent implements OnInit {
         BlogPostService.getBlog(event.id).subscribe((x) => {
           x.isEditable = true;
           x.isEditMode = false;
+          x.view = ViewType.AUTHOR;
           this.blogs.splice(0, 1, x);
         });
         return;
@@ -41,37 +43,36 @@ export class BlogListComponent implements OnInit {
 
   private GetBlogs() {
     const username = localStorage.getItem('username');
-    if (username != null) {
+    const token = localStorage.getItem('accessToken');
+    if (token != null) {
       this.userLoggedIn = true;
     } else {
       this.userLoggedIn = false;
     }
     this.BlogPostService.getBlogs().subscribe((response) => {
-      if (username == null) {
+      if (token == null) {
         this.blogs = response.filter(
           (x: { isApproved: boolean }) => x.isApproved
         );
+        response.forEach((blog: { view: ViewType }) => {
+          blog.view = ViewType.GUEST;
+        });
         this.sortFromNewestToOldest();
         return;
       }
-      this.AuthentificationAuthorizationService.isAdmin(username).subscribe(
-        (isAdmin) => {
-          response.forEach(
-            (blog: {
-              author: any;
-              isEditable: boolean;
-              isApproved: boolean;
-              isApprovable: boolean;
-            }) => {
-              if (blog.author.username == username) {
-                blog.isEditable = true;
-              }
-              if (isAdmin) {
-                blog.isEditable = true;
-                blog.isApprovable = true;
-              }
+      this.AuthentificationAuthorizationService.getLoggedInUserData().subscribe(
+        (role) => {
+          response.forEach((blog: { view: ViewType; author: any }) => {
+            if (blog.author.username == role.username) {
+              blog.view = ViewType.AUTHOR;
+            } else {
+              blog.view = ViewType.GUEST;
             }
-          );
+
+            if (role.name == 'Admin') {
+              blog.view = ViewType.ADMIN;
+            }
+          });
 
           this.blogs = response;
           this.sortFromNewestToOldest();
@@ -87,13 +88,19 @@ export class BlogListComponent implements OnInit {
   }
 
   createBlog() {
-    let blog = {
-      title: 'New blog',
-      content: 'New blog',
-      isEditMode: true,
-      isEditable: true,
-    };
-
-    this.blogs.unshift(blog);
+    this.AuthentificationAuthorizationService.getLoggedInUserData().subscribe(
+      (role) => {
+        let blog = {
+          title: 'New blog',
+          content: 'New blog',
+          author: role,
+          isEditMode: true,
+          isEditable: true,
+          editOrSave: 'Save',
+          view: ViewType.EDIT,
+        };
+        this.blogs.unshift(blog);
+      }
+    );
   }
 }
