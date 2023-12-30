@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { BlogPostService } from 'src/app/blog-service.service';
-import { Parser } from '../utils/parsing/parser';
-import { DialogService } from '../shared/components/dialog/dialog.service';
-import { ViewType } from '../shared/types/ViewType.enum';
+import { BlogPostService } from 'src/app/blog/services/blog-service.service';
+import { Parser } from '../../services/parsing/parser';
+import { DialogService } from '../../../shared/components/dialog/dialog.service';
+import { ViewType } from '../../../shared/types/ViewType.enum';
 
 @Component({
   selector: 'app-blog',

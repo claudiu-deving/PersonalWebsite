@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BlogPostService } from 'src/app/blog-service.service';
-import { AuthentificationAuthorizationService } from '../auth/services/AuthentificationAuthorization.service';
-import { ViewType } from '../shared/types/ViewType.enum';
+import { BlogPostService } from 'src/app/blog/services/blog-service.service';
+import { AuthentificationAuthorizationService } from '../../../auth/services/AuthentificationAuthorization.service';
+import { ViewType } from '../../../shared/types/ViewType.enum';
 
 @Component({
   selector: 'app-blog-list',
@@ -51,33 +51,41 @@ export class BlogListComponent implements OnInit {
     }
     this.BlogPostService.getBlogs().subscribe((response) => {
       if (token == null) {
-        this.blogs = response.filter(
-          (x: { isApproved: boolean }) => x.isApproved
-        );
         response.forEach((blog: { view: ViewType }) => {
           blog.view = ViewType.GUEST;
         });
+
+        this.blogs = response.filter(
+          (x: { isApproved: boolean }) => x.isApproved
+        );
         this.sortFromNewestToOldest();
-        return;
-      }
-      this.AuthentificationAuthorizationService.getLoggedInUserData().subscribe(
-        (role) => {
-          response.forEach((blog: { view: ViewType; author: any }) => {
-            if (blog.author.username == role.username) {
-              blog.view = ViewType.AUTHOR;
-            } else {
-              blog.view = ViewType.GUEST;
-            }
-
+      } else {
+        this.AuthentificationAuthorizationService.getLoggedInUserData().subscribe(
+          (role) => {
             if (role.name == 'Admin') {
-              blog.view = ViewType.ADMIN;
+              response.forEach((blog: { view: ViewType; author: any }) => {
+                blog.view = ViewType.ADMIN;
+              });
+              this.blogs = response;
+              this.sortFromNewestToOldest();
+            } else {
+              response = response.filter(
+                (x: { isApproved: boolean; author: any }) =>
+                  x.isApproved || x.author.username == role.username
+              );
+              response.forEach((blog: { view: ViewType; author: any }) => {
+                if (blog.author.username == role.username) {
+                  blog.view = ViewType.AUTHOR;
+                } else {
+                  blog.view = ViewType.GUEST;
+                }
+              });
+              this.blogs = response;
+              this.sortFromNewestToOldest();
             }
-          });
-
-          this.blogs = response;
-          this.sortFromNewestToOldest();
-        }
-      );
+          }
+        );
+      }
     });
   }
 
