@@ -8,6 +8,9 @@ import { HeaderComponent } from './header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthModule } from './auth/auth.module';
 import { SharedModule } from './shared/shared.module';
+import { RoutingModule } from './routing/routing.module';
+import { TagComponent } from './blog/components/tag/tag.component';
+import { TagListComponent } from './blog/components/tag-list/tag-list.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +18,8 @@ import { SharedModule } from './shared/shared.module';
     BlogComponent,
     BlogListComponent,
     HeaderComponent,
+    TagComponent,
+    TagListComponent
   ],
   imports: [
     BrowserModule,
@@ -22,6 +27,7 @@ import { SharedModule } from './shared/shared.module';
     FormsModule,
     AuthModule,
     SharedModule,
+    RoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent],

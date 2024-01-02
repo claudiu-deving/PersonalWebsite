@@ -31,10 +31,10 @@ export class BlogPostService {
     return this.http.get<any>(this.apiUrl + '/BlogPosts/' + id);
   }
 
-  update(id: number, title: string, content: string) {
+  update(id: number, title: string, content: string, category: string) {
     const token = localStorage.getItem('accessToken');
     if (id == 0 || id == undefined) {
-      this.create(title, content);
+      this.create(title, content,category);
       return;
     }
     const url = this.apiUrl + '/BlogPosts/' + id;
@@ -46,7 +46,7 @@ export class BlogPostService {
     if (token != null) {
       const response = this.http.put<any>(
         url,
-        { title, content },
+        { title, content,category },
         {
           headers: headers,
         }
@@ -72,7 +72,7 @@ export class BlogPostService {
     this.emitEvent({ id: id, action: 'delete' });
   }
 
-  create(title: string, content: string) {
+  create(title: string, content: string,category:string) {
     const token = localStorage.getItem('accessToken');
     const url = this.apiUrl + '/BlogPosts';
     const headers = new HttpHeaders()
@@ -82,7 +82,7 @@ export class BlogPostService {
     if (token != null) {
       const response = this.http.post<any>(
         url,
-        { title, content },
+        { title, content,category },
         {
           headers: headers,
         }

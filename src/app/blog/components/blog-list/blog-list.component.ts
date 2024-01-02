@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BlogPostService } from 'src/app/blog/services/blog-service.service';
 import { AuthentificationAuthorizationService } from '../../../auth/services/AuthentificationAuthorization.service';
 import { ViewType } from '../../../shared/types/ViewType.enum';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-blog-list',
@@ -11,6 +12,7 @@ import { ViewType } from '../../../shared/types/ViewType.enum';
 export class BlogListComponent implements OnInit {
   blogs: Array<any> = [];
   constructor(
+    private route: ActivatedRoute,
     private BlogPostService: BlogPostService,
     private AuthentificationAuthorizationService: AuthentificationAuthorizationService
   ) {
@@ -33,15 +35,23 @@ export class BlogListComponent implements OnInit {
         return;
       }
     });
+
+    this.route.data.subscribe(data => {
+      const category = data['category'];
+      if(category == undefined || category == null ){
+        this.GetBlogs();
+      }else{
+        this.GetBlogs(category);
+      }
+    });
   }
 
   userLoggedIn: boolean = false;
 
   ngOnInit() {
-    this.GetBlogs();
   }
 
-  private GetBlogs() {
+  private GetBlogs(category:string='') {
     const username = localStorage.getItem('username');
     const token = localStorage.getItem('accessToken');
     if (token != null) {
@@ -64,9 +74,16 @@ export class BlogListComponent implements OnInit {
           (role) => {
             if (role.name == 'Admin') {
               response.forEach((blog: { view: ViewType; author: any }) => {
-                blog.view = ViewType.ADMIN;
+                if(blog.author.isAdmin == true){
+                blog.view = ViewType.AUTHOR;
+                }else{
+                  blog.view = ViewType.ADMIN;
+                }
               });
-              this.blogs = response;
+          
+              if(category != ''&& category != undefined){
+                response = response.filter((x: { category: string }) => x.category == category);
+              }
               this.sortFromNewestToOldest();
             } else {
               response = response.filter(
@@ -80,9 +97,12 @@ export class BlogListComponent implements OnInit {
                   blog.view = ViewType.GUEST;
                 }
               });
-              this.blogs = response;
+              if(category != ''&& category != undefined){
+                response = response.filter((x: { category: string }) => x.category == category);
+              }
               this.sortFromNewestToOldest();
             }
+            this.blogs = response;
           }
         );
       }

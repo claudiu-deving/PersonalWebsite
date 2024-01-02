@@ -1,5 +1,5 @@
 <ng-container *ngIf="userLoggedIn">
-  <button type="button" (click)="createBlog()">Create</button>
+  <button class="button" type="button" (click)="createBlog()">Create</button>
 </ng-container>
 
 <div *ngFor="let blog of blogs">
@@ -13,6 +13,8 @@
     [isApprovable]="blog.isApprovable"
     [isEditMode]="blog.isEditMode"
     [id]="blog.id"
+    [tags]="blog.tags"
+    [category]="blog.category"
   >
   </app-blog>
 </div>

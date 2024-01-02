@@ -22,6 +22,8 @@ export class BlogComponent implements OnInit {
   @Input() isApprovable: boolean = false;
   @Input() isApproved: boolean = false;
   @Input() isEditMode = false;
+  @Input() category: string = 'Personal Website';
+  @Input() tags: any[] = [];
   parsedContent: SafeHtml = '';
   editOrSave: string = 'Edit';
   public toggleEditMode() {
@@ -30,7 +32,7 @@ export class BlogComponent implements OnInit {
       this.getContent();
       this.editOrSave = 'Save';
     } else {
-      this.BlogPostService.update(this.id, this.title, this.unparsedContent);
+      this.BlogPostService.update(this.id, this.title, this.unparsedContent, this.category);
       this.editOrSave = 'Edit';
     }
   }

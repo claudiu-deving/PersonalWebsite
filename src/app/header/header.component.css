@@ -5,6 +5,7 @@ div{
 }
 
 div .nav-menu{
+    margin-left: 15px;
     align-content: flex-start;
     width: 100%;
 }
@@ -13,3 +14,23 @@ div .nav-login{
     align-content: flex-end;
     width: 140px;
 }
+
+.inactive-link{
+    font-size: 20px;
+    margin-right: 10px;
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.active-link{
+    font-size: 20px;
+    margin-right: 10px;
+    color: var(--coral);
+    font-weight: bold;
+    text-decoration: none;
+}
+a:hover{
+    color: var(--coral);
+}
+
