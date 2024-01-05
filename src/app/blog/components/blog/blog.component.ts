@@ -32,7 +32,7 @@ export class BlogComponent implements OnInit {
       this.getContent();
       this.editOrSave = 'Save';
     } else {
-      this.BlogPostService.update(this.id, this.title, this.unparsedContent, this.category);
+      this.BlogPostService.update(this.id, this.title, this.unparsedContent, this.category,this.tags);
       this.editOrSave = 'Edit';
     }
   }
@@ -80,5 +80,10 @@ export class BlogComponent implements OnInit {
 
   approve() {
     this.BlogPostService.approve(this.id);
+  }
+
+  receiveData($event: any) {
+    console.log($event);
+    this.tags = this.tags.filter(tag => tag.name !== $event.name);
   }
 }

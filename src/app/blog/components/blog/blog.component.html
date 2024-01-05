@@ -44,7 +44,7 @@
       <textarea class="title" [(ngModel)]="category"></textarea>
     </div>
   </header>
-  <app-tag-list [tags]="tags" [view]="'edit'"></app-tag-list>
+  <app-tag-list [tags]="tags" [view]="'edit'" [parentBlogId]="id" (eventEmitter)="receiveData($event)"></app-tag-list>
   <div class="blog-edit-wrapper">
     <textarea
       class="blog-edit-input"

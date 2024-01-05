@@ -1,10 +1,17 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
+declare const setCarvesRadiuses: any;
+
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  providers:[]
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
+  providers: [],
 })
 export class AppComponent {
-  title = 'cssflowclient';
+  title = "Klaus's Personal Website";
+  constructor() {}
+
+  setCarvesRadiuses() {
+    setCarvesRadiuses();
+  }
 }

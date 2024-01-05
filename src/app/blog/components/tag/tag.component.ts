@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Subject } from 'rxjs';
 @Component({
   selector: 'app-tag',
   templateUrl: './tag.component.html',
@@ -10,13 +10,19 @@ export class TagComponent implements OnInit {
   @Input() name: string = '';
   @Input() color:string = '';
   @Input() view:string = '';
+
+  
   constructor() { }
 
+
+  @Output() eventEmitter = new EventEmitter<any>();
+
+  
   ngOnInit() {
   }
 
   delete(){
-    console.log('delete');
+    this.eventEmitter.emit({name: this.name, action: 'delete'});
   }
 
 }

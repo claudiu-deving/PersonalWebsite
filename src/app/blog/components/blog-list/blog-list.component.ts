@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { BlogPostService } from 'src/app/blog/services/blog-service.service';
-import { AuthentificationAuthorizationService } from '../../../auth/services/AuthentificationAuthorization.service';
-import { ViewType } from '../../../shared/types/ViewType.enum';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { BlogPostService } from "src/app/blog/services/blog-service.service";
+import { AuthentificationAuthorizationService } from "../../../auth/services/AuthentificationAuthorization.service";
+import { ViewType } from "../../../shared/types/ViewType.enum";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
-  selector: 'app-blog-list',
-  templateUrl: './blog-list.component.html',
-  styleUrls: ['./blog-list.component.css'],
+  selector: "app-blog-list",
+  templateUrl: "./blog-list.component.html",
+  styleUrls: ["./blog-list.component.css"],
 })
 export class BlogListComponent implements OnInit {
   blogs: Array<any> = [];
@@ -15,45 +15,48 @@ export class BlogListComponent implements OnInit {
     private route: ActivatedRoute,
     private BlogPostService: BlogPostService,
     private AuthentificationAuthorizationService: AuthentificationAuthorizationService
-  ) {
-    AuthentificationAuthorizationService.eventObservable.subscribe((event) => {
-      this.GetBlogs();
-    });
-    BlogPostService.eventObservable.subscribe((event) => {
-      var blog = this.blogs.find((x) => x.id == event.id);
-      if (event.action == 'delete') {
-        this.blogs.splice(this.blogs.indexOf(blog), 1);
-        return;
-      }
-      if (event.action == 'create') {
-        BlogPostService.getBlog(event.id).subscribe((x) => {
-          x.isEditable = true;
-          x.isEditMode = false;
-          x.view = ViewType.AUTHOR;
-          this.blogs.splice(0, 1, x);
-        });
-        return;
-      }
-    });
-
-    this.route.data.subscribe(data => {
-      const category = data['category'];
-      if(category == undefined || category == null ){
-        this.GetBlogs();
-      }else{
-        this.GetBlogs(category);
-      }
-    });
-  }
+  ) {}
 
   userLoggedIn: boolean = false;
 
   ngOnInit() {
+    setTimeout(() => {
+      this.AuthentificationAuthorizationService.eventObservable.subscribe(
+        (event) => {
+          this.GetBlogs();
+        }
+      );
+      this.BlogPostService.eventObservable.subscribe((event) => {
+        var blog = this.blogs.find((x) => x.id == event.id);
+        if (event.action == "delete") {
+          this.blogs.splice(this.blogs.indexOf(blog), 1);
+          return;
+        }
+        if (event.action == "create") {
+          this.BlogPostService.getBlog(event.id).subscribe((x) => {
+            x.isEditable = true;
+            x.isEditMode = false;
+            x.view = ViewType.AUTHOR;
+            this.blogs.splice(0, 1, x);
+          });
+          return;
+        }
+      });
+
+      this.route.data.subscribe((data) => {
+        const category = data["category"];
+        if (category == undefined || category == null) {
+          this.GetBlogs();
+        } else {
+          this.GetBlogs(category);
+        }
+      });
+    }, 0);
   }
 
-  private GetBlogs(category:string='') {
-    const username = localStorage.getItem('username');
-    const token = localStorage.getItem('accessToken');
+  private GetBlogs(category: string = "") {
+    const username = localStorage.getItem("username");
+    const token = localStorage.getItem("accessToken");
     if (token != null) {
       this.userLoggedIn = true;
     } else {
@@ -72,17 +75,19 @@ export class BlogListComponent implements OnInit {
       } else {
         this.AuthentificationAuthorizationService.getLoggedInUserData().subscribe(
           (role) => {
-            if (role.name == 'Admin') {
+            if (role.name == "Admin") {
               response.forEach((blog: { view: ViewType; author: any }) => {
-                if(blog.author.isAdmin == true){
-                blog.view = ViewType.AUTHOR;
-                }else{
+                if (blog.author.isAdmin == true) {
+                  blog.view = ViewType.AUTHOR;
+                } else {
                   blog.view = ViewType.ADMIN;
                 }
               });
-          
-              if(category != ''&& category != undefined){
-                response = response.filter((x: { category: string }) => x.category == category);
+
+              if (category != "" && category != undefined) {
+                response = response.filter(
+                  (x: { category: string }) => x.category == category
+                );
               }
               this.sortFromNewestToOldest();
             } else {
@@ -97,8 +102,10 @@ export class BlogListComponent implements OnInit {
                   blog.view = ViewType.GUEST;
                 }
               });
-              if(category != ''&& category != undefined){
-                response = response.filter((x: { category: string }) => x.category == category);
+              if (category != "" && category != undefined) {
+                response = response.filter(
+                  (x: { category: string }) => x.category == category
+                );
               }
               this.sortFromNewestToOldest();
             }
@@ -119,12 +126,12 @@ export class BlogListComponent implements OnInit {
     this.AuthentificationAuthorizationService.getLoggedInUserData().subscribe(
       (role) => {
         let blog = {
-          title: 'New blog',
-          content: 'New blog',
+          title: "New blog",
+          content: "New blog",
           author: role,
           isEditMode: true,
           isEditable: true,
-          editOrSave: 'Save',
+          editOrSave: "Save",
           view: ViewType.EDIT,
         };
         this.blogs.unshift(blog);

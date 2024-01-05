@@ -1,23 +1,23 @@
 <ng-container *ngIf="view=='read'; then read; else edit">
 </ng-container>
 <ng-template #read>
-  <div class="tag-wrapper">
-    <div class="tag" [style.background-color]="color">
+  <div class="tag-wrapper" [style.border-color]="color">
+    <div class="tag" >
       {{name}}
     </div>
     <div class="tag-ear">
-      <div class="tag-ear-inner"></div>
+      <div class="tag-ear-inner" [style.border-right-color]="color"></div>
     </div>
     </div>
 </ng-template>
 
 <ng-template #edit>
-  <div class="tag-wrapper edit">
-    <div class="tag" [style.background-color]="color">
+  <div class="tag-wrapper edit" [style.border-color]="color">
+    <div class="tag" >
       {{name}}
     </div>
     <div class="tag-ear">
-      <div class="tag-ear-inner">
+      <div class="tag-ear-inner" [style.border-right-color]="color">
       </div>
     </div>
     <button class="tag-ear-button" (click)="delete()"><i class="fas fa-times">X</i></button>

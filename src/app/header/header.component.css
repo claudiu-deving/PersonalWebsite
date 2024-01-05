@@ -1,36 +1,107 @@
-div{
-    width:inherit;
+div {
+  width: inherit;
+  display: flex;
+  height: 70px;
+  background-color: var(--main);
+}
+
+div .nav-menu {
+  margin-left: 15px;
+  align-content: flex-start;
+  width: 100%;
+}
+
+div .nav-login {
+  transition: opacity 1s ease;
+  width: 200px;
+  margin-left: auto;
+  display: flex;
+}
+div .nav-login.hidden {
+  opacity: 0;
+}
+
+.inactive-link {
+  font-size: 28px;
+  margin-right: 10px;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  align-self: center;
+}
+
+.active-link {
+  color: var(--triadic-third);
+}
+a:hover {
+  color: var(--triadic-second);
+}
+
+#main-nav {
+  display: flex;
+  margin-left: auto;
+}
+
+#main-nav.hidden .inactive-link {
+  transition: opacity 1s ease;
+  opacity: 0;
+}
+
+/* Transition states */
+#main-nav .inactive-link.moved {
+  transition: opacity 1s ease;
+  opacity: 1;
+}
+
+.header-main {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.logo {
+  display: flex;
+}
+
+.dropdown-button {
+  background-color: var(--main);
+  color: #fff;
+  border: none;
+  margin: 10px;
+  align-self: center;
+  cursor: pointer;
+  /*display: none;*/
+}
+
+.dropdown-button-line {
+  width: 30px;
+  height: 3px;
+  background-color: #fff;
+  margin: 3px;
+  border-radius: 50%;
+  border: 1px solid var(--main);
+}
+
+.lines-container {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  height: fit-content;
+}
+
+#main-nav.side-menu {
+  transition: all 1s ease;
+  width: 150px;
+}
+
+@media screen and (max-width: 500px) {
+  #main-nav {
     display: flex;
-    height: 35px;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 0px;
+    background-color: var(--main);
+    z-index: 1;
+  }
 }
-
-div .nav-menu{
-    margin-left: 15px;
-    align-content: flex-start;
-    width: 100%;
-}
-
-div .nav-login{
-    align-content: flex-end;
-    width: 140px;
-}
-
-.inactive-link{
-    font-size: 20px;
-    margin-right: 10px;
-    color: #000;
-    font-weight: bold;
-    text-decoration: none;
-}
-
-.active-link{
-    font-size: 20px;
-    margin-right: 10px;
-    color: var(--coral);
-    font-weight: bold;
-    text-decoration: none;
-}
-a:hover{
-    color: var(--coral);
-}
-

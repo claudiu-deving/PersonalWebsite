@@ -1,25 +1,33 @@
-.tag-list-wrapper{
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin: 10px 0px;
+.tag-list-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 10px 0px;
 }
 
-.tag-list-add-button{
-    margin-left: 20px;
-    border: none;
-    background-color: transparent;
-    outline: none;
-    cursor: pointer;
-    font-size: 25px;
-    font-style: normal;
-    color: var(--federal-blue);
+.tag {
+  margin-right: 10px;
 }
 
-.tag-list-add-button:hover{
-    color: hsla(135, 68%, 67%, 0.877);
+.tags {
+  display: flex;
 }
 
-.tag-list-add-button:active{
-    scale: 0.9;
+.tag-list-add-button {
+  margin-left: 20px;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  font-size: 25px;
+  font-style: normal;
+  color: var(--main);
+}
+
+.tag-list-add-button:hover {
+  color: hsla(135, 68%, 67%, 0.877);
+}
+
+.tag-list-add-button:active {
+  scale: 0.9;
 }

@@ -11,21 +11,27 @@ import { SharedModule } from './shared/shared.module';
 import { RoutingModule } from './routing/routing.module';
 import { TagComponent } from './blog/components/tag/tag.component';
 import { TagListComponent } from './blog/components/tag-list/tag-list.component';
+import { HomeComponent } from './home/home.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
-  declarations: [
+  declarations: [		
     AppComponent,
     BlogComponent,
     BlogListComponent,
     HeaderComponent,
     TagComponent,
-    TagListComponent
-  ],
+    TagListComponent,
+      HomeComponent,
+      AboutComponent
+   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
     AuthModule,
+    BrowserAnimationsModule,
     SharedModule,
     RoutingModule
   ],

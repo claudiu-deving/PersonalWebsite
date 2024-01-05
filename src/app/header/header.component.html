@@ -1,10 +1,24 @@
-<div>
-  <div class="nav-menu">
-    <a class="inactive-link" routerLink="/home" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">Home</a>
-    <a class="inactive-link" routerLink="/personal_website" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">Personal Website</a>
-    <a class="inactive-link" routerLink="/test_category" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">Test</a>
-    <a class="inactive-link" routerLink="/about" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">About</a>
-    <a class="inactive-link" routerLink="/contact" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: false }">Contact</a>
-  </div>
+<div
+  class="header-main"
+  [style.margin-bottom]="showNavLinks == true ? '20px' : '0'"
+>
+  <button class="dropdown-button" (click)="openSidePanel()">
+    <div class="lines-container">
+      <div class="dropdown-button-line"></div>
+      <div class="dropdown-button-line"></div>
+      <div class="dropdown-button-line"></div>
+    </div>
+  </button>
+  <app-logo class="logo"></app-logo>
+
+  <nav id="main-nav" [style.display]="showNavLinks == true ? 'flex' : 'none'">
+    <a
+      class="inactive-link"
+      *ngFor="let link of navLinks"
+      routerLink="{{ link.link }}"
+      routerLinkActive="active-link"
+      >{{ link.name }}</a
+    >
+  </nav>
   <app-auth class="nav-login"></app-auth>
 </div>
