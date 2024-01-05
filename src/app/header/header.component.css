@@ -88,11 +88,6 @@ a:hover {
   height: fit-content;
 }
 
-#main-nav.side-menu {
-  transition: all 1s ease;
-  width: 150px;
-}
-
 @media screen and (max-width: 500px) {
   #main-nav {
     display: flex;
@@ -103,5 +98,9 @@ a:hover {
     width: 0px;
     background-color: var(--main);
     z-index: 1;
+  }
+  #main-nav.side-menu {
+    transition: all 1s ease;
+    width: 150px;
   }
 }

@@ -2,7 +2,7 @@
   class="header-main"
   [style.margin-bottom]="showNavLinks == true ? '20px' : '0'"
 >
-  <button class="dropdown-button" (click)="openSidePanel()">
+  <button class="dropdown-button" (click)="toggleSidePanel()">
     <div class="lines-container">
       <div class="dropdown-button-line"></div>
       <div class="dropdown-button-line"></div>
@@ -11,7 +11,10 @@
   </button>
   <app-logo class="logo"></app-logo>
 
-  <nav id="main-nav" [style.display]="showNavLinks == true ? 'flex' : 'none'">
+  <nav
+    id="main-nav"
+    [style.display]="showNavLinks == true && sidePanelOpen ? 'flex' : 'none'"
+  >
     <a
       class="inactive-link"
       *ngFor="let link of navLinks"

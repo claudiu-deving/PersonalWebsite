@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, Renderer2 } from "@angular/core";
 import { PubsubService } from "../shared/services/pubsub.service";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs/operators";
+import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 
 @Component({
   selector: "app-header",
@@ -20,7 +21,8 @@ export class HeaderComponent implements OnInit {
     private renderer: Renderer2,
     private el: ElementRef,
     private pubsubService: PubsubService,
-    private router: Router
+    private router: Router,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.pubsubService.data$.subscribe((data) => {
       if (data == "render-nav") {
@@ -54,8 +56,20 @@ export class HeaderComponent implements OnInit {
     }, 500);
   }
 
-  openSidePanel() {
-    let sidePanel = this.el.nativeElement.querySelector("#main-nav");
-    this.renderer.addClass(sidePanel, "side-menu");
+  sidePanelOpen = false;
+  toggleSidePanel() {
+    this.sidePanelOpen = !this.sidePanelOpen;
+
+    if (this.sidePanelOpen) {
+      this.renderer.addClass(document.body, "no-scroll");
+      this.el.nativeElement
+        .querySelector("#main-nav")
+        .classList.add("side-menu");
+    } else {
+      this.renderer.removeClass(document.body, "no-scroll");
+      this.el.nativeElement
+        .querySelector("#main-nav")
+        .classList.remove("side-menu");
+    }
   }
 }
