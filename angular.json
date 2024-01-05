@@ -71,10 +71,10 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "cssflowclient:build:production"
+              "buildTarget": "cssflowclient:build:production"
             },
             "development": {
-              "browserTarget": "cssflowclient:build:development"
+              "buildTarget": "cssflowclient:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -82,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "cssflowclient:build"
+            "buildTarget": "cssflowclient:build"
           }
         },
         "test": {
