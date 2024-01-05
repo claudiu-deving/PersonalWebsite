@@ -24,6 +24,14 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private breakpointObserver: BreakpointObserver
   ) {
+    this.breakpointObserver
+      .observe([Breakpoints.Handset, Breakpoints.Web])
+      .subscribe((result) => {
+        if (result.matches) {
+          console.log(result.matches);
+        }
+      });
+
     this.pubsubService.data$.subscribe((data) => {
       if (data == "render-nav") {
         this.startTransition();
