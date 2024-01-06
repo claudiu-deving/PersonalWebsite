@@ -1,6 +1,6 @@
 <div
   class="header-main"
-  [style.margin-bottom]="showNavLinks == true ? '20px' : '0'"
+  [style.margin-bottom]="isWelcomePage == false ? '20px' : '0'"
 >
   <button class="dropdown-button" (click)="toggleSidePanel()">
     <div class="lines-container">
@@ -9,17 +9,14 @@
       <div class="dropdown-button-line"></div>
     </div>
   </button>
-  <app-logo class="logo"></app-logo>
+  <app-logo class="logo" (click)="goToWelcome()"></app-logo>
 
-  <nav
-    id="main-nav"
-    [style.display]="showNavLinks == true && sidePanelOpen ? 'flex' : 'none'"
-  >
+  <nav id="main-nav" [style.display]="isWelcomePage ? 'none' : 'flex'">
     <a
-      class="inactive-link"
+      class="inactive"
       *ngFor="let link of navLinks"
       routerLink="{{ link.link }}"
-      routerLinkActive="active-link"
+      routerLinkActive="active"
       >{{ link.name }}</a
     >
   </nav>

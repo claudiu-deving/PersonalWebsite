@@ -12,6 +12,7 @@
   padding: 5px;
   border: 1px solid var(--monochromatic-first);
   margin-right: 10px;
+  font-size: var(--heading-6-font-size);
 }
 
 .button:hover {

@@ -2,7 +2,6 @@ import { Component, ElementRef, OnInit, Renderer2 } from "@angular/core";
 import { PubsubService } from "../shared/services/pubsub.service";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs/operators";
-import { BreakpointObserver, Breakpoints } from "@angular/cdk/layout";
 
 @Component({
   selector: "app-header",
@@ -21,37 +20,27 @@ export class HeaderComponent implements OnInit {
     private renderer: Renderer2,
     private el: ElementRef,
     private pubsubService: PubsubService,
-    private router: Router,
-    private breakpointObserver: BreakpointObserver
+    private router: Router
   ) {
-    this.breakpointObserver
-      .observe([Breakpoints.Handset, Breakpoints.Web])
-      .subscribe((result) => {
-        if (result.matches) {
-          console.log(result.matches);
-        }
-      });
-
-    this.pubsubService.data$.subscribe((data) => {
+    this.pubsubService.data$.subscribe((data: any) => {
       if (data == "render-nav") {
         this.startTransition();
       }
     });
     this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
+      .pipe(filter((event: any) => event instanceof NavigationEnd))
       .subscribe((event: any) => {
-        // Check if the current route is the welcome page
-        this.showNavLinks = event.urlAfterRedirects !== "/welcome";
+        this.isWelcomePage = event.urlAfterRedirects == "/welcome";
       });
   }
-  showNavLinks = true;
-
-  ngOnInit() {}
+  isWelcomePage = false;
+  isPhone = false;
+  ngOnInit() {
+    this.startTransition();
+  }
 
   private startTransition() {
-    let mainNav = this.el.nativeElement.querySelectorAll(
-      "#main-nav .inactive-link"
-    );
+    let mainNav = this.el.nativeElement.querySelectorAll("#main-nav .link");
     let loginButton = this.el.nativeElement.querySelector("div .nav-login");
 
     setTimeout(() => {
@@ -67,17 +56,18 @@ export class HeaderComponent implements OnInit {
   sidePanelOpen = false;
   toggleSidePanel() {
     this.sidePanelOpen = !this.sidePanelOpen;
+    let mainNav = this.el.nativeElement.querySelector("#main-nav");
 
     if (this.sidePanelOpen) {
-      this.renderer.addClass(document.body, "no-scroll");
-      this.el.nativeElement
-        .querySelector("#main-nav")
-        .classList.add("side-menu");
+      this.renderer.addClass(mainNav, "slide-out");
+      this.renderer.removeClass(mainNav, "slide-in");
     } else {
-      this.renderer.removeClass(document.body, "no-scroll");
-      this.el.nativeElement
-        .querySelector("#main-nav")
-        .classList.remove("side-menu");
+      this.renderer.addClass(mainNav, "slide-in");
+      this.renderer.removeClass(mainNav, "slide-out");
     }
+  }
+
+  goToWelcome() {
+    this.router.navigate(["/welcome"]);
   }
 }

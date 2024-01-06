@@ -28,7 +28,6 @@
     background: #333;
     color: #fff;
     font-weight: 500;
-    font-size: 1rem;
     cursor: pointer;
     margin-top: 1rem;
     transition: background-color 0.2s;
@@ -54,7 +53,6 @@
   top: 5px;
   border: 0;
   background: transparent;
-  font-size: 20px;
   cursor: pointer;
   transition: color 0.2s;
 }

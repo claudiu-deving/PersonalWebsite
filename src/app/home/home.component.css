@@ -43,7 +43,6 @@ div .nav-login {
 }
 
 .inactive-link {
-  font-size: 20px;
   margin-right: 10px;
   color: #000;
   font-weight: bold;
@@ -51,7 +50,6 @@ div .nav-login {
 }
 
 .active-link {
-  font-size: 20px;
   margin-right: 10px;
   color: var(--coral);
   font-weight: bold;
@@ -94,7 +92,7 @@ a:hover {
   grid-column: 1;
 }
 .left-part h1 {
-  font-size: 3rem;
+  font-size: calc(var(--heading-1-font-size) * 2);
   color: var(--main);
   background: transparent;
   text-align: center;
@@ -144,8 +142,8 @@ a:hover {
   width: 100%;
 }
 .right-part p {
+  font-size: var(--heading-4-font-size);
   color: var(--background);
-  font-size: 1.2rem;
   width: 100%;
   margin-bottom: 10px;
   text-align: center;
@@ -159,12 +157,12 @@ a:hover {
 }
 
 .get-started-btn {
+  font-size: var(--heading-4-font-size);
   width: 200px;
   height: 50px;
   background-color: var(--background);
   border: 2px solid var(--triadic-third);
   color: var(--triadic-third);
-  font-size: 1.2rem;
   font-weight: bold;
   margin: auto;
   display: block;
