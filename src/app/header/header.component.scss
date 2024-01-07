@@ -1,8 +1,10 @@
+@import './../../styles.scss';
+
 div {
   width: inherit;
   display: flex;
-  height: 10vh;
-  background-color: var(--main);
+  height: 70px;
+  background-color: $main;
 }
 
 div .nav-menu {
@@ -13,20 +15,48 @@ div .nav-menu {
 
 div .nav-login {
   transition: opacity 1s ease;
-  width: 200px;
+  width: 120px;
   margin-left: auto;
   display: flex;
 }
+
 div .nav-login.hidden {
   opacity: 0;
 }
 
 a {
-  margin-right: 10px;
+  margin-right: 40px;
   font-weight: bold;
   text-decoration: none;
   align-self: center;
   transition: opacity 1s ease;
+}
+
+@media screen and (max-width: 1000px) {
+  div {
+    height: 50px;
+  }
+  a {
+    margin-right: 30px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  div {
+    height: 40px;
+  }
+  a {
+    margin-right: 25px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  div {
+    height: 30px;
+  }
+  a {
+    margin-right: 20px;
+  }
 }
 
 .inactive {
@@ -34,10 +64,10 @@ a {
 }
 
 .active {
-  color: var(--triadic-third);
+  color: $triadic-third;
 }
 a:hover {
-  color: var(--triadic-second);
+  color: $triadic-second;
 }
 
 #main-nav {
@@ -66,7 +96,7 @@ a:hover {
 }
 
 .dropdown-button {
-  background-color: var(--main);
+  background-color: $main;
   color: #fff;
   border: none;
   margin: 10px;
@@ -81,7 +111,7 @@ a:hover {
   background-color: #fff;
   margin: 3px;
   border-radius: 50%;
-  border: 1px solid var(--main);
+  border: 1px solid $main;
 }
 
 .lines-container {
@@ -96,35 +126,28 @@ a:hover {
     flex-direction: column;
     position: absolute;
     top: 10vh;
-    left: 0;
+    left: -150px;
     height: 100vh;
-    width: 0px;
-    background-color: var(--main);
+    width: 150px;
+    background-color: $main;
     z-index: 1;
   }
   .dropdown-button {
     display: flex;
   }
+
   a {
-    opacity: 0;
+    font-size: var(--heading-2-font-size);
+    margin-bottom: 10px;
   }
 }
 
 #main-nav.slide-out {
   transition: all 1s ease;
-  width: 150px;
-}
-#main-nav.slide-out a {
-  transition: opacity 0.5s ease;
-  opacity: 1;
-}
-
-#main-nav.slide-in a {
-  transition: opacity 0.5s ease;
-  opacity: 0;
+  left: 0;
 }
 
 #main-nav.slide-in {
   transition: all 1s ease;
-  width: 0px;
+  left: -150px;
 }

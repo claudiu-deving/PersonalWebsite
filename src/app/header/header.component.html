@@ -2,7 +2,11 @@
   class="header-main"
   [style.margin-bottom]="isWelcomePage == false ? '20px' : '0'"
 >
-  <button class="dropdown-button" (click)="toggleSidePanel()">
+  <button
+    class="dropdown-button"
+    [style.display]="isWelcomePage ? 'none' : ''"
+    (click)="toggleSidePanel()"
+  >
     <div class="lines-container">
       <div class="dropdown-button-line"></div>
       <div class="dropdown-button-line"></div>

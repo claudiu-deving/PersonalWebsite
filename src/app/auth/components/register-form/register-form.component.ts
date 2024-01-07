@@ -1,18 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalService } from '../../services/modal.service';
-import { Subscription } from 'rxjs';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthentificationAuthorizationService } from '../../services/AuthentificationAuthorization.service';
+import { Component, OnInit } from "@angular/core";
+import { ModalService } from "../../services/modal.service";
+import { Subscription } from "rxjs";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { AuthentificationAuthorizationService } from "../../services/AuthentificationAuthorization.service";
 
 @Component({
-  selector: 'app-register-form',
-  templateUrl: './register-form.component.html',
-  styleUrls: ['./register-form.component.css'],
+  selector: "app-register-form",
+  templateUrl: "./register-form.component.html",
+  styleUrls: ["./register-form.component.scss"],
 })
 export class RegisterFormComponent implements OnInit {
   private subscription: Subscription;
-  display: 'open-login' | 'close-login' | 'open-register' | 'close-register' =
-    'close-register';
+  display: "open-login" | "close-login" | "open-register" | "close-register" =
+    "close-register";
   constructor(
     private modalService: ModalService,
     private AuthentificationAuthorizationService: AuthentificationAuthorizationService
@@ -24,24 +24,24 @@ export class RegisterFormComponent implements OnInit {
       if (
         this.formGroup.value.password != this.formGroup.value.retypePassword
       ) {
-        this.message = 'Passwords do not match';
+        this.message = "Passwords do not match";
       } else {
-        this.message = '';
+        this.message = "";
       }
     });
   }
-  message = '';
+  message = "";
   formGroup = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    username: new FormControl('', [
+    email: new FormControl("", [Validators.required, Validators.email]),
+    username: new FormControl("", [
       Validators.required,
       Validators.minLength(3),
     ]),
-    password: new FormControl('', [
+    password: new FormControl("", [
       Validators.required,
       Validators.minLength(6),
     ]),
-    retypePassword: new FormControl('', [
+    retypePassword: new FormControl("", [
       Validators.required,
       Validators.minLength(6),
     ]),
@@ -51,11 +51,11 @@ export class RegisterFormComponent implements OnInit {
 
   onSubmit() {
     if (this.formGroup.value.password != this.formGroup.value.retypePassword) {
-      this.message = 'Passwords do not match';
+      this.message = "Passwords do not match";
       return;
     }
     if (this.formGroup.invalid) {
-      this.message = 'Invalid input';
+      this.message = "Invalid input";
       return;
     }
     this.AuthentificationAuthorizationService.register(
@@ -65,7 +65,7 @@ export class RegisterFormComponent implements OnInit {
     ).subscribe({
       next: (response: null) => {
         if (response == null) {
-          this.message = 'Invalid username or password';
+          this.message = "Invalid username or password";
         }
       },
       error: (errorMessage: string) => {

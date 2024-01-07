@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { InputComponent } from 'src/app/shared/components/input/input.component';
-import { AuthentificationAuthorizationService } from '../../services/AuthentificationAuthorization.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { ModalService } from '../../services/modal.service';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { InputComponent } from "src/app/shared/components/input/input.component";
+import { AuthentificationAuthorizationService } from "../../services/AuthentificationAuthorization.service";
+import { HttpErrorResponse } from "@angular/common/http";
+import { ModalService } from "../../services/modal.service";
+import { Subscription } from "rxjs";
 @Component({
-  selector: 'app-login-form',
-  templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.css'],
+  selector: "app-login-form",
+  templateUrl: "./login-form.component.html",
+  styleUrls: ["./login-form.component.scss"],
 })
 export class LoginFormComponent implements OnInit {
   constructor(
@@ -19,17 +19,17 @@ export class LoginFormComponent implements OnInit {
       this.display = display;
     });
   }
-  display: 'open-login' | 'close-login' | 'open-register' | 'close-register' =
-    'close-login';
+  display: "open-login" | "close-login" | "open-register" | "close-register" =
+    "close-login";
   private subscription: Subscription;
-  submitText = 'Log In';
-  message = '';
+  submitText = "Log In";
+  message = "";
   formGroup = new FormGroup({
-    username: new FormControl('', [
+    username: new FormControl("", [
       Validators.required,
       Validators.minLength(3),
     ]),
-    password: new FormControl('', [
+    password: new FormControl("", [
       Validators.required,
       Validators.minLength(6),
     ]),
@@ -43,9 +43,9 @@ export class LoginFormComponent implements OnInit {
     ).subscribe({
       next: (response) => {
         if (response == null) {
-          this.message = 'Invalid username or password';
+          this.message = "Invalid username or password";
         } else {
-          this.display = 'close-login';
+          this.display = "close-login";
         }
       },
       error: (errorMessage) => {

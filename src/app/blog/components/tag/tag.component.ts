@@ -1,28 +1,22 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Subject } from "rxjs";
 @Component({
-  selector: 'app-tag',
-  templateUrl: './tag.component.html',
-  styleUrls: ['./tag.component.css']
+  selector: "app-tag",
+  templateUrl: "./tag.component.html",
+  styleUrls: ["./tag.component.scss"],
 })
 export class TagComponent implements OnInit {
+  @Input() name: string = "";
+  @Input() color: string = "";
+  @Input() view: string = "";
 
-  @Input() name: string = '';
-  @Input() color:string = '';
-  @Input() view:string = '';
-
-  
-  constructor() { }
-
+  constructor() {}
 
   @Output() eventEmitter = new EventEmitter<any>();
 
-  
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  delete(){
-    this.eventEmitter.emit({name: this.name, action: 'delete'});
+  delete() {
+    this.eventEmitter.emit({ name: this.name, action: "delete" });
   }
-
 }

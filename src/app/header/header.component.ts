@@ -1,4 +1,12 @@
-import { Component, ElementRef, OnInit, Renderer2 } from "@angular/core";
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Renderer2,
+  ViewChild,
+  EventEmitter,
+  Output,
+} from "@angular/core";
 import { PubsubService } from "../shared/services/pubsub.service";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs/operators";
@@ -6,7 +14,7 @@ import { filter } from "rxjs/operators";
 @Component({
   selector: "app-header",
   templateUrl: "./header.component.html",
-  styleUrls: ["./header.component.css"],
+  styleUrls: ["./header.component.scss"],
 })
 export class HeaderComponent implements OnInit {
   public navLinks: any[] = [
@@ -31,6 +39,8 @@ export class HeaderComponent implements OnInit {
       .pipe(filter((event: any) => event instanceof NavigationEnd))
       .subscribe((event: any) => {
         this.isWelcomePage = event.urlAfterRedirects == "/welcome";
+        this.sidePanelOpen = true;
+        this.toggleSidePanel();
       });
   }
   isWelcomePage = false;
@@ -53,21 +63,32 @@ export class HeaderComponent implements OnInit {
     }, 500);
   }
 
-  sidePanelOpen = false;
-  toggleSidePanel() {
+  public sidePanelOpen = false;
+  public toggleSidePanel() {
     this.sidePanelOpen = !this.sidePanelOpen;
     let mainNav = this.el.nativeElement.querySelector("#main-nav");
 
     if (this.sidePanelOpen) {
       this.renderer.addClass(mainNav, "slide-out");
       this.renderer.removeClass(mainNav, "slide-in");
+      this.disableScrolling();
     } else {
       this.renderer.addClass(mainNav, "slide-in");
       this.renderer.removeClass(mainNav, "slide-out");
+      this.enableScrolling();
     }
   }
-
   goToWelcome() {
     this.router.navigate(["/welcome"]);
+  }
+  @Output() toggleMenu = new EventEmitter<boolean>();
+  disableScrolling() {
+    this.renderer.setStyle(document.body, "overflow", "hidden");
+    this.toggleMenu.emit(true);
+  }
+
+  enableScrolling() {
+    this.renderer.removeStyle(document.body, "overflow");
+    this.toggleMenu.emit(false);
   }
 }

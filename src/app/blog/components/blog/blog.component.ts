@@ -1,19 +1,19 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { BlogPostService } from 'src/app/blog/services/blog-service.service';
-import { Parser } from '../../services/parsing/parser';
-import { DialogService } from '../../../shared/components/dialog/dialog.service';
-import { ViewType } from '../../../shared/types/ViewType.enum';
+import { Component, OnInit, Input } from "@angular/core";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import { BlogPostService } from "src/app/blog/services/blog-service.service";
+import { Parser } from "../../services/parsing/parser";
+import { DialogService } from "../../../shared/components/dialog/dialog.service";
+import { ViewType } from "../../../shared/types/ViewType.enum";
 
 @Component({
-  selector: 'app-blog',
-  templateUrl: './blog.component.html',
-  styleUrls: ['./blog.component.css'],
+  selector: "app-blog",
+  templateUrl: "./blog.component.html",
+  styleUrls: ["./blog.component.scss"],
 })
 export class BlogComponent implements OnInit {
-  @Input() content = 'Enter here the content of the blog post';
-  @Input() title = 'Blogpost title';
-  @Input() author = 'Author';
+  @Input() content = "Enter here the content of the blog post";
+  @Input() title = "Blogpost title";
+  @Input() author = "Author";
   @Input() view: ViewType = ViewType.GUEST;
   @Input() created: string = new Date().toDateString();
   @Input() modified: string = new Date().toDateString();
@@ -22,18 +22,24 @@ export class BlogComponent implements OnInit {
   @Input() isApprovable: boolean = false;
   @Input() isApproved: boolean = false;
   @Input() isEditMode = false;
-  @Input() category: string = 'Personal Website';
+  @Input() category: string = "Personal Website";
   @Input() tags: any[] = [];
-  parsedContent: SafeHtml = '';
-  editOrSave: string = 'Edit';
+  parsedContent: SafeHtml = "";
+  editOrSave: string = "Edit";
   public toggleEditMode() {
     this.isEditMode = !this.isEditMode;
     if (this.isEditMode) {
       this.getContent();
-      this.editOrSave = 'Save';
+      this.editOrSave = "Save";
     } else {
-      this.BlogPostService.update(this.id, this.title, this.unparsedContent, this.category,this.tags);
-      this.editOrSave = 'Edit';
+      this.BlogPostService.update(
+        this.id,
+        this.title,
+        this.unparsedContent,
+        this.category,
+        this.tags
+      );
+      this.editOrSave = "Edit";
     }
   }
 
@@ -46,7 +52,7 @@ export class BlogComponent implements OnInit {
   getSafeHtmlContent(content: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(content);
   }
-  unparsedContent: string = 'Enter here the content of the blog post';
+  unparsedContent: string = "Enter here the content of the blog post";
   getContent() {
     if (this.id === 0 || this.id == undefined) return;
     this.BlogPostService.getBlog(this.id).subscribe((x) => {
@@ -63,9 +69,9 @@ export class BlogComponent implements OnInit {
 
   ngOnInit() {
     if (this.isEditMode) {
-      this.editOrSave = 'Save';
+      this.editOrSave = "Save";
     } else {
-      this.editOrSave = 'Edit';
+      this.editOrSave = "Edit";
     }
     this.getContent();
   }
@@ -84,6 +90,6 @@ export class BlogComponent implements OnInit {
 
   receiveData($event: any) {
     console.log($event);
-    this.tags = this.tags.filter(tag => tag.name !== $event.name);
+    this.tags = this.tags.filter((tag) => tag.name !== $event.name);
   }
 }

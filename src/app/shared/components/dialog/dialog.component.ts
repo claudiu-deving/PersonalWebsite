@@ -1,11 +1,11 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { ModalService } from 'src/app/auth/services/modal.service';
-import { DialogService } from './dialog.service';
+import { Component, OnInit, EventEmitter, Output } from "@angular/core";
+import { ModalService } from "src/app/auth/services/modal.service";
+import { DialogService } from "./dialog.service";
 
 @Component({
-  selector: 'app-dialog',
-  templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.css'],
+  selector: "app-dialog",
+  templateUrl: "./dialog.component.html",
+  styleUrls: ["./dialog.component.scss"],
 })
 export class DialogComponent implements OnInit {
   @Output() close = new EventEmitter<boolean>();

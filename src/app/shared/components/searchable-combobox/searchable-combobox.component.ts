@@ -1,31 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 @Component({
-  selector: 'app-searchable-combobox',
-  templateUrl: './searchable-combobox.component.html',
-  styleUrls: ['./searchable-combobox.component.css']
+  selector: "app-searchable-combobox",
+  templateUrl: "./searchable-combobox.component.html",
+  styleUrls: ["./searchable-combobox.component.scss"],
 })
 export class SearchableComboboxComponent implements OnInit {
+  options: string[] = ["option1", "option2", "option3"];
+  searchTerm: string = "";
+  display: string = "none";
+  constructor() {}
 
-  options:string[] = ['option1', 'option2', 'option3'];
-  searchTerm:string = '';
-  display:string = 'none';
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
-  }
-
-
-  selectOption(option:any){
+  selectOption(option: any) {
     this.searchTerm = option;
   }
 
-  toggleDisplay(){
-    if(this.display == 'none'){
-      this.display = 'block';
-    }else{
-      this.display = 'none';
+  toggleDisplay() {
+    if (this.display == "none") {
+      this.display = "block";
+    } else {
+      this.display = "none";
     }
   }
-
-
 }

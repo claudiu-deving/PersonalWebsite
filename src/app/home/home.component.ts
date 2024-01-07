@@ -6,7 +6,7 @@ declare const setCarvesRadiuses: any;
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.css"],
+  styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
   private timeForASingleTransition = 150;
@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   }
 
   startTransition() {
+    this.timeForASingleTransition = this.timeForASingleTransition * 0.75;
     let totalTimeToWait = this.transitionNavKeywords();
 
     this.pubsubService.publishData("render-nav");
@@ -39,7 +40,7 @@ export class HomeComponent implements OnInit {
   }
 
   flattenCarves(totalTimeToWait: number): number {
-    const timeToWait = 1000;
+    const timeToWait = this.timeForASingleTransition * 6.66;
 
     setTimeout(() => {
       this.renderer.addClass(

@@ -1,0 +1,16 @@
+.container {
+  position: relative;
+  height: 80vh;
+}
+
+.class-main{
+  position: absolute;
+  opacity: 0;
+  top: 100%;
+}
+
+.final{
+  transition: all 1s ease-in;
+  opacity: 1;
+  top: 0%;
+}

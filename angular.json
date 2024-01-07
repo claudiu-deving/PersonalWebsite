@@ -5,7 +5,11 @@
   "projects": {
     "cssflowclient": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -25,8 +29,15 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
+              
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src"
+              ]
+            },
+            
             "scripts": [
               "src/assets/scripts/various_scripts.js"
             ]
@@ -98,15 +109,22 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src"
+              ]
+            }
           }
         }
       }
+      
     }
   },
   "cli": {
     "analytics": "2e59c9da-7dd8-4e95-a848-fe750306ce1b"
   }
+  
 }
