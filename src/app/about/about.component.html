@@ -1,6 +1,19 @@
 <div class="container">
-  <div [class]="mainClass">
-    <h1>About</h1>
-    <p>Welcome to the About page!</p>
-  </div>
+  <ng-container class="content-container" *ngFor="let item of aboutItems">
+    <div class="content-item">
+      <app-scroll-slide
+        appObserveElement
+        #intersection="intersection"
+        [class.example-card--is-intersecting]="intersection._isIntersecting"
+        (isIntersecting)="isIntersecting($event, slide)"
+        [isContinuous]="true"
+        #slide
+        [imageSide]="item.imageSide"
+        [image]="item.image"
+        [content]="item.content"
+        [alt]="item.alt"
+        [image_background]="item.background"
+      ></app-scroll-slide>
+    </div>
+  </ng-container>
 </div>

@@ -15,6 +15,8 @@ import { HomeComponent } from "./home/home.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AboutComponent } from "./about/about.component";
 import { LayoutModule } from "@angular/cdk/layout";
+import { ScrollingModule } from "@angular/cdk/scrolling";
+import { ObserveElementDirective } from "./shared/directives/intersectionObserver.directive";
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { LayoutModule } from "@angular/cdk/layout";
     TagListComponent,
     HomeComponent,
     AboutComponent,
+    ObserveElementDirective,
   ],
   imports: [
     BrowserModule,
@@ -36,6 +39,7 @@ import { LayoutModule } from "@angular/cdk/layout";
     SharedModule,
     RoutingModule,
     LayoutModule,
+    ScrollingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SearchableComboboxComponent } from "./components/searchable-combobox/searchable-combobox.component";
 import { FilterPipe } from "./pipes/filter.pipe";
 import { LogoComponent } from "./components/logo/logo.component";
+import { ScrollSlideComponent } from "./components/scroll-slide/scroll-slide.component";
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
@@ -15,7 +16,13 @@ import { LogoComponent } from "./components/logo/logo.component";
     SearchableComboboxComponent,
     FilterPipe,
     LogoComponent,
+    ScrollSlideComponent
   ],
-  exports: [InputComponent, SearchableComboboxComponent, LogoComponent],
+  exports: [
+    InputComponent,
+    SearchableComboboxComponent,
+    LogoComponent,
+    ScrollSlideComponent,
+  ],
 })
 export class SharedModule {}

@@ -16,13 +16,14 @@
   <app-logo class="logo" (click)="goToWelcome()"></app-logo>
 
   <nav id="main-nav" [style.display]="isWelcomePage ? 'none' : 'flex'">
-    <a
-      class="inactive"
-      *ngFor="let link of navLinks"
-      routerLink="{{ link.link }}"
-      routerLinkActive="active"
-      >{{ link.name }}</a
-    >
+    <div class="nav-link-wrapper" *ngFor="let link of navLinks">
+      <a
+        class="inactive"
+        routerLink="{{ link.link }}"
+        routerLinkActive="active"
+        >{{ link.name }}</a
+      >
+    </div>
   </nav>
   <app-auth class="nav-login"></app-auth>
 </div>

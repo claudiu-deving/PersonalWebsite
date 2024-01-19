@@ -1,10 +1,10 @@
-$background: #eee;
+$background: #fff;
 $main: #154579;
 $monochromatic-first: #1d5ea4;
 $monochromatic-first-lighter: #458fdf;
 $complimentary: #794915;
 $triadic-second: #791545;
-$triadic-third: #457915;
+$triadic-third: #6eaf31;
 $text-paragraph: #444;
 
 /* DYNAMIC VARIABLES */
@@ -17,7 +17,6 @@ $text-paragraph: #444;
   --heading-5-font-size: calc(var(--base-font-size) * 1.125);
   --heading-6-font-size: calc(var(--base-font-size) * 1);
   --component-var-height: 0.66vh;
- 
 }
 * {
   margin: 0;
@@ -50,19 +49,18 @@ p {
 
 @media screen and (max-width: 768px) {
   :root {
-    --base-font-size: 14px; /* Slightly smaller on tablets */
+    --base-font-size: 14px;
   }
 }
 
 @media screen and (max-width: 600px) {
   :root {
-    --base-font-size: 12px; /* Even smaller on mobile phones */
+    --base-font-size: 12px;
   }
 }
 
 nav a {
   font-size: var(--heading-2-font-size);
-  text-decoration: none;
 }
 
 .main {
@@ -74,7 +72,6 @@ body {
   background-color: $background;
   font-family: Source Serif Pro, serif;
 }
-
 
 .main-container {
   transition: filter 0.5s ease;
@@ -97,7 +94,6 @@ header h1 {
   margin: auto;
   margin-bottom: 10px;
 }
-
 
 .error {
   color: red;

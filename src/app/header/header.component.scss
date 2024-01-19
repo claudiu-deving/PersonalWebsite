@@ -1,4 +1,4 @@
-@import './../../styles.scss';
+@import "./../../styles.scss";
 
 div {
   width: inherit;
@@ -60,16 +60,35 @@ a {
 }
 
 .inactive {
-  color: #fff;
+  color: $triadic-third;
 }
 
 .active {
-  color: $triadic-third;
+  color: #eee;
+  transition: color 0.5s ease;
 }
-a:hover {
-  color: $triadic-second;
+.nav-link-wrapper {
+  height: 50%;
+  align-self: center;
+  position: relative;
+}
+.nav-link-wrapper::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  border-bottom: 5px solid rgba(255, 255, 255, 0.185);
+  border-radius: 5px;
+  height: 10px;
+  box-shadow: 0 10px 5px -5px rgba(255, 255, 255, 0.137);
+  pointer-events: none;
 }
 
+.nav-link-wrapper:hover::after {
+  width: 50%;
+  transition: width 0.5s ease-in-out;
+}
 #main-nav {
   display: flex;
   margin-left: auto;
