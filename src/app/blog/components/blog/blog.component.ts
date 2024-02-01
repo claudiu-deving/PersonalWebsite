@@ -24,6 +24,7 @@ export class BlogComponent implements OnInit {
   @Input() isEditMode = false;
   @Input() category: string = "Personal Website";
   @Input() tags: any[] = [];
+
   parsedContent: SafeHtml = "";
   editOrSave: string = "Edit";
   public toggleEditMode() {

@@ -2,7 +2,7 @@
   "name": "personalwebsite",
   "version": "1.0.0",
   "description": "My personal website for project presentation",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "test-all"
   },
@@ -24,9 +24,12 @@
     "@angular/compiler": "^17.0.8",
     "@angular/core": "^17.0.8",
     "@angular/forms": "^17.0.8",
+    "@angular/material": "^17.0.4",
     "@angular/platform-browser": "^17.0.8",
     "@angular/platform-browser-dynamic": "^17.0.8",
     "@angular/router": "^17.0.8",
+    "@ckeditor/ckeditor5-angular": "^7.0.1",
+    "@ckeditor/ckeditor5-build-classic": "^41.0.0",
     "ngx-highlightjs": "^10.0.0",
     "rxjs": "~7.8.0",
     "super-expressive": "^2.0.0",

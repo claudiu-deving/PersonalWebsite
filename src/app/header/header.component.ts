@@ -19,8 +19,8 @@ import { filter } from "rxjs/operators";
 export class HeaderComponent implements OnInit {
   public navLinks: any[] = [
     { name: "About", link: "/about" },
-    { name: "Portfolio", link: "/portfolio" },
-    { name: "CV", link: "/cv" },
+    // { name: "Portfolio", link: "/portfolio" },
+    //{ name: "CV", link: "/cv" },
     { name: "Blog", link: "/blog" },
     { name: "Contact", link: "/contact" },
   ];

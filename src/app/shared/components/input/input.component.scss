@@ -1,3 +1,7 @@
+.input-form {
+  position: relative;
+}
+
 label {
   font-weight: 500;
   color: #333;
@@ -11,6 +15,35 @@ input {
   border: 1px solid #ccc;
   border-radius: 0.2rem;
   padding: 0 0.5rem;
+  position: relative;
+}
+textarea {
+  resize: vertical;
+  width: 100%;
+  height: 5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.2rem;
+  padding: 0 0.5rem;
+  position: relative;
+}
+.error::before {
+  content: "⚠️";
+  font-size: var(--heading-3-font-size);
+  position: absolute;
+  height: 50px;
+  top: 30%;
+  left: -8%;
+}
+.error-dropdown {
+  content: attr(title);
+  background-color: #333;
+  height: auto;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  opacity: 1;
+  transition: opacity 0.3s;
+  z-index: 2;
 }
 
 .invalid {

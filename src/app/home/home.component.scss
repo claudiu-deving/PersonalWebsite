@@ -1,4 +1,4 @@
-@import '/src/styles.scss';
+@import "/src/styles.scss";
 :host {
   --main-transition-duration: 0.75s;
 }
@@ -97,6 +97,13 @@ a:hover {
   grid-column: 1;
 }
 .left-part h1 {
+  font-size: calc(var(--heading-1-font-size) * 2);
+  color: $main;
+  background: transparent;
+  text-align: center;
+  margin: auto;
+}
+.left-part span {
   font-size: calc(var(--heading-1-font-size) * 2);
   color: $main;
   background: transparent;

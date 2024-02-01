@@ -7,16 +7,18 @@ import { SearchableComboboxComponent } from "./components/searchable-combobox/se
 import { FilterPipe } from "./pipes/filter.pipe";
 import { LogoComponent } from "./components/logo/logo.component";
 import { ScrollSlideComponent } from "./components/scroll-slide/scroll-slide.component";
+import { NotificationService } from "./services/notification.service";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatSnackBarModule],
   declarations: [
     SharedComponent,
     InputComponent,
     SearchableComboboxComponent,
     FilterPipe,
     LogoComponent,
-    ScrollSlideComponent
+    ScrollSlideComponent,
   ],
   exports: [
     InputComponent,

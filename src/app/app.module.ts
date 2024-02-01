@@ -17,6 +17,8 @@ import { AboutComponent } from "./about/about.component";
 import { LayoutModule } from "@angular/cdk/layout";
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import { ObserveElementDirective } from "./shared/directives/intersectionObserver.directive";
+import { ContactModule } from "./contact/contact.module";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { ObserveElementDirective } from "./shared/directives/intersectionObserve
     RoutingModule,
     LayoutModule,
     ScrollingModule,
+    ContactModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

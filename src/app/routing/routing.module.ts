@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { BlogListComponent } from "../blog/components/blog-list/blog-list.component";
 import { HomeComponent } from "../home/home.component";
 import { AboutComponent } from "../about/about.component";
+import { ContactComponent } from "../contact/contact.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "/welcome", pathMatch: "full" },
@@ -23,7 +24,7 @@ const routes: Routes = [
     component: AboutComponent,
     data: { animation: "isAbove" },
   },
-  { path: "contact", component: BlogListComponent },
+  { path: "contact", component: ContactComponent },
 ];
 
 @NgModule({
