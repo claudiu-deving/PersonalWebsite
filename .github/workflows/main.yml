@@ -1,24 +1,36 @@
-name: Deploy via SSH
+name: Deploy Docs to EC2
 
 on:
   push:
     branches:
-      - main  # Set to your default branch
+      - main # or any other branch as per your workflow
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
       
-      - name: Install SSH key
-        uses: webfactory/ssh-agent@v0.5.3
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-      - name: Setup SSH Known Hosts
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      
+      - name: Zip the docs folder
+        run: zip -r docs.zip docs/
+      
+      - name: Upload docs to S3
+        run: aws s3 cp docs.zip s3://${{ secrets.S3_BUCKET_NAME }}/docs.zip
+      
+      - name: Execute SSM command to deploy docs on EC2
         run: |
-          ssh-keyscan -H ccsflow.com >> ~/.ssh/known_hosts
-      - name: Copy files
-        run: |
-          rsync -avz --exclude='.git/*' ./docs/ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_FOLDER }}
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "Key=instanceids,Values=${{ secrets.EC2_INSTANCE_ID }}" \
+            --parameters commands=["aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/docs.zip /tmp/docs.zip","unzip -o /tmp/docs.zip -d ${{ secrets.TARGET_PATH_ON_EC2 }}","rm /tmp/docs.zip"] \
+            --region ${{ secrets.AWS_REGION }} \
+            --output text
