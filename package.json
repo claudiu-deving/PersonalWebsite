@@ -2,7 +2,7 @@
   "name": "personalwebsite",
   "version": "1.0.0",
   "description": "My personal website for project presentation",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "test": "test-all"
   },
@@ -18,25 +18,30 @@
   "homepage": "https://github.com/KlausDeving/PersonalWebsite#readme",
   "private": true,
   "dependencies": {
-    "@angular/animations": "^16.2.0",
-    "@angular/common": "^16.2.0",
-    "@angular/compiler": "^16.2.0",
-    "@angular/core": "^16.2.0",
-    "@angular/forms": "^16.2.0",
-    "@angular/platform-browser": "^16.2.0",
-    "@angular/platform-browser-dynamic": "^16.2.0",
-    "@angular/router": "^16.2.0",
+    "@angular/animations": "^17.0.8",
+    "@angular/cdk": "^17.0.8",
+    "@angular/common": "^17.0.8",
+    "@angular/compiler": "^17.0.8",
+    "@angular/core": "^17.0.8",
+    "@angular/forms": "^17.0.8",
+    "@angular/material": "^17.0.8",
+    "@angular/platform-browser": "^17.0.8",
+    "@angular/platform-browser-dynamic": "^17.0.8",
+    "@angular/router": "^17.0.8",
+    "@ckeditor/ckeditor5-angular": "^7.0.1",
+    "@ckeditor/ckeditor5-build-classic": "^41.0.0",
     "ngx-highlightjs": "^10.0.0",
     "rxjs": "~7.8.0",
     "super-expressive": "^2.0.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.13.0"
+    "zone.js": "~0.14.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^16.2.12",
-    "@angular/cli": "~16.2.3",
-    "@angular/compiler-cli": "^16.2.0",
+    "@angular-devkit/build-angular": "^17.0.8",
+    "@angular/cli": "^17.0.8",
+    "@angular/compiler-cli": "^17.0.8",
     "@types/jasmine": "~4.3.0",
+    "electron": "^28.1.4",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -44,6 +49,6 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typedoc": "^0.25.3",
-    "typescript": "~5.1.3"
+    "typescript": "~5.2.2"
   }
 }

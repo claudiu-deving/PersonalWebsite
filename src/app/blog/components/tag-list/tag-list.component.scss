@@ -1,0 +1,33 @@
+@import '/src/styles.scss';
+.tag-list-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 10px 0px;
+}
+
+.tag {
+  margin-right: 10px;
+}
+
+.tags {
+  display: flex;
+}
+
+.tag-list-add-button {
+  margin-left: 20px;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  font-style: normal;
+  color: $main;
+}
+
+.tag-list-add-button:hover {
+  color: hsla(135, 68%, 67%, 0.877);
+}
+
+.tag-list-add-button:active {
+  scale: 0.9;
+}

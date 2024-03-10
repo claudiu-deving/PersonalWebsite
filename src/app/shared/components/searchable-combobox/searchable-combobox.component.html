@@ -1,0 +1,9 @@
+<div class="dropdown" (click)="toggleDisplay()" >
+  <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="Search..." />
+
+  <div class="dropdown-menu" style="width: 100%;" [style.display]="display" >
+    <button class="dropdown-item" *ngFor="let option of options | filter:searchTerm" (click)="selectOption(option)">
+      {{ option }}
+    </button>
+  </div>
+</div>

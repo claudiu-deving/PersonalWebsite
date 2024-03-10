@@ -1,0 +1,90 @@
+@import "./../../styles.scss";
+
+.contact-section {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.contact-section form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-section form label {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+input[type="submit"] {
+  background-color: $main;
+  color: #fff;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: var(--heading-5-font-size);
+  cursor: pointer;
+
+  &:hover {
+    background-color: darken($main, 10%);
+  }
+
+  &:active {
+    background-color: darken($main, 20%);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+
+    &:hover,
+    &:active {
+      background-color: $main;
+    }
+  }
+}
+
+input[type="submit"][disabled] {
+  position: relative;
+}
+
+input[type="submit"][disabled]:after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+input[type="submit"][disabled]:hover::after {
+  opacity: 1;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.message {
+  position: relative;
+}
+
+.message::after {
+  content: attr(message);
+  position: absolute;
+  display: flex;
+  left: -25%;
+  top: -30px;
+  color: red;
+  font-weight: bold;
+}

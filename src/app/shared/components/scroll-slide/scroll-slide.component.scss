@@ -1,0 +1,76 @@
+@import "/src/styles.scss";
+.sliding-component {
+  transition: all 1s ease-out;
+  margin: auto;
+  width: 60%;
+  display: flex;
+  height: 300px;
+}
+.sliding-image-wrapper {
+  width: 40%;
+  display: flex;
+}
+
+.sliding-image {
+  width: 100%;
+  margin: auto;
+  align-self: center;
+  height: 200px;
+  object-fit: contain;
+}
+
+.sliding-content {
+  width: 60%;
+  height: 100%;
+  padding: 20px;
+  display: flex;
+  align-content: center;
+}
+
+.sliding-content h1 {
+  font-weight: 600;
+  color: $main;
+  margin: auto;
+  align-self: center;
+}
+
+.start-from-left {
+  display: none;
+  transform: translateX(-100%);
+}
+
+.start-from-right {
+  display: none;
+  transform: translateX(100%);
+}
+@keyframes slideFromLeft {
+  from {
+    transform: translateX(-100%); //-100%
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0); //0
+    opacity: 1;
+  }
+}
+
+@keyframes slideFromRight {
+  from {
+    transform: translateX(100%); //100%
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0); //0
+    opacity: 1;
+  }
+}
+
+.slide-from-left {
+  display: flex;
+  animation: slideFromLeft 2s forwards;
+}
+
+.slide-from-right {
+  display: flex;
+  animation: slideFromRight 2s forwards;
+}

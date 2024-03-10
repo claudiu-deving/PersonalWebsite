@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-routing',
-  templateUrl: './routing.component.html',
-  styleUrls: ['./routing.component.css']
+  selector: "app-routing",
+  templateUrl: "./routing.component.html",
+  styleUrls: ["./routing.component.scss"],
 })
 export class RoutingComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

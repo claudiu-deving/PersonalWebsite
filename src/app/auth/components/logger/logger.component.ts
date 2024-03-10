@@ -1,16 +1,16 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { AuthentificationAuthorizationService } from '../../services/AuthentificationAuthorization.service';
-import { ModalService } from '../../services/modal.service';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, Input, OnDestroy } from "@angular/core";
+import { AuthentificationAuthorizationService } from "../../services/AuthentificationAuthorization.service";
+import { ModalService } from "../../services/modal.service";
+import { Subscription } from "rxjs";
 @Component({
-  selector: 'app-logger',
-  templateUrl: './logger.component.html',
-  styleUrls: ['./logger.component.css'],
+  selector: "app-logger",
+  templateUrl: "./logger.component.html",
+  styleUrls: ["./logger.component.scss"],
 })
 export class LoggerComponent implements OnInit {
-  display: 'open' | 'close' = 'close';
-  @Input() login = 'Log In';
-  username: string = '';
+  display: "open" | "close" = "close";
+  @Input() login = "Log In";
+  username: string = "";
   constructor(
     private AuthentificationAuthorizationService: AuthentificationAuthorizationService,
     private modalService: ModalService
@@ -18,7 +18,7 @@ export class LoggerComponent implements OnInit {
     this.AuthentificationAuthorizationService.eventObservable.subscribe(
       (event) => {
         if (event) {
-          this.login = 'Log Out';
+          this.login = "Log Out";
           this.setUsername();
         }
       }
@@ -37,19 +37,19 @@ export class LoggerComponent implements OnInit {
   }
 
   verify() {
-    if (this.login == 'Log Out') {
+    if (this.login == "Log Out") {
       this.AuthentificationAuthorizationService.logout();
-      this.login = 'Log In';
-      this.username = '';
+      this.login = "Log In";
+      this.username = "";
       return;
     }
     this.modalService.openLogin();
   }
   ngOnInit() {
-    let token = localStorage.getItem('accessToken');
+    let token = localStorage.getItem("accessToken");
 
     if (token) {
-      this.login = 'Log Out';
+      this.login = "Log Out";
       this.setUsername();
     }
   }
