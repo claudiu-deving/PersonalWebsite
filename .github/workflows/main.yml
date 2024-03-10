@@ -16,7 +16,9 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          
+      - name: Add SSH key to known hosts
+        run: |
+          echo "${{ secrets.SSH_HOST_KEY }}" >> ~/.ssh/known_hosts
       - name: Copy files
         run: |
           rsync -avz --exclude='.git/*' ./docs/ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:${{ secrets.REMOTE_FOLDER }}
