@@ -5,7 +5,11 @@
   "projects": {
     "cssflowclient": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -25,22 +29,31 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "src/styles.scss"
             ],
-            "scripts": []
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src"
+              ]
+            },
+            
+            "scripts": [
+              "src/assets/scripts/various_scripts.js"
+            ]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "5mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "5mb",
+                  "maximumError": "5mb"
                 }
               ],
               "outputHashing": "all"
@@ -69,10 +82,10 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "cssflowclient:build:production"
+              "buildTarget": "cssflowclient:build:production"
             },
             "development": {
-              "browserTarget": "cssflowclient:build:development"
+              "buildTarget": "cssflowclient:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -80,7 +93,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "cssflowclient:build"
+            "buildTarget": "cssflowclient:build"
           }
         },
         "test": {
@@ -96,15 +109,23 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src"
+              ]
+            }
           }
         }
       }
+      
     }
   },
   "cli": {
     "analytics": "2e59c9da-7dd8-4e95-a848-fe750306ce1b"
   }
+  
 }

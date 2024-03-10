@@ -1,0 +1,33 @@
+:host {
+  --component-width: 45px;
+}
+
+@media screen and (max-width: 1000px) {
+  :host {
+    --component-width: 35px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  :host {
+    --component-width: 30px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  :host {
+    --component-width: 17.5px;
+  }
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  width: var(--component-width);
+  height: 100%;
+  margin-left: 10px;
+  margin-right: 10px;
+  transform: rotate(0deg);
+  padding-top: var(--component-border-size);
+  padding-bottom: var(--component-border-size);
+}

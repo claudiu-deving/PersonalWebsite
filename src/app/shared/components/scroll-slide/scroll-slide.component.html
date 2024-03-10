@@ -1,0 +1,23 @@
+<ng-container *ngIf="imageSide == 'left'; then left; else right"></ng-container>
+
+<ng-template #left>
+  <div class="sliding-component">
+    <div class="sliding-image-wrapper">
+      <img [src]="image" [alt]="alt" [class]="imageClass" />
+    </div>
+    <div class="{{ contentClass }}">
+      <h1 class="sliding-text">{{ content }}</h1>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #right class="sliding-component">
+  <div class="sliding-component">
+    <div class="{{ contentClass }}">
+      <h1 class="sliding-text">{{ content }}</h1>
+    </div>
+    <div class="sliding-image-wrapper">
+      <img [src]="image" [alt]="alt" class="{{ imageClass }}" />
+    </div>
+  </div>
+</ng-template>

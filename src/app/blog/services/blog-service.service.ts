@@ -31,7 +31,7 @@ export class BlogPostService {
     return this.http.get<any>(this.apiUrl + '/BlogPosts/' + id);
   }
 
-  update(id: number, title: string, content: string, category: string) {
+  update(id: number, title: string, content: string, category: string,tags:any[]) {
     const token = localStorage.getItem('accessToken');
     if (id == 0 || id == undefined) {
       this.create(title, content,category);
@@ -46,7 +46,7 @@ export class BlogPostService {
     if (token != null) {
       const response = this.http.put<any>(
         url,
-        { title, content,category },
+        { title, content,category,tags },
         {
           headers: headers,
         }

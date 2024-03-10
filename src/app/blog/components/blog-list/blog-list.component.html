@@ -1,20 +1,22 @@
-<ng-container *ngIf="userLoggedIn">
-  <button class="button" type="button" (click)="createBlog()">Create</button>
-</ng-container>
+<div class="container">
+  <ng-container *ngIf="userLoggedIn">
+    <button class="button" type="button" (click)="createBlog()">Create</button>
+  </ng-container>
 
-<div *ngFor="let blog of blogs">
-  <app-blog
-    [title]="blog.title"
-    [author]="blog.author.username"
-    [created]="blog.modified"
-    [content]="blog.content"
-    [view]="blog.view"
-    [isEditable]="blog.isEditable"
-    [isApprovable]="blog.isApprovable"
-    [isEditMode]="blog.isEditMode"
-    [id]="blog.id"
-    [tags]="blog.tags"
-    [category]="blog.category"
-  >
-  </app-blog>
+  <div *ngFor="let blog of blogs">
+    <app-blog
+      [title]="blog.title"
+      [author]="blog.author.username"
+      [created]="blog.modified"
+      [content]="blog.content"
+      [view]="blog.view"
+      [isEditable]="blog.isEditable"
+      [isApprovable]="blog.isApprovable"
+      [isEditMode]="blog.isEditMode"
+      [id]="blog.id"
+      [tags]="blog.tags"
+      [category]="blog.category"
+    >
+    </app-blog>
+  </div>
 </div>
