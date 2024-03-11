@@ -14,11 +14,8 @@ import { TagListComponent } from "./blog/components/tag-list/tag-list.component"
 import { HomeComponent } from "./home/home.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AboutComponent } from "./about/about.component";
-import { LayoutModule } from "@angular/cdk/layout";
-import { ScrollingModule } from "@angular/cdk/scrolling";
 import { ObserveElementDirective } from "./shared/directives/intersectionObserver.directive";
 import { ContactModule } from "./contact/contact.module";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -40,12 +37,9 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     BrowserAnimationsModule,
     SharedModule,
     RoutingModule,
-    LayoutModule,
-    ScrollingModule,
     ContactModule,
-    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
