@@ -5,33 +5,20 @@
       <button class="close" (click)="close()">X</button>
     </header>
 
-    <app-input
-      [control]="formGroup.controls.username"
-      inputId="username"
-      label="Username"
-    ></app-input>
-    <app-input
-      [control]="formGroup.controls.password"
-      inputId="password"
-      label="Password"
-    ></app-input>
+    <app-input [control]="formGroup.controls.username" inputId="username" label="Username"></app-input>
+    <app-input [control]="formGroup.controls.password" inputId="password" label="Password"></app-input>
     <p class="error">{{ message }}</p>
     <a class="passforgot" href="resetpassword">Forgot password?</a>
-    <button
-      class="submit"
-      type="submit"
-      [disabled]="formGroup.invalid"
-      (click)="onSubmit()"
-    >
+    <button class="submit" type="submit" [disabled]="formGroup.invalid" (click)="onSubmit()">
       {{ submitText }}
     </button>
     <div class="separator"></div>
-
+    <!-- 
     <div class="register">
       <p>Don't have an account?</p>
       <button class="submit" href="register" (click)="onRegister()">
         Register
       </button>
-    </div>
+    </div> -->
   </div>
 </div>

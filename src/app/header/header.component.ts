@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
     // { name: "Portfolio", link: "/portfolio" },
     //{ name: "CV", link: "/cv" },
     { name: "Blog", link: "/blog" },
-    { name: "Contact", link: "/contact" },
+    // { name: "Contact", link: "/contact" },
   ];
   constructor(
     private renderer: Renderer2,

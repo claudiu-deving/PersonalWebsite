@@ -8,13 +8,13 @@ export class TextBlock extends Block {
 
   public override build(_blockCount?: number | undefined): string[] {
     let result = new Array<string>();
-    result.push(`<pre><div class="paragraph"><p>`);
+    result.push(`<div class="paragraph"><p>`);
     for (let i = 0; i < this.lines.length; i++) {
       let element = this.lines[i];
       element = this.processLine(element);
       result.push(element);
     }
-    result.push('</p></div></pre>');
+    result.push('</p></div>');
     return result;
   }
 

@@ -15,20 +15,15 @@ const routes: Routes = [
     data: { category: "Personal Website" },
   },
   {
-    path: "blog/test_category",
-    component: BlogListComponent,
-    data: { category: "Test category" },
-  },
-  {
     path: "about",
     component: AboutComponent,
     data: { animation: "isAbove" },
   },
-  { path: "contact", component: ContactComponent },
+  //{ path: "contact", component: ContactComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class RoutingModule {}
+export class RoutingModule { }

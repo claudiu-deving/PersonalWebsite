@@ -15,7 +15,10 @@ export class Parser {
     this.currentTypeFlag = BlockType.TEXT;
     content = this.unescapeString(content);
     var lines = content.split(content.includes('\r\n') ? '\r\n' : '\n');
+
+    //Form as: Map<BlockType, indices> e.g. <TEXTBLOCK,[0,1,3,5,6,8]
     var reversed = this.reverseDictionary(this.mapTextTypesWithIndices(lines));
+
     let blocks = this.createBlocks(lines, reversed);
     let blockCount = 0;
     for (let block of blocks) {
@@ -69,6 +72,11 @@ export class Parser {
     return BlockType.TEXT;
   }
 
+  /** 
+  * Maps the lines of the text with the type of block that they represent
+  * @param lines The lines of the text
+  * @returns A map with the index of the line as the key and the type of block as the value
+  */
   public mapTextTypesWithIndices(lines: string[]): Map<number, BlockType> {
     let types = new Map<number, BlockType>();
     for (let index = 0; index < lines.length; index++) {
@@ -77,8 +85,14 @@ export class Parser {
       types.set(index, type);
     }
     return types;
+
   }
 
+  /**
+  * Reverses the dictionary so that the type of block is the key and the indices are the values
+  * @param dictionary The dictionary to reverse
+  * @returns A map with the type of block as the key and the indices as the values
+  */
   private reverseDictionary(
     dictionary: Map<number, BlockType>
   ): Map<BlockType, Array<number>> {
@@ -105,13 +119,20 @@ export class Parser {
     return types;
   }
 
+  /**
+   * Creates the blocks from the lines of the text
+   * @param lines The lines of the text
+   * @param reversed The map with the type of block as the key and the indices as the values
+   * @returns An array of blocks
+  */
   private createBlocks(
     lines: string[],
     reversed: Map<BlockType, Array<number>>
   ): Array<Block> {
     let blocks = new Array<Block>();
     for (let entry of reversed) {
-      switch (entry[0]) {
+      let type = entry[0];
+      switch (type) {
         case BlockType.CODE: {
           let consecutive = this.groupConsecutiveValues(entry[1]);
           for (let consecutiveEntry of consecutive) {
@@ -186,6 +207,13 @@ export class Parser {
     return blocks;
   }
 
+
+
+  /**
+   * Groups the consecutive values of an array
+   * @param indices The array of indices
+   * @returns A map with the group number as the key and the indices as the values
+   */
   public groupConsecutiveValues(
     indices: Array<number>
   ): Map<number, Array<number>> {

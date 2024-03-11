@@ -8,10 +8,9 @@ import { FilterPipe } from "./pipes/filter.pipe";
 import { LogoComponent } from "./components/logo/logo.component";
 import { ScrollSlideComponent } from "./components/scroll-slide/scroll-slide.component";
 import { NotificationService } from "./services/notification.service";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatSnackBarModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   declarations: [
     SharedComponent,
     InputComponent,
@@ -27,4 +26,4 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     ScrollSlideComponent,
   ],
 })
-export class SharedModule {}
+export class SharedModule { }
