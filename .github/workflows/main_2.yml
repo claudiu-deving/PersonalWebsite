@@ -31,6 +31,6 @@ jobs:
           aws ssm send-command \
             --document-name "AWS-RunShellScript" \
             --targets "Key=instanceids,Values=${{ secrets.EC2_INSTANCE_ID }}" \
-            --parameters commands=["aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/docs.zip /tmp/docs.zip","unzip -o /tmp/docs.zip -d ${{ secrets.TARGET_PATH_ON_EC2 }}","rm /tmp/docs.zip"] \
+            --parameters commands=["aws s3 cp s3://${{ secrets.S3_BUCKET_NAME }}/docs.zip /tmp/docs.zip","unzip -o /tmp/docs.zip -d /var/www/personalwebsiteclient,"rm /tmp/docs.zip"] \
             --region eu-north-1 \
             --output text
