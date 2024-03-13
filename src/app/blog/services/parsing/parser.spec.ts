@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Parser } from './Parser';
+import { Parser } from './parser';
 import { BlockType } from './blocks/BlockType';
 
 describe('Parser', () => {
@@ -13,7 +13,6 @@ describe('Parser', () => {
     expect(parser.unescapeString('\\n')).toEqual('\n');
   });
 
-  // Add more tests as necessary
 
   it('should unescape backslashes', () => {
     expect(parser.unescapeString('\\\\')).toEqual('\\');
@@ -126,6 +125,17 @@ describe('Parser', () => {
       '\n\n\n<code>\n\nusing System; \n\nnamespace ParsingTestApplication\n{\n    public class Program\n    {\n        // Main method - entry point of the application\n        static void Main(string[] args)\n        {\n            Console.WriteLine("Testing various C# syntax elements...");\n\n            // Variable declarations\n            int number = 10;\n            string text = "Hello World";\n\n            // Conditional statement\n            if(number>5)\n            {\n                Console.WriteLine("Number is greater than 5.");\n            }\n            else\n            {\n                Console.WriteLine("Number is less than or equal to 5.");\n            }\n\n            // Loop example\n            for(int i = 0; i<number; i++)\n            {\n                Console.WriteLine($"Loop iteration: {i}");\n            }\n\n            // Method call\n            PrintMessage(text);\n\n            // Exception handling\n            try\n            {\n                int zero = 0;\n                int result = 10/zero;\n            }\n            catch(DivideByZeroException ex)\n            {\n                Console.WriteLine($"Exception caught: {ex.Message}");\n            }\n\n            // Working with a custom class\n            MyClass myClass = new MyClass();\n            myClass.DisplayMessage();\n        }\n\n        // Method declaration\n        static void PrintMessage(string message)\n        {\n            Console.WriteLine($"Message: {message}");\n        }\n    }\n\n    // Class declaration\n    class MyClass\n    {\n        public void DisplayMessage()\n        {\n            Console.WriteLine("Message from MyClass.");\n        }\n    }\n}\n\n</code>';
 
     let result = parser.parse(content);
+    var first = 549804;
+    var second = stringToBytes(result);
+    expect(first).toEqual(second);
+  });
+
+
+  it('should corectly parse the content2', () => {
+    let content =
+      '### A state of the art simple To Do app\n\n\nSince I started learning to code, everywhere I see the same ideas of how to learn and what type of projects to make in order to showcase the things I know.\nThe issue is that I find it hard to do so, to just start smashing at the keyboard for the sake of it, I need something more, I need a challenge.\nWhile watching Zoran Horvat (www.youtube.com/@zoran-horvat) talking about domain modeling in Domain Driven Design I had the idea to listen to the advice given by everyone and write a simple To Do app but I wanted to try a different approach, even though, most likely it will be an overkill.\nSo, I will try to come up with the best possible design for a To Do app where I take a principle to the extremes of what C# is capable of and that is:\n\n\n                              *_\"Make illegal states unrepresentable\" - Yaron Minsky_*\n\n\nFirst, in this entry I will define the business requirements so that It is clear what my intentions are, in the next I will discuss the start of the modeling of the domain layer.\n\n- The user should be able to add, update, read and delete tasks from a list of tasks;\n- The user should be able to see their tasks from either a WPF desktop application or from a webpage, with the possibility of adding a mobile solution later;\n- The storage for the WPF solution will be ONLY local with the possibility of sending the info to a remote storage solution;\n';
+    let content2 = '\n\n\n\n';
+    let result = parser.parse(content2);
     var first = 549804;
     var second = stringToBytes(result);
     expect(first).toEqual(second);

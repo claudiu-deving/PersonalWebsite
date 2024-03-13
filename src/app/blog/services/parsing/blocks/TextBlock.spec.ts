@@ -19,11 +19,11 @@ describe('Text blocks tests', () => {
     const result = textBlock.build();
 
     expect(result).toEqual([
-      '<pre><div class="paragraph"><p>',
+      '<div class="paragraph"><p>',
       'Line 1',
       'Line 2',
       'Line 3',
-      '</p></div></pre>',
+      '</p></div>',
     ]);
   });
 
@@ -33,8 +33,8 @@ describe('Text blocks tests', () => {
     const result = textBlock.build();
 
     expect(result).toEqual([
-      '<pre><div class="paragraph"><p>',
-      '</p></div></pre>',
+      '<div class="paragraph"><p>',
+      '</p></div>',
     ]);
   });
 
@@ -48,13 +48,13 @@ describe('Text blocks tests', () => {
     const result = textBlock.build();
 
     expect(result).toEqual([
-      '<pre><div class="paragraph"><p>',
+      '<div class="paragraph"><p>',
       '<h1>Heading 1</h1>',
       '<h2>Heading 2</h2>',
       '<h3>Heading 3</h3>',
       '<h4>Heading 4</h4>',
       '<h5>Heading 5</h5>',
-      '</p></div></pre>',
+      '</p></div>',
     ]);
   });
 

@@ -26,6 +26,15 @@ $text-paragraph: #444;
   font-size: var(--base-font-size);
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  width: fit-content;
+}
+
 h1 {
   font-size: var(--heading-1-font-size);
 }
@@ -52,6 +61,7 @@ h6 {
 
 p {
   font-size: var(--base-font-size);
+  width: fit-content;
 }
 
 @media screen and (max-width: 768px) {
@@ -394,7 +404,16 @@ pre {
   /* Opera 7 */
 }
 
+
 .paragraph {
+  font-family: Source Serif Pro, serif;
+  min-height: 24px;
+}
+
+.paragraph pre {
+  margin: 0;
+  padding: 0;
+  white-space: pre-wrap;
   font-family: Source Serif Pro, serif;
 }
 

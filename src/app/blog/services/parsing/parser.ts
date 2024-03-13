@@ -12,14 +12,18 @@ export class Parser {
 
   public parse(content: string): string {
     var result: string = '';
+
     this.currentTypeFlag = BlockType.TEXT;
     content = this.unescapeString(content);
+    // console.log(JSON.stringify(content));
     var lines = content.split(content.includes('\r\n') ? '\r\n' : '\n');
 
-    //Form as: Map<BlockType, indices> e.g. <TEXTBLOCK,[0,1,3,5,6,8]
-    var reversed = this.reverseDictionary(this.mapTextTypesWithIndices(lines));
+    var mapped = this.mapTextTypesWithIndices(lines);
 
-    let blocks = this.createBlocks(lines, reversed);
+    //Form as: Map<BlockType, indices> e.g. <TEXTBLOCK,[0,1,3,5,6,8]
+    var reversed = this.reverseDictionary(mapped);
+
+    let blocks = this.createBlocks(lines, reversed, mapped);
     let blockCount = 0;
     for (let block of blocks) {
       if (block.type === BlockType.CODE) {
@@ -122,81 +126,76 @@ export class Parser {
   /**
    * Creates the blocks from the lines of the text
    * @param lines The lines of the text
-   * @param reversed The map with the type of block as the key and the indices as the values
+   * @param reversed The map with the type of block as the key and the indices as the values of form:
+   * <TEXTBLOCK,[0,1,2,3,5,6], CODEBLOCK,[4,7,8,9]>
    * @returns An array of blocks
   */
   private createBlocks(
-    lines: string[],
-    reversed: Map<BlockType, Array<number>>
-  ): Array<Block> {
+    lines: string[], reversed: Map<BlockType, Array<number>>, mapped: Map<number, BlockType>): Array<Block> {
     let blocks = new Array<Block>();
-    for (let entry of reversed) {
+
+    let ordered = this.orderBlocks(reversed, mapped);
+
+    for (let entry of ordered) {
       let type = entry[0];
+      let indices = entry[1];
       switch (type) {
         case BlockType.CODE: {
-          let consecutive = this.groupConsecutiveValues(entry[1]);
-          for (let consecutiveEntry of consecutive) {
-            blocks.push(
-              BlockFactory.createBlock(consecutiveEntry, BlockType.CODE, lines)
-            );
-          }
-          break;
+          blocks.push(
+            BlockFactory.createBlock(
+              indices,
+              BlockType.CODE,
+              lines));
         }
+          break;
+
         case BlockType.TEXT: {
-          let consecutive = this.groupConsecutiveValues(entry[1]);
-          for (let consecutiveEntry of consecutive) {
-            blocks.push(
-              BlockFactory.createBlock(consecutiveEntry, BlockType.TEXT, lines)
-            );
-          }
+          blocks.push(
+            BlockFactory.createBlock(
+              indices,
+              BlockType.TEXT,
+              lines)
+          );
           break;
         }
         case BlockType.WHITESPACE: {
-          let consecutive = this.groupConsecutiveValues(entry[1]);
-          for (let consecutiveEntry of consecutive) {
+          for (let index of indices) {
             blocks.push(
               BlockFactory.createBlock(
-                consecutiveEntry,
+                [index],
                 BlockType.WHITESPACE,
-                lines
-              )
+                lines)
             );
           }
           break;
         }
         case BlockType.IMAGE: {
-          let consecutive = this.groupConsecutiveValues(entry[1]);
-          for (let consecutiveEntry of consecutive) {
-            blocks.push(
-              BlockFactory.createBlock(consecutiveEntry, BlockType.IMAGE, lines)
-            );
-          }
+          blocks.push(
+            BlockFactory.createBlock(
+              indices,
+              BlockType.IMAGE,
+              lines)
+          );
           break;
         }
         case BlockType.ORDERED_LIST: {
-          let consecutive = this.groupConsecutiveValues(entry[1]);
-          for (let consecutiveEntry of consecutive) {
-            blocks.push(
-              BlockFactory.createBlock(
-                consecutiveEntry,
-                BlockType.ORDERED_LIST,
-                lines
-              )
-            );
-          }
+          blocks.push(
+            BlockFactory.createBlock(
+              indices,
+              BlockType.ORDERED_LIST,
+              lines
+            )
+          );
           break;
         }
         case BlockType.UNORDERED_LIST: {
-          let consecutive = this.groupConsecutiveValues(entry[1]);
-          for (let consecutiveEntry of consecutive) {
-            blocks.push(
-              BlockFactory.createBlock(
-                consecutiveEntry,
-                BlockType.UNORDERED_LIST,
-                lines
-              )
-            );
-          }
+          blocks.push(
+            BlockFactory.createBlock(
+              indices,
+              BlockType.UNORDERED_LIST,
+              lines
+            )
+          );
           break;
         }
 
@@ -205,6 +204,45 @@ export class Parser {
       }
     }
     return blocks;
+  }
+
+  /**
+   * Orders the blocks in the correct order while still maintaining reference to its type
+   * From: <TEXTBLOCK,[0,1,2,3,5,6], CODEBLOCK,[4,7,8,9]>
+   * To: [[[TEXTBLOCK,[0,1,2,3]], [CODEBLOCK,[4]], [TEXTBLOCK,[5,6]], [CODEBLOCK,[7,8,9]]]
+   */
+  orderBlocks(reversed: Map<BlockType, number[]>, mapped: Map<number, BlockType>) {
+
+    let keys = Array.from(mapped.keys());
+    let ordered = keys.sort((a, b) => a - b);
+    let result = new Array<[BlockType, number[]]>();
+    let lastType = undefined as BlockType | undefined;
+    let innerIndices = new Array<number>();
+    for (let key of ordered) {
+      let type = mapped.get(key) as BlockType;
+
+      //First iteration
+      if (lastType === undefined) {
+        lastType = type;
+        innerIndices.push(key);
+        continue;
+      }
+
+      if (type !== lastType) {
+        result.push([lastType, innerIndices]);
+        innerIndices = new Array<number>();
+      }
+
+      if (key === ordered[ordered.length - 1]) {
+        innerIndices.push(key);
+        result.push([type, innerIndices]);
+        break;
+      }
+      innerIndices.push(key);
+      lastType = type;
+    }
+
+    return result;
   }
 
 

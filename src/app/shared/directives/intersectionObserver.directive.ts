@@ -29,7 +29,7 @@ export class ObserveElementDirective implements OnInit, OnDestroy {
     this.subscription = this.createAndObserve();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
