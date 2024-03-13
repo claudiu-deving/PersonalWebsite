@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
     private el: ElementRef,
     private pubsubService: PubsubService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     setCarvesRadiuses();

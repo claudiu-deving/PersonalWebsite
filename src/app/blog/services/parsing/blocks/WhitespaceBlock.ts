@@ -7,6 +7,6 @@ export class WhitespaceBlock extends Block {
   }
 
   public override build(blockCount: number): string[] {
-    return ['<p></p>'];
+    return ['<div class=\'paragraph\'></div>'];
   }
 }
