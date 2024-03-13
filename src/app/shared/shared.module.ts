@@ -7,7 +7,6 @@ import { SearchableComboboxComponent } from "./components/searchable-combobox/se
 import { FilterPipe } from "./pipes/filter.pipe";
 import { LogoComponent } from "./components/logo/logo.component";
 import { ScrollSlideComponent } from "./components/scroll-slide/scroll-slide.component";
-import { NotificationService } from "./services/notification.service";
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
