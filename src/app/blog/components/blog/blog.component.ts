@@ -24,6 +24,8 @@ export class BlogComponent implements OnInit {
   @Input() category: string = "Personal Website";
   @Input() tags: any[] = [];
 
+
+  publishStatus: PublishOrUnpublish = "Unpublish";
   parsedContent: SafeHtml = "";
   editOrSave: string = "Edit";
   public toggleEditMode() {
@@ -74,8 +76,10 @@ export class BlogComponent implements OnInit {
       this.editOrSave = "Edit";
     }
     this.getContent();
-    if (this.view == ViewType.ADMIN) {
-      this.BlogPostService.approve(this.id);
+    if (this.isApproved) {
+      this.publishStatus = "Unpublish"
+    } else {
+      this.publishStatus = "Publish"
     }
   }
 
@@ -88,7 +92,13 @@ export class BlogComponent implements OnInit {
   }
 
   approve() {
-    this.BlogPostService.approve(this.id);
+    if (this.publishStatus == "Publish") {
+      this.BlogPostService.publish(this.id);
+      this.publishStatus = "Unpublish";
+    } else {
+      this.BlogPostService.unpublish(this.id);
+      this.publishStatus = "Publish";
+    }
   }
 
   receiveData($event: any) {
@@ -96,3 +106,4 @@ export class BlogComponent implements OnInit {
     this.tags = this.tags.filter((tag) => tag.name !== $event.name);
   }
 }
+type PublishOrUnpublish = "Publish" | "Unpublish";

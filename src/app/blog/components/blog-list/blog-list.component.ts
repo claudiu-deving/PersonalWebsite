@@ -64,56 +64,69 @@ export class BlogListComponent implements OnInit {
     }
     this.BlogPostService.getBlogs().subscribe((response) => {
       if (token == null) {
-        response.forEach((blog: { view: ViewType }) => {
-          blog.view = ViewType.GUEST;
-        });
-
-        this.blogs = response.filter(
-          (x: { isApproved: boolean }) => x.isApproved
-        );
-        this.sortFromNewestToOldest();
+        this.setContentAsGuest(response);
       } else {
         this.AuthentificationAuthorizationService.getLoggedInUserData().subscribe(
           (role) => {
             if (role.name == "Admin") {
-              response.forEach((blog: { view: ViewType; author: any }) => {
-                if (blog.author.isAdmin == true) {
-                  blog.view = ViewType.ADMIN_AUTHOR;
-                } else {
-                  blog.view = ViewType.ADMIN;
-                }
-              });
-
-              if (category != "" && category != undefined) {
-                response = response.filter(
-                  (x: { category: string }) => x.category == category
-                );
-              }
-              this.sortFromNewestToOldest();
+              response = this.setContentAsAdmin(response, category);
             } else {
-              response = response.filter(
-                (x: { isApproved: boolean; author: any }) =>
-                  x.isApproved || x.author.username == role.username
-              );
-              response.forEach((blog: { view: ViewType; author: any }) => {
-                if (blog.author.username == role.username) {
-                  blog.view = ViewType.AUTHOR;
-                } else {
-                  blog.view = ViewType.GUEST;
-                }
-              });
-              if (category != "" && category != undefined) {
-                response = response.filter(
-                  (x: { category: string }) => x.category == category
-                );
-              }
-              this.sortFromNewestToOldest();
+              response = this.setContentAsAuthor(response, role, category);
             }
             this.blogs = response;
           }
         );
       }
     });
+  }
+
+  private setContentAsAuthor(response: any, role: any, category: string) {
+    response = response.filter(
+      (x: { isApproved: boolean; author: any; }) => x.isApproved || x.author.username == role.username
+    );
+    response.forEach((blog: { view: ViewType; author: any; }) => {
+      if (blog.author.username == role.username) {
+        blog.view = ViewType.AUTHOR;
+      } else {
+        blog.view = ViewType.GUEST;
+      }
+    });
+    if (category != "" && category != undefined) {
+      response = response.filter(
+        (x: { category: string; }) => x.category == category
+      );
+    }
+    this.sortFromNewestToOldest();
+    return response;
+  }
+
+  private setContentAsAdmin(response: any, category: string) {
+    response.forEach((blog: { view: ViewType; author: any; }) => {
+      if (blog.author.isAdmin == true) {
+        blog.view = ViewType.ADMIN_AUTHOR;
+      } else {
+        blog.view = ViewType.ADMIN;
+      }
+    });
+
+    if (category != "" && category != undefined) {
+      response = response.filter(
+        (x: { category: string; }) => x.category == category
+      );
+    }
+    this.sortFromNewestToOldest();
+    return response;
+  }
+
+  private setContentAsGuest(response: any) {
+    response.forEach((blog: { view: ViewType; }) => {
+      blog.view = ViewType.GUEST;
+    });
+
+    this.blogs = response.filter(
+      (x: { isApproved: boolean; }) => x.isApproved
+    );
+    this.sortFromNewestToOldest();
   }
 
   private sortFromNewestToOldest() {

@@ -12,7 +12,7 @@ export class BlogPostService {
   constructor(
     private http: HttpClient,
     private AuthentificationAuthorizationService: AuthentificationAuthorizationService
-  ) {}
+  ) { }
 
   private eventSubject = new Subject<any>();
 
@@ -31,10 +31,10 @@ export class BlogPostService {
     return this.http.get<any>(this.apiUrl + '/BlogPosts/' + id);
   }
 
-  update(id: number, title: string, content: string, category: string,tags:any[]) {
+  update(id: number, title: string, content: string, category: string, tags: any[]) {
     const token = localStorage.getItem('accessToken');
     if (id == 0 || id == undefined) {
-      this.create(title, content,category);
+      this.create(title, content, category);
       return;
     }
     const url = this.apiUrl + '/BlogPosts/' + id;
@@ -46,7 +46,7 @@ export class BlogPostService {
     if (token != null) {
       const response = this.http.put<any>(
         url,
-        { title, content,category,tags },
+        { title, content, category, tags },
         {
           headers: headers,
         }
@@ -72,7 +72,7 @@ export class BlogPostService {
     this.emitEvent({ id: id, action: 'delete' });
   }
 
-  create(title: string, content: string,category:string) {
+  create(title: string, content: string, category: string) {
     const token = localStorage.getItem('accessToken');
     const url = this.apiUrl + '/BlogPosts';
     const headers = new HttpHeaders()
@@ -82,7 +82,7 @@ export class BlogPostService {
     if (token != null) {
       const response = this.http.post<any>(
         url,
-        { title, content,category },
+        { title, content, category },
         {
           headers: headers,
         }
@@ -93,7 +93,7 @@ export class BlogPostService {
     }
   }
 
-  approve(id: number) {
+  publish(id: number) {
     const token = localStorage.getItem('accessToken');
     const url = this.apiUrl + '/BlogPosts' + '/approve/' + id;
 
@@ -103,6 +103,21 @@ export class BlogPostService {
       .set('Accept', '*/*');
     if (token != null) {
       const response = this.http.put<any>(url, true, {
+        headers: headers,
+      });
+      response.subscribe();
+    }
+  }
+  unpublish(id: number) {
+    const token = localStorage.getItem('accessToken');
+    const url = this.apiUrl + '/BlogPosts' + '/approve/' + id;
+
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+      .set('Accept', '*/*');
+    if (token != null) {
+      const response = this.http.put<any>(url, false, {
         headers: headers,
       });
       response.subscribe();
