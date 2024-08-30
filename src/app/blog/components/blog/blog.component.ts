@@ -19,7 +19,6 @@ export class BlogComponent implements OnInit {
   @Input() modified: string = new Date().toDateString();
   @Input() isEditable: boolean = false;
   @Input() id: number = 0;
-  @Input() isApprovable: boolean = false;
   @Input() isApproved: boolean = false;
   @Input() isEditMode = false;
   @Input() category: string = "Personal Website";
@@ -49,7 +48,7 @@ export class BlogComponent implements OnInit {
     private BlogPostService: BlogPostService,
     private parser: Parser,
     private dialogService: DialogService
-  ) {}
+  ) { }
   getSafeHtmlContent(content: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(content);
   }
@@ -75,6 +74,9 @@ export class BlogComponent implements OnInit {
       this.editOrSave = "Edit";
     }
     this.getContent();
+    if (this.view == ViewType.ADMIN) {
+      this.BlogPostService.approve(this.id);
+    }
   }
 
   delete() {

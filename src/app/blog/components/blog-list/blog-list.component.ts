@@ -15,7 +15,7 @@ export class BlogListComponent implements OnInit {
     private route: ActivatedRoute,
     private BlogPostService: BlogPostService,
     private AuthentificationAuthorizationService: AuthentificationAuthorizationService
-  ) {}
+  ) { }
 
   userLoggedIn: boolean = false;
 
@@ -78,7 +78,7 @@ export class BlogListComponent implements OnInit {
             if (role.name == "Admin") {
               response.forEach((blog: { view: ViewType; author: any }) => {
                 if (blog.author.isAdmin == true) {
-                  blog.view = ViewType.AUTHOR;
+                  blog.view = ViewType.ADMIN_AUTHOR;
                 } else {
                   blog.view = ViewType.ADMIN;
                 }

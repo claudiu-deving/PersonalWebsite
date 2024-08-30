@@ -3,4 +3,5 @@ export enum ViewType {
   AUTHOR,
   ADMIN,
   EDIT,
+  ADMIN_AUTHOR
 }

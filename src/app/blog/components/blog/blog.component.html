@@ -1,23 +1,18 @@
 <ng-container [ngSwitch]="view">
   <ng-container *ngSwitchCase="0">
-    <ng-container
-      *ngTemplateOutlet="commonArticle; context: { $implicit: null }"
-    ></ng-container>
+    <ng-container *ngTemplateOutlet="commonArticle; context: { $implicit: null }"></ng-container>
   </ng-container>
   <ng-container *ngSwitchCase="1">
-    <ng-container
-      *ngTemplateOutlet="commonArticle; context: { $implicit: authorPreheader }"
-    ></ng-container>
+    <ng-container *ngTemplateOutlet="commonArticle; context: { $implicit: authorPreheader }"></ng-container>
   </ng-container>
   <ng-container *ngSwitchCase="2">
-    <ng-container
-      *ngTemplateOutlet="commonArticle; context: { $implicit: adminPreheader }"
-    ></ng-container>
+    <ng-container *ngTemplateOutlet="commonArticle; context: { $implicit: adminPreheader }"></ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="4">
+    <ng-container *ngTemplateOutlet="commonArticle; context: { $implicit: adminAuthorPreheader }"></ng-container>
   </ng-container>
   <ng-container *ngSwitchDefault>
-    <ng-container
-      *ngTemplateOutlet="commonArticle; context: { $implicit: authorPreheader }"
-    ></ng-container>
+    <ng-container *ngTemplateOutlet="commonArticle; context: { $implicit: authorPreheader }"></ng-container>
   </ng-container>
 </ng-container>
 
@@ -35,27 +30,17 @@
   <header>
     <div>
       By:
-      <strong
-        ><em>
+      <strong><em>
           <p>{{ author }}</p>
-        </em></strong
-      >
+        </em></strong>
       <textarea class="title" [(ngModel)]="title"></textarea>
       <textarea class="title" [(ngModel)]="category"></textarea>
     </div>
   </header>
-  <app-tag-list
-    [tags]="tags"
-    [view]="'edit'"
-    [parentBlogId]="id"
-    (eventEmitter)="receiveData($event)"
-  ></app-tag-list>
+  <app-tag-list [tags]="tags" [view]="'edit'" [parentBlogId]="id" (eventEmitter)="receiveData($event)"></app-tag-list>
   <div class="blog-edit-wrapper">
-    <textarea
-      class="blog-edit-input"
-      [(ngModel)]="unparsedContent"
-      (ngModelChange)="refresh(unparsedContent)"
-    ></textarea>
+    <textarea class="blog-edit-input" [(ngModel)]="unparsedContent"
+      (ngModelChange)="refresh(unparsedContent)"></textarea>
     <div class="blog-edit-output" [innerHTML]="parsedContent"></div>
   </div>
 </ng-template>
@@ -64,11 +49,9 @@
   <header>
     <div>
       By:
-      <strong
-        ><em>
+      <strong><em>
           <p>{{ author }}</p>
-        </em></strong
-      >
+        </em></strong>
       <h1 class="title">{{ title }}</h1>
       <p>{{ created | date }}</p>
     </div>
@@ -90,6 +73,18 @@
 
 <ng-template #adminPreheader>
   <div class="preheader admin">
+    <button class="button deleteButton" type="button" (click)="delete()">
+      Delete
+    </button>
+    <button class="button approveButton" (click)="approve()">Approve</button>
+  </div>
+</ng-template>
+
+<ng-template #adminAuthorPreheader>
+  <div class="preheader admin">
+    <button class="button editButton" type="button" (click)="toggleEditMode()">
+      {{ editOrSave }}
+    </button>
     <button class="button deleteButton" type="button" (click)="delete()">
       Delete
     </button>

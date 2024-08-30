@@ -15,7 +15,7 @@ export class Parser {
 
     this.currentTypeFlag = BlockType.TEXT;
     content = this.unescapeString(content);
-    // console.log(JSON.stringify(content));
+    console.log(JSON.stringify(content));
     var lines = content.split(content.includes('\r\n') ? '\r\n' : '\n');
 
     var mapped = this.mapTextTypesWithIndices(lines);
