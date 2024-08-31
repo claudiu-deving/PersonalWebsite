@@ -1,22 +1,14 @@
 <div class="input-form">
   <label [for]="inputId">{{ label }} </label>
   <ng-container *ngIf="type == 0">
-    <input
-      [class.invalid]="control.invalid && control.touched && control.dirty"
-      [formControl]="control"
-      [type]="
-        inputId === ('password' || 'confirmPassword') ? 'password' : 'text'
-      "
-      [id]="inputId"
-    />
-    <ng-container
-      *ngIf="
+    <input [class.invalid]="control.invalid && control.touched && control.dirty" [formControl]="control"
+      [type]="(inputId === 'password' || inputId === 'confirmPassword') ? 'password' : 'text'" [id]="inputId" />
+    <ng-container *ngIf="
         control.errors != null &&
         control.invalid &&
         control.touched &&
         control.dirty
-      "
-    >
+      ">
       <div class="error"></div>
       <div class="error-dropdown">
         <ng-container *ngFor="let item of errorMessages">
@@ -26,20 +18,14 @@
     </ng-container>
   </ng-container>
   <ng-container *ngIf="type == 1">
-    <textarea
-      (resize)="(false)"
-      [class.invalid]="control.invalid && control.touched && control.dirty"
-      [formControl]="control"
-      [id]="inputId"
-    ></textarea>
-    <ng-container
-      *ngIf="
+    <textarea (resize)="(false)" [class.invalid]="control.invalid && control.touched && control.dirty"
+      [formControl]="control" [id]="inputId"></textarea>
+    <ng-container *ngIf="
         control.errors != null &&
         control.invalid &&
         control.touched &&
         control.dirty
-      "
-    >
+      ">
       <div class="error"></div>
       <div class="error-dropdown">
         <ng-container *ngFor="let item of errorMessages">
