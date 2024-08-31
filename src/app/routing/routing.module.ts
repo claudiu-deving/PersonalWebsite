@@ -19,7 +19,7 @@ const routes: Routes = [
     component: AboutComponent,
     data: { animation: "isAbove" },
   },
-  //{ path: "contact", component: ContactComponent },
+  { path: "contact", component: ContactComponent },
 ];
 
 @NgModule({

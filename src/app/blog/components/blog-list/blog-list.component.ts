@@ -26,6 +26,7 @@ export class BlogListComponent implements OnInit {
           this.GetBlogs();
         }
       );
+
       this.BlogPostService.eventObservable.subscribe((event) => {
         var blog = this.blogs.find((x) => x.id == event.id);
         if (event.action == "delete") {
