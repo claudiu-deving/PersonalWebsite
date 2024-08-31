@@ -47,7 +47,7 @@ export class RegisterFormComponent implements OnInit {
     ]),
   });
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   onSubmit() {
     if (this.formGroup.value.password != this.formGroup.value.retypePassword) {
@@ -66,10 +66,30 @@ export class RegisterFormComponent implements OnInit {
       next: (response: null) => {
         if (response == null) {
           this.message = "Invalid username or password";
+        } else {
+          this.close()
+          this.logIn();
         }
       },
       error: (errorMessage: string) => {
-        // Update the UI with the error message
+        this.message = errorMessage;
+      },
+    });
+  }
+
+  private logIn() {
+    this.AuthentificationAuthorizationService.verify(
+      this.formGroup.value.username!,
+      this.formGroup.value.password!
+    ).subscribe({
+      next: (response) => {
+        if (response == null) {
+          this.message = "Invalid username or password";
+        } else {
+          this.close();
+        }
+      },
+      error: (errorMessage) => {
         this.message = errorMessage;
       },
     });

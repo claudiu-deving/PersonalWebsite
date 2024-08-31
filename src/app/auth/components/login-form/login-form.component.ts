@@ -34,7 +34,7 @@ export class LoginFormComponent implements OnInit {
       Validators.minLength(6),
     ]),
   });
-  ngOnInit() {}
+  ngOnInit() { }
 
   onSubmit() {
     this.AuthentificationAuthorizationService.verify(
@@ -49,14 +49,13 @@ export class LoginFormComponent implements OnInit {
         }
       },
       error: (errorMessage) => {
-        // Update the UI with the error message
         this.message = errorMessage;
       },
     });
   }
 
   close() {
-    this.modalService.closeLogin(); // Call this when the close button in modal is clicked
+    this.modalService.closeLogin();
   }
 
   onRegister() {
