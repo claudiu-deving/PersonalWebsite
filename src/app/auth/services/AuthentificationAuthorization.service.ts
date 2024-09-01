@@ -13,16 +13,14 @@ import { environment } from '../../../environments/environment';
 })
 export class AuthentificationAuthorizationService {
   private apiUrl = environment.apiUrl + '/Auth';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public UserId: string = '';
 
   private eventSubject = new Subject<any>();
 
-  // Observable that can be subscribed to
   public eventObservable = this.eventSubject.asObservable();
 
-  // Method to trigger the event
   emitEvent(data: any) {
     this.eventSubject.next(data);
   }
@@ -68,7 +66,6 @@ export class AuthentificationAuthorizationService {
   }
 
   register(username: string, email: string, password: string): Observable<any> {
-    // This Observable will be returned and subscribed to by the caller.
     return this.http
       .post<any>(this.apiUrl + '/register', {
         username,
@@ -83,7 +80,6 @@ export class AuthentificationAuthorizationService {
         }),
         catchError((error: HttpErrorResponse) => {
           if (error.status === 400) {
-            // throwError as a function that returns a function
             return throwError(() => new Error(error.error));
           }
           return throwError(() => new Error('An error occurred'));
@@ -92,7 +88,6 @@ export class AuthentificationAuthorizationService {
   }
 
   public getUserId(username: string): Observable<any> {
-    // This Observable will be returned and subscribed to by the caller.
     return this.http.get<any>(this.apiUrl + `/${username}`).pipe(
       tap((result) => {
         if (result && result.token) {

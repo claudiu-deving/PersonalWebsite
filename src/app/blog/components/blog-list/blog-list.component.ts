@@ -56,7 +56,6 @@ export class BlogListComponent implements OnInit {
   }
 
   private GetBlogs(category: string = "") {
-    const username = localStorage.getItem("username");
     const token = localStorage.getItem("accessToken");
     if (token != null) {
       this.userLoggedIn = true;

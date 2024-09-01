@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AboutComponent } from "./about/about.component";
 import { ObserveElementDirective } from "./shared/directives/intersectionObserver.directive";
 import { ContactModule } from "./contact/contact.module";
+import { NotificationComponent } from "./shared/components/notification/notification.component";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { ContactModule } from "./contact/contact.module";
     TagListComponent,
     HomeComponent,
     AboutComponent,
-    ObserveElementDirective,
+    ObserveElementDirective
   ],
   imports: [
     BrowserModule,
@@ -38,6 +39,7 @@ import { ContactModule } from "./contact/contact.module";
     SharedModule,
     RoutingModule,
     ContactModule,
+    NotificationComponent
   ],
   providers: [],
   bootstrap: [AppComponent],

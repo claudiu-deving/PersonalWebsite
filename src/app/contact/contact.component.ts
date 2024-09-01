@@ -13,6 +13,7 @@ import {
   email,
   required,
 } from "../shared/validators/validators";
+import { AuthentificationAuthorizationService } from "../auth/services/AuthentificationAuthorization.service";
 
 @Component({
   selector: "app-contact",
@@ -22,23 +23,43 @@ import {
 export class ContactComponent implements OnInit {
   constructor(
     private mailService: MailService,
-    private formBuilder: FormBuilder,
-    private notificationService: NotificationService
-  ) {}
+    private notificationService: NotificationService,
+    private authentificationAndAuthorizationService: AuthentificationAuthorizationService
+  ) { }
   public mailSent = false;
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(() => {
+      this.authentificationAndAuthorizationService.eventObservable.subscribe(
+        () => {
+          this.setDataAsLoggedInUser();
+        }
+      );
+      this.setDataAsLoggedInUser();
+    });
+  }
   formGroup = new FormGroup({
-    name: new FormControl("", [required(), customMinLength(3)]),
-    from: new FormControl("", [required(), email()]),
+    senderName: new FormControl("", [required(), customMinLength(3)]),
+    senderEmail: new FormControl("", [required(), email()]),
     subject: new FormControl("", [required(), customMinLength(3)]),
-    body: new FormControl("", [required(), customMinLength(50)]),
+    message: new FormControl("", [required(), customMinLength(50)]),
   });
+  private setDataAsLoggedInUser() {
+    this.authentificationAndAuthorizationService.getLoggedInUserData().subscribe(data => {
+      if (data) {
+        this.formGroup.controls.senderEmail.setValue(data.email);
+        this.formGroup.controls.senderName.setValue(data.username);
+      }
+    });
+  }
+
   sendMail() {
+    console.log(this.formGroup.value);
     this.mailService
       .sendMail(this.formGroup.value)
       .pipe()
       .subscribe((result) => {
+        console.log(result);
         switch (result.status) {
           case 200:
             this.notificationService.showSuccess("Email sent successfully");

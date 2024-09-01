@@ -1,7 +1,6 @@
-import { NotificationService } from "./../shared/services/notification.service";
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, catchError, retry, throwError } from "rxjs";
+import { Observable, map } from "rxjs";
 import { environment } from "src/environments/environment";
 
 @Injectable({
@@ -10,27 +9,16 @@ import { environment } from "src/environments/environment";
 export class MailService {
   private apiUrl = environment.apiUrl;
   constructor(
-    private httpClient: HttpClient,
-    private notificationService: NotificationService
-  ) {}
+    private httpClient: HttpClient
+  ) { }
   public sendMail(mail: any): Observable<any> {
     return this.httpClient
-      .post(`${this.apiUrl}/Email`, mail, {
+      .post(`${this.apiUrl}/Email/send`, mail, {
         observe: "response",
-      })
-      .pipe(retry(1), catchError(this.handleError));
-  }
-
-  private handleError(error: any): string {
-    let errorMessage = "";
-    if (error.error instanceof ErrorEvent) {
-      // client-side error
-      errorMessage = `Error: ${error.error.message}`;
-      return "Unable to send the email";
-    } else {
-      // server-side error
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-      return "Unable to send the email";
-    }
+        responseType: 'text'
+      },).pipe(
+        map(response => {
+          return response;
+        }));
   }
 }

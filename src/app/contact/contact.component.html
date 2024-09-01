@@ -6,14 +6,14 @@
   </p>
 
   <form [formGroup]="formGroup" (ngSubmit)="sendMail()">
-    <app-input [control]="formGroup.controls.name" inputId="name" label="Name:"></app-input>
-    <app-input [control]="formGroup.controls.from" inputId="email" label="Email:"></app-input>
+    <app-input [control]="formGroup.controls.senderName" inputId="name" label="Name:"></app-input>
+    <app-input [control]="formGroup.controls.senderEmail" inputId="email" label="Email:"></app-input>
     <app-input [control]="formGroup.controls.subject" inputId="subject" label="Subject:"></app-input>
 
-    <app-input [type]="1" [control]="formGroup.controls.body" inputId="message" label="Message:"></app-input>
+    <app-input [type]="1" [control]="formGroup.controls.message" inputId="message" label="Message:"></app-input>
 
     <input type="submit" value="Submit" [disabled]="formGroup.invalid"
       [title]="formGroup.invalid ? 'Please complete the form' : ''" /><br />
-    <div *ngIf="mailSent">Message sent!</div>
   </form>
+
 </div>
