@@ -46,11 +46,16 @@ export class LoggerComponent implements OnInit {
     this.modalService.openLogin();
   }
   ngOnInit() {
-    let token = localStorage.getItem("accessToken");
 
-    if (token) {
-      this.login = "Log Out";
-      this.setUsername();
-    }
+    this.AuthentificationAuthorizationService.getLoggedInUserData().subscribe(data => {
+      if (!data) {
+        this.login = "Log In";
+        this.username = "";
+        localStorage.setItem("accessToken", "");
+      } else {
+        this.login = "Log Out";
+        this.setUsername();
+      }
+    })
   }
 }

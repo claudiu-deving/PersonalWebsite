@@ -31,16 +31,13 @@ export class AuthentificationAuthorizationService {
   }
 
   verify(username: string, password: string): Observable<any> {
-    // This Observable will be returned and subscribed to by the caller.
     return this.http
       .post<any>(this.apiUrl + '/token', { username, password })
       .pipe(
         tap((result) => {
           if (result && result.token) {
-            // Set the token in localStorage
             localStorage.setItem('accessToken', result.token);
             this.UserId = result.userId;
-            // Now we can emit the event since the token is set
             this.emitEvent(result);
           }
         }),
@@ -118,6 +115,10 @@ export class AuthentificationAuthorizationService {
         } else {
           return '';
         }
+      }), catchError((error: HttpErrorResponse) => {
+        console.log(error);
+        localStorage.removeItem("accessToken");
+        return new Observable<any>();
       })
     );
   }
