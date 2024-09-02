@@ -84,22 +84,6 @@ export class AuthentificationAuthorizationService {
       );
   }
 
-  public getUserId(username: string): Observable<any> {
-    return this.http.get<any>(this.apiUrl + `/${username}`).pipe(
-      tap((result) => {
-        if (result && result.token) {
-          this.UserId = result.userId;
-          return result.userId;
-        } else {
-          return '';
-        }
-      }),
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => new Error('An error occurred'));
-      })
-    );
-  }
-
   public getLoggedInUserData(): Observable<any> {
     const token = localStorage.getItem('accessToken');
     if (token == null) return new Observable<any>();
@@ -119,21 +103,6 @@ export class AuthentificationAuthorizationService {
         console.log(error);
         localStorage.removeItem("accessToken");
         return new Observable<any>();
-      })
-    );
-  }
-
-  public isAdmin(username: string): Observable<any> {
-    return this.http.get<any>(this.apiUrl + `/admin/${username}`).pipe(
-      tap((result) => {
-        if (result) {
-          return result;
-        } else {
-          return false;
-        }
-      }),
-      catchError((error: HttpErrorResponse) => {
-        return throwError(() => new Error('An error occurred'));
       })
     );
   }

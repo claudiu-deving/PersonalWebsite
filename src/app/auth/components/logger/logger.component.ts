@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import { AuthentificationAuthorizationService } from "../../services/AuthentificationAuthorization.service";
 import { ModalService } from "../../services/modal.service";
+import { GoogleApiService } from "../../services/google-api.service";
 import { Subscription } from "rxjs";
 @Component({
   selector: "app-logger",
@@ -9,11 +10,13 @@ import { Subscription } from "rxjs";
 })
 export class LoggerComponent implements OnInit {
   display: "open" | "close" = "close";
-  @Input() login = "Log In";
+  logStatus: "Log In" | "Log Out" = "Log In";
+  @Input() login = this.logStatus;
   username: string = "";
   constructor(
     private AuthentificationAuthorizationService: AuthentificationAuthorizationService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private readonly googleApi: GoogleApiService
   ) {
     this.AuthentificationAuthorizationService.eventObservable.subscribe(
       (event) => {
@@ -23,8 +26,12 @@ export class LoggerComponent implements OnInit {
         }
       }
     );
-
     this.setUsername();
+    googleApi.userProfile$.subscribe(user => {
+      if (user) {
+        this.username = user?.info.name
+      }
+    });
   }
   showModal: boolean = false;
 

@@ -5,6 +5,7 @@ import { AuthentificationAuthorizationService } from "../../services/Authentific
 import { HttpErrorResponse } from "@angular/common/http";
 import { ModalService } from "../../services/modal.service";
 import { Subscription } from "rxjs";
+import { GoogleApiService } from "../../services/google-api.service";
 @Component({
   selector: "app-login-form",
   templateUrl: "./login-form.component.html",
@@ -13,7 +14,8 @@ import { Subscription } from "rxjs";
 export class LoginFormComponent implements OnInit {
   constructor(
     private AuthentificationAuthorizationService: AuthentificationAuthorizationService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private readonly googleApiService: GoogleApiService
   ) {
     this.subscription = this.modalService.watch().subscribe((display) => {
       this.display = display;
@@ -34,7 +36,10 @@ export class LoginFormComponent implements OnInit {
       Validators.minLength(6),
     ]),
   });
-  ngOnInit() { }
+  ngOnInit() {
+    this.googleApiService.setupOAuth();
+
+  }
 
   onSubmit() {
     this.AuthentificationAuthorizationService.verify(
@@ -52,6 +57,7 @@ export class LoginFormComponent implements OnInit {
         this.message = errorMessage;
       },
     });
+
   }
 
   close() {
@@ -61,5 +67,9 @@ export class LoginFormComponent implements OnInit {
   onRegister() {
     this.modalService.closeLogin();
     this.modalService.openRegister();
+  }
+  async loginWithGoogle() {
+    await this.googleApiService.logIn();
+    this.modalService.closeLogin();
   }
 }

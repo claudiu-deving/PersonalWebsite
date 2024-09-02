@@ -17,6 +17,7 @@ import { AboutComponent } from "./about/about.component";
 import { ObserveElementDirective } from "./shared/directives/intersectionObserver.directive";
 import { ContactModule } from "./contact/contact.module";
 import { NotificationComponent } from "./shared/components/notification/notification.component";
+import { OAuthModule } from "angular-oauth2-oidc";
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { NotificationComponent } from "./shared/components/notification/notifica
     SharedModule,
     RoutingModule,
     ContactModule,
-    NotificationComponent
+    NotificationComponent,
+    OAuthModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

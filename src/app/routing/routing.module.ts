@@ -4,8 +4,12 @@ import { BlogListComponent } from "../blog/components/blog-list/blog-list.compon
 import { HomeComponent } from "../home/home.component";
 import { AboutComponent } from "../about/about.component";
 import { ContactComponent } from "../contact/contact.component";
+import { LastPageGuard } from "../auth/services/last-page-guard.service";
+import { LandingComponent } from "../auth/components/landing/landing.component";
 
 const routes: Routes = [
+  //canActivate: [LastPageGuard], 
+  { path: 'landing', component: LandingComponent },
   { path: "", redirectTo: "/welcome", pathMatch: "full" },
   { path: "welcome", component: HomeComponent },
   { path: "blog", component: BlogListComponent },

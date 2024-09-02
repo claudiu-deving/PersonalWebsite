@@ -28,6 +28,7 @@
     "@angular/router": "^17.0.8",
     "@ckeditor/ckeditor5-angular": "^7.0.1",
     "@ckeditor/ckeditor5-build-classic": "^41.0.0",
+    "angular-oauth2-oidc": "^17.0.2",
     "jasmine": "^5.1.0",
     "ngx-highlightjs": "^10.0.0",
     "rxjs": "~7.8.0",
