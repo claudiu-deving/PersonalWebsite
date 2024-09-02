@@ -53,8 +53,8 @@ export class ContactComponent implements OnInit {
     });
   }
 
+
   sendMail() {
-    console.log(this.formGroup.value);
     this.mailService
       .sendMail(this.formGroup.value)
       .pipe()

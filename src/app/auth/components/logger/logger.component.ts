@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import { AuthentificationAuthorizationService } from "../../services/AuthentificationAuthorization.service";
 import { ModalService } from "../../services/modal.service";
-import { Subscription } from "rxjs";
 @Component({
   selector: "app-logger",
   templateUrl: "./logger.component.html",
