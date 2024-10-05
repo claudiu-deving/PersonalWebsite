@@ -347,15 +347,29 @@ article {
 }
 
 .image {
-  height: 250px;
   box-shadow: $text-paragraph 5px 5px 5px;
   margin: auto;
   display: flex;
+
 }
 
-img {
+
+.markdown img {
+  box-shadow: $text-paragraph 5px 5px 5px;
+  margin-left: auto;
+  display: flex;
+  max-width: 100%;
+}
+
+.markdown p:has(img) {
   margin: auto;
 }
+
+.markdown pre:has(code) {
+  width: 70%;
+  margin: auto;
+}
+
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {

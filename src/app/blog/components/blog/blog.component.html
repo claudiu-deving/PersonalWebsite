@@ -39,9 +39,12 @@
   </header>
   <app-tag-list [tags]="tags" [view]="'edit'" [parentBlogId]="id" (eventEmitter)="receiveData($event)"></app-tag-list>
   <div class="blog-edit-wrapper">
-    <textarea class="blog-edit-input" [(ngModel)]="unparsedContent"
-      (ngModelChange)="refresh(unparsedContent)"></textarea>
-    <div class="blog-edit-output" [innerHTML]="parsedContent"></div>
+    <div class="editor">
+      <textarea class="blog-edit-input" [(ngModel)]="content" (paste)="onPaste($event)"></textarea>
+    </div>
+    <div class="blog-edit-output">
+      <markdown class="markdown" [data]="content"></markdown>
+    </div>
   </div>
 </ng-template>
 
@@ -57,7 +60,7 @@
     </div>
   </header>
   <app-tag-list [tags]="tags" [view]="'read'"></app-tag-list>
-  <div [innerHTML]="parsedContent"></div>
+  <markdown class="markdown">{{content}}</markdown>
 </ng-template>
 
 <ng-template #authorPreheader>

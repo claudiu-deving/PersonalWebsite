@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule, SecurityContext } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { HttpClientModule } from "@angular/common/http";
 import { AppComponent } from "./app.component";
@@ -17,6 +17,9 @@ import { AboutComponent } from "./about/about.component";
 import { ObserveElementDirective } from "./shared/directives/intersectionObserver.directive";
 import { ContactModule } from "./contact/contact.module";
 import { NotificationComponent } from "./shared/components/notification/notification.component";
+import { MdDemoModule } from "./blog/components/md-demo/md-demo.module";
+import { MarkdownModule } from "ngx-markdown";
+import { AngularMarkdownEditorModule } from "angular-markdown-editor"
 
 @NgModule({
   declarations: [
@@ -29,6 +32,7 @@ import { NotificationComponent } from "./shared/components/notification/notifica
     HomeComponent,
     AboutComponent,
     ObserveElementDirective
+
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,17 @@ import { NotificationComponent } from "./shared/components/notification/notifica
     SharedModule,
     RoutingModule,
     ContactModule,
-    NotificationComponent
+    NotificationComponent,
+    MdDemoModule,
+    MarkdownModule.forRoot({
+      sanitize: SecurityContext.NONE
+    }),
+    MarkdownModule.forChild(),
+    AngularMarkdownEditorModule.forRoot({
+      // add any Global Options/Config you might want
+      // to avoid passing the same options over and over in each components of your App
+      iconlibrary: 'fa'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent],

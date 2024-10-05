@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { BlogPostService } from "src/app/blog/services/blog-service.service";
-import { Parser } from "../../services/parsing/parser";
 import { DialogService } from "../../../shared/components/dialog/dialog.service";
 import { ViewType } from "../../../shared/types/ViewType.enum";
+import { HttpClient } from "@angular/common/http";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-blog",
@@ -24,51 +24,89 @@ export class BlogComponent implements OnInit {
   @Input() category: string = "Personal Website";
   @Input() tags: any[] = [];
 
-
   publishStatus: PublishOrUnpublish = "Unpublish";
-  parsedContent: SafeHtml = "";
   editOrSave: string = "Edit";
+  bsEditorInstance: any;
+  templateForm: any;
+  private apiUrl = environment.apiUrl;
+  private imageDirectory = environment.imageDirectory;
   public toggleEditMode() {
     this.isEditMode = !this.isEditMode;
     if (this.isEditMode) {
       this.getContent();
       this.editOrSave = "Save";
     } else {
+      console.log(this.content);
       this.BlogPostService.update(
         this.id,
         this.title,
-        this.unparsedContent,
+        this.content,
         this.category,
         this.tags
       );
       this.editOrSave = "Edit";
     }
   }
+  onReady() {
 
-  constructor(
-    private sanitizer: DomSanitizer,
-    private BlogPostService: BlogPostService,
-    private parser: Parser,
-    private dialogService: DialogService
-  ) { }
-  getSafeHtmlContent(content: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(content);
   }
-  unparsedContent: string = "Enter here the content of the blog post";
+
+  onPaste(event: ClipboardEvent): void {
+    const items = event.clipboardData?.items;
+    console.log("paste" + items);
+    if (!items) return;
+
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf('image') !== -1) {
+        event.preventDefault();
+        const blob = items[i].getAsFile();
+        if (blob) this.uploadImage(blob);
+        break;
+      }
+    }
+  }
+
+  uploadImage(file: File): void {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    this.http.post<{ filename: string }>(this.apiUrl + '/upload-image', formData).subscribe(
+      response => {
+        const imageUrl = this.imageDirectory + response.filename;
+        const markdownImage = `![](${imageUrl})`;
+        this.insertTextAtCursor(markdownImage);
+      },
+      error => {
+        console.error('Error uploading image:', error);
+        // Handle error (e.g., show a notification to the user)
+      }
+    );
+  }
+
+  insertTextAtCursor(text: string): void {
+    const textarea = document.querySelector('.blog-edit-input') as HTMLTextAreaElement;
+    if (!textarea) return;
+
+    const startPos = textarea.selectionStart;
+    const endPos = textarea.selectionEnd;
+    const textBefore = this.content.substring(0, startPos);
+    const textAfter = this.content.substring(endPos, this.content.length);
+
+    this.content = textBefore + text + textAfter;
+    textarea.selectionStart = textarea.selectionEnd = startPos + text.length;
+    textarea.focus();
+  }
+  constructor(
+    private BlogPostService: BlogPostService,
+    private dialogService: DialogService,
+    private http: HttpClient
+  ) { }
   getContent() {
     if (this.id === 0 || this.id == undefined) return;
     this.BlogPostService.getBlog(this.id).subscribe((x) => {
-      let content: string = x.content;
-      this.content = this.parser.parse(content);
-      this.parsedContent = this.getSafeHtmlContent(this.content);
-      this.unparsedContent = content;
+      this.content = x.content;
     });
   }
-
-  refresh(unescaped: string) {
-    this.parsedContent = this.getSafeHtmlContent(this.parser.parse(unescaped));
-  }
-
   ngOnInit() {
     if (this.isEditMode) {
       this.editOrSave = "Save";
@@ -81,6 +119,7 @@ export class BlogComponent implements OnInit {
     } else {
       this.publishStatus = "Publish"
     }
+
   }
 
   delete() {
@@ -102,7 +141,6 @@ export class BlogComponent implements OnInit {
   }
 
   receiveData($event: any) {
-    console.log($event);
     this.tags = this.tags.filter((tag) => tag.name !== $event.name);
   }
 }

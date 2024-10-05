@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "My personal website for project presentation",
   "main": "main.js",
+  "styles": [
+    "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber-css",
+    "src/styles.scss"
+  ],
   "scripts": {
     "test": "test-all"
   },
@@ -18,18 +22,25 @@
   "homepage": "https://github.com/claudiu-deving/PersonalWebsite.git#readme",
   "private": true,
   "dependencies": {
-    "@angular/animations": "^17.0.8",
-    "@angular/common": "^17.0.8",
-    "@angular/compiler": "^17.0.8",
-    "@angular/core": "^17.0.8",
-    "@angular/forms": "^17.0.8",
-    "@angular/platform-browser": "^17.0.8",
-    "@angular/platform-browser-dynamic": "^17.0.8",
-    "@angular/router": "^17.0.8",
+    "@angular/animations": "^18.0.0",
+    "@angular/common": "^18.0.0",
+    "@angular/compiler": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@angular/forms": "^18.0.0",
+    "@angular/platform-browser": "^18.0.0",
+    "@angular/platform-browser-dynamic": "^18.0.0",
+    "@angular/router": "^18.0.0",
     "@ckeditor/ckeditor5-angular": "^7.0.1",
-    "@ckeditor/ckeditor5-build-classic": "^41.0.0",
+    "@ckeditor/ckeditor5-build-classic": "^43.2.0",
+    "@tinymce/tinymce-angular": "^8.0.1",
+    "@types/marked": "^6.0.0",
+    "angular-markdown-editor": "^3.1.1",
     "jasmine": "^5.1.0",
+    "mermaid": "^11.3.0",
     "ngx-highlightjs": "^10.0.0",
+    "ngx-markdown": "^18.1.0",
+    "ngx-markdown-editor": "^5.3.4",
+    "prismjs": "^1.29.0",
     "rxjs": "~7.8.0",
     "super-expressive": "^2.0.0",
     "ts-node": "^10.9.2",
@@ -38,19 +49,18 @@
     "zone.js": "~0.14.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.0.8",
-    "@angular/cli": "^17.0.8",
-    "@angular/compiler-cli": "^17.0.8",
+    "@angular-devkit/build-angular": "^18.0.0",
+    "@angular/cli": "^18.0.0",
+    "@angular/compiler-cli": "^18.0.0",
     "@types/jasmine": "~4.3.0",
-    "electron": "^28.1.4",
     "jasmine-core": "~4.6.0",
-    "karma": "~6.4.0",
+    "karma": "^6.3.0",
     "karma-chrome-launcher": "^3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-firefox-launcher": "^2.1.3",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.1.0",
+    "karma-jasmine": "^4.0.2",
+    "karma-jasmine-html-reporter": "^1.7.0",
     "typedoc": "^0.25.3",
-    "typescript": "~5.2.2"
+    "typescript": "^5.4.0"
   }
 }

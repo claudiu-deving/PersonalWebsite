@@ -26,6 +26,13 @@ header div {
   width: 90%;
 }
 
+.editor textarea {
+  width: 90%;
+  resize: vertical;
+  height: 50dvh;
+  min-height: 20%;
+}
+
 article {
   border: 1px solid #ccc;
 }
@@ -70,6 +77,14 @@ article {
   grid-template-columns: 1fr 1fr;
 }
 
+@media only screen and (max-width: 650px) {
+  .blog-edit-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+}
+
 @media only screen and (max-width: 400px) {
   .preheader {
     grid-template-columns: 1fr;
@@ -92,6 +107,8 @@ article {
     grid-row: 1;
     margin-bottom: 10px;
   }
+
+
 }
 
 
@@ -217,6 +234,7 @@ article {
 img {
   margin: auto;
 }
+
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
