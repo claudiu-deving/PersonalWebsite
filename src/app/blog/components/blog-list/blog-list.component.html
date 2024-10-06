@@ -7,7 +7,7 @@
   <div *ngFor="let blog of blogs">
     <app-blog [title]="blog.title" [author]="blog.author.username" [created]="blog.modified" [content]="blog.content"
       [view]="blog.view" [isEditable]="blog.isEditable" [isEditMode]="blog.isEditMode" [id]="blog.id" [tags]="blog.tags"
-      [category]="blog.category">
+      [category]="blog.category" [isApproved]="blog.isApproved">
     </app-blog>
   </div>
 </div>

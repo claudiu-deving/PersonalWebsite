@@ -42,7 +42,7 @@ export class ContactComponent implements OnInit {
     senderName: new FormControl("", [required(), customMinLength(3)]),
     senderEmail: new FormControl("", [required(), email()]),
     subject: new FormControl("", [required(), customMinLength(3)]),
-    message: new FormControl("", [required(), customMinLength(50)]),
+    message: new FormControl("", [required(), customMinLength(3)]),
   });
   private setDataAsLoggedInUser() {
     this.authentificationAndAuthorizationService.getLoggedInUserData().subscribe(data => {

@@ -1,15 +1,15 @@
-$background: #fff;
+$background: #eee;
 $main: #154579;
 $monochromatic-first: #1d5ea4;
 $monochromatic-first-lighter: #458fdf;
 $complimentary: #794915;
 $triadic-second: #791545;
 $triadic-third: #6eaf31;
-$text-paragraph: #444;
+$text-paragraph: #2c2b28;
 
 /* DYNAMIC VARIABLES */
 :root {
-  --base-font-size: 18px;
+  --base-font-size: 19px;
   --heading-1-font-size: calc(var(--base-font-size) * 2);
   --heading-2-font-size: calc(var(--base-font-size) * 1.75);
   --heading-3-font-size: calc(var(--base-font-size) * 1.5);
@@ -238,7 +238,6 @@ article {
 
 /* CODE COMPONENT */
 article {
-  width: 70%;
   padding: 10px;
   border-radius: 10px;
   line-height: 32px;
@@ -322,40 +321,9 @@ article {
   transform-origin: center;
 }
 
-.keyword {
-  color: #569cd6;
-}
-
-.class {
-  color: #4ec9b0;
-}
-
-.name {
-  color: #dcdcdc;
-}
-
-.string {
-  color: #d69d85;
-}
-
-.method {
-  color: #dcdcaa;
-}
-
-.variable {
-  color: #9cdcfe;
-}
-
-.image {
-  box-shadow: $text-paragraph 5px 5px 5px;
-  margin: auto;
-  display: flex;
-
-}
 
 
 .markdown img {
-  box-shadow: $text-paragraph 5px 5px 5px;
   margin-left: auto;
   display: flex;
   max-width: 100%;
@@ -365,9 +333,11 @@ article {
   margin: auto;
 }
 
+
 .markdown pre:has(code) {
   width: 70%;
   margin: auto;
+  border-radius: 10px;
 }
 
 
@@ -376,12 +346,20 @@ article {
   .image {
     height: 150px;
   }
+
+  article {
+    width: 90%;
+  }
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {
   .image {
     height: 200px;
+  }
+
+  article {
+    width: 80%;
   }
 }
 
@@ -390,6 +368,10 @@ article {
   .image {
     height: 250px;
   }
+
+  article {
+    width: 70%;
+  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
@@ -397,12 +379,20 @@ article {
   .image {
     height: 300px;
   }
+
+  article {
+    width: 60%;
+  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
   .image {
     height: 350px;
+  }
+
+  article {
+    width: 50%;
   }
 }
 
@@ -416,35 +406,6 @@ pre {
   /* CSS 3 */
   white-space: pre-wrap;
   /* Opera 7 */
-}
-
-
-.paragraph {
-  font-family: Source Serif Pro, serif;
-  min-height: 24px;
-}
-
-.paragraph pre {
-  margin: 0;
-  padding: 0;
-  white-space: pre-wrap;
-  font-family: Source Serif Pro, serif;
-}
-
-.comment {
-  color: #57a64a;
-}
-
-.digit {
-  color: #b5cea8;
-}
-
-.interface {
-  color: #a3d7a3;
-}
-
-.none {
-  color: #dcdcdc;
 }
 
 

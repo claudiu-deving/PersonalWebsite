@@ -63,6 +63,7 @@ export class BlogListComponent implements OnInit {
       this.userLoggedIn = false;
     }
     this.BlogPostService.getBlogs().subscribe((response) => {
+      this.blogs = response;
       if (token == null) {
         this.setContentAsGuest(response);
       } else {
@@ -73,7 +74,7 @@ export class BlogListComponent implements OnInit {
             } else {
               response = this.setContentAsAuthor(response, role, category);
             }
-            this.blogs = response;
+
           }
         );
       }
@@ -130,8 +131,10 @@ export class BlogListComponent implements OnInit {
   }
 
   private sortFromNewestToOldest() {
-    this.blogs.sort((a: { modified: Date }, b: { modified: Date }) => {
-      return new Date(b.modified).getTime() - new Date(a.modified).getTime();
+    this.blogs.sort((a: { created: Date }, b: { created: Date }) => {
+      console.log(a.created);
+      console.log(b.created);
+      return new Date(b.created).getTime() - new Date(a.created).getTime();
     });
   }
 
