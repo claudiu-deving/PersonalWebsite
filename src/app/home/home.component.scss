@@ -1,4 +1,5 @@
 @import "/src/styles.scss";
+
 :host {
   --main-transition-duration: 0.75s;
 }
@@ -24,6 +25,7 @@
   transition: opacity var(--main-transition-duration) ease;
   opacity: 1;
 }
+
 /* Transition states */
 #welcome-section .nav-keyword.moved {
   transition: opacity var(--main-transition-duration) ease;
@@ -60,6 +62,7 @@ div .nav-login {
   font-weight: bold;
   text-decoration: none;
 }
+
 a:hover {
   color: var(--coral);
 }
@@ -89,6 +92,7 @@ a:hover {
   grid-template-rows: 1fr 1fr;
   grid-row: 2;
 }
+
 .upper-left {
   background-color: $main;
   height: 100%;
@@ -96,6 +100,7 @@ a:hover {
   grid-row: 1;
   grid-column: 1;
 }
+
 .left-part h1 {
   font-size: calc(var(--heading-1-font-size) * 2);
   color: $main;
@@ -103,6 +108,7 @@ a:hover {
   text-align: center;
   margin: auto;
 }
+
 .left-part span {
   font-size: calc(var(--heading-1-font-size) * 2);
   color: $main;
@@ -146,6 +152,7 @@ a:hover {
   height: 100%;
   width: 100%;
 }
+
 .left-part {
   grid-row-start: 1;
   grid-row-end: span 2;
@@ -153,6 +160,7 @@ a:hover {
   height: 100%;
   width: 100%;
 }
+
 .right-part p {
   font-size: var(--heading-4-font-size);
   color: $background;
@@ -208,6 +216,9 @@ a:hover {
   transition: height var(--main-transition-duration) linear;
   height: 0%;
 }
+
+
+
 
 @media screen and (max-width: 768px) {
   #welcome-section {

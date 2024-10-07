@@ -27,6 +27,7 @@
 </ng-template>
 
 <ng-template #blogInEditMode>
+  <textarea (paste)="onPasteHeroImage($event)"></textarea>
   <header>
     <div>
       By:
@@ -49,6 +50,9 @@
 </ng-template>
 
 <ng-template #blogInReadMode>
+  <ng-container *ngIf="showHeroImage">
+    <img class="heroImage" [src]="heroImagePath" />
+  </ng-container>
   <header>
     <div>
       By:

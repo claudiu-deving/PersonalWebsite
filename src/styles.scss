@@ -64,6 +64,16 @@ p {
   width: fit-content;
 }
 
+a {
+  font-size: var(--heading-4-font-size);
+  color: #aaa;
+}
+
+a:link {
+  font-size: var(--heading-4-font-size);
+  color: #aaa;
+}
+
 @media screen and (max-width: 768px) {
   :root {
     --base-font-size: 14px;
@@ -424,3 +434,11 @@ li {
 }
 
 /*#endregion*/
+
+
+.heroImage {
+  object-fit: cover;
+  width: 100%;
+  height: 120px;
+
+}
