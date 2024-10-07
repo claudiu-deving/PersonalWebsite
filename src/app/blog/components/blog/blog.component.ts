@@ -143,13 +143,12 @@ export class BlogComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.initialized) {
-      this.heroImagePath = '\\' + this.imageDirectory + this.heroImagePath;
-      if (!this.fileExists(this.heroImagePath)) {
-        this.heroImagePath = '';
+      if (this.heroImagePath === '') {
         this.showHeroImage = false;
-      } else {
-        this.showHeroImage = true;
+        return;
       }
+      this.heroImagePath = this.imageDirectory + this.heroImagePath;
+      this.showHeroImage = true;
     }
     this.initialized = true;
   }
