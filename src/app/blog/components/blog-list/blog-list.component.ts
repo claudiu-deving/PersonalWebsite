@@ -3,6 +3,7 @@ import { BlogPostService } from "src/app/blog/services/blog-service.service";
 import { AuthentificationAuthorizationService } from "../../../auth/services/AuthentificationAuthorization.service";
 import { ViewType } from "../../../shared/types/ViewType.enum";
 import { ActivatedRoute } from "@angular/router";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-blog-list",
@@ -16,7 +17,7 @@ export class BlogListComponent implements OnInit {
     private BlogPostService: BlogPostService,
     private AuthentificationAuthorizationService: AuthentificationAuthorizationService
   ) { }
-
+  imageDirectory = environment.imageDirectory;
   userLoggedIn: boolean = false;
 
   ngOnInit() {

@@ -1,5 +1,6 @@
 <div class="main" (click)="onClick($event)">
   <app-header (toggleMenu)="toggleBlurEffect($event)" id="header"></app-header>
+  <h1>{{content}}</h1>
   <div class="main-container">
     <router-outlet></router-outlet>
   </div>

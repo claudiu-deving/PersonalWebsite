@@ -1,21 +1,32 @@
-<ng-container [ngSwitch]="view">
-  <ng-container *ngSwitchCase="0">
-    <ng-container *ngTemplateOutlet="commonArticle; context: { $implicit: null }"></ng-container>
-  </ng-container>
-  <ng-container *ngSwitchCase="1">
-    <ng-container *ngTemplateOutlet="commonArticle; context: { $implicit: authorPreheader }"></ng-container>
-  </ng-container>
-  <ng-container *ngSwitchCase="2">
-    <ng-container *ngTemplateOutlet="commonArticle; context: { $implicit: adminPreheader }"></ng-container>
-  </ng-container>
-  <ng-container *ngSwitchCase="4">
-    <ng-container *ngTemplateOutlet="commonArticle; context: { $implicit: adminAuthorPreheader }"></ng-container>
-  </ng-container>
-  <ng-container *ngSwitchDefault>
-    <ng-container *ngTemplateOutlet="commonArticle; context: { $implicit: authorPreheader }"></ng-container>
+<ng-container *ngIf="!isPreview">
+  <ng-container [ngSwitch]="view">
+    <ng-container *ngSwitchCase="0">
+      <ng-container *ngTemplateOutlet="commonArticle; context: { $implicit: null }"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="1">
+      <ng-container *ngTemplateOutlet="commonArticle; context: { $implicit: authorPreheader }"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="2">
+      <ng-container *ngTemplateOutlet="commonArticle; context: { $implicit: adminPreheader }"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="4">
+      <ng-container *ngTemplateOutlet="commonArticle; context: { $implicit: adminAuthorPreheader }"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchDefault>
+      <ng-container *ngTemplateOutlet="commonArticle; context: { $implicit: authorPreheader }"></ng-container>
+    </ng-container>
   </ng-container>
 </ng-container>
-
+<ng-container *ngIf="isPreview">
+  <div class="preview">
+    <a [routerLink]="['/blog', slug]">
+      <img class="preview-hero-image" [src]="heroImagePath" />
+      <h1>{{title}}</h1>
+      <p>{{created | date}}</p>
+      <app-tag-list [tags]="tags" [view]="'read'"></app-tag-list>
+    </a>
+  </div>
+</ng-container>
 <ng-template #commonArticle let-preheaderContent>
   <article>
     <div>
@@ -27,7 +38,6 @@
 </ng-template>
 
 <ng-template #blogInEditMode>
-  <textarea (paste)="onPasteHeroImage($event)"></textarea>
   <header>
     <div>
       By:
@@ -50,9 +60,6 @@
 </ng-template>
 
 <ng-template #blogInReadMode>
-  <ng-container *ngIf="showHeroImage">
-    <img class="heroImage" [src]="heroImagePath" />
-  </ng-container>
   <header>
     <div>
       By:

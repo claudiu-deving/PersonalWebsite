@@ -5,13 +5,14 @@ import { ViewType } from "../../../shared/types/ViewType.enum";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { catchError, map, Observable, of } from "rxjs";
+import { ImageService } from "../../services/image.service";
 
 @Component({
   selector: "app-blog",
   templateUrl: "./blog.component.html",
   styleUrls: ["./blog.component.scss"],
 })
-export class BlogComponent implements OnInit, OnChanges {
+export class BlogComponent implements OnInit {
   @Input() content = "Enter here the content of the blog post";
   @Input() title = "Blogpost title";
   @Input() author = "Author";
@@ -25,13 +26,20 @@ export class BlogComponent implements OnInit, OnChanges {
   @Input() category: string = "Personal Website";
   @Input() tags: any[] = [];
   @Input() heroImagePath = '';
-  showHeroImage = false;
+  @Input() isPreview = false;
+  @Input() slug = '';
+  showHeroImage = true;
   publishStatus: PublishOrUnpublish = "Unpublish";
   editOrSave: string = "Edit";
   bsEditorInstance: any;
   templateForm: any;
-  private apiUrl = environment.apiUrl;
-  private imageDirectory = environment.imageDirectory;
+
+  constructor(
+    private BlogPostService: BlogPostService,
+    private dialogService: DialogService,
+    private httpClient: HttpClient,
+    private imageService: ImageService
+  ) { }
 
 
 
@@ -52,9 +60,6 @@ export class BlogComponent implements OnInit, OnChanges {
       this.editOrSave = "Edit";
     }
   }
-  onReady() {
-
-  }
 
   onPasteHeroImage($event: ClipboardEvent): void {
     const items = $event.clipboardData?.items;
@@ -64,7 +69,12 @@ export class BlogComponent implements OnInit, OnChanges {
       if (items[i].type.indexOf('image') !== -1) {
         $event.preventDefault();
         const blob = items[i].getAsFile();
-        if (blob) this.uploadHeroImage(blob);
+        if (blob) {
+          var response = this.imageService.uploadHeroImage(blob, this.id);
+          this.heroImagePath = response.filePath;
+          this.showHeroImage = response.showHeroImage;
+
+        }
         break;
       }
     }
@@ -78,81 +88,11 @@ export class BlogComponent implements OnInit, OnChanges {
       if (items[i].type.indexOf('image') !== -1) {
         event.preventDefault();
         const blob = items[i].getAsFile();
-        if (blob) this.uploadImage(blob);
+        if (blob) this.imageService.uploadImage(blob, this.content);
         break;
       }
     }
   }
-
-  uploadImage(file: File): void {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    this.httpClient.post<{ filename: string }>(this.apiUrl + '/upload-image', formData).subscribe(
-      response => {
-        const imageUrl = this.imageDirectory + response.filename;
-        const markdownImage = `![](${imageUrl})`;
-        this.insertTextAtCursor(markdownImage);
-      },
-      error => {
-        console.error('Error uploading image:', error);
-      }
-    );
-  }
-
-  uploadHeroImage(file: File): void {
-    const formData = new FormData();
-    formData.append('FormFile', file);
-    formData.append('BlogPostId', this.id.toString());
-
-    this.httpClient.post<{ filename: string }>(this.apiUrl + '/upload-image-hero', formData).subscribe(
-      response => {
-        this.heroImagePath = this.imageDirectory + response.filename;
-        this.showHeroImage = true;
-
-      },
-      error => {
-        console.error('Error uploading image:', error);
-      }
-    );
-  }
-
-  insertTextAtCursor(text: string): void {
-    const textarea = document.querySelector('.blog-edit-input') as HTMLTextAreaElement;
-    if (!textarea) return;
-
-    const startPos = textarea.selectionStart;
-    const endPos = textarea.selectionEnd;
-    const textBefore = this.content.substring(0, startPos);
-    const textAfter = this.content.substring(endPos, this.content.length);
-
-    this.content = textBefore + text + textAfter;
-    textarea.selectionStart = textarea.selectionEnd = startPos + text.length;
-    textarea.focus();
-  }
-
-
-  constructor(
-    private BlogPostService: BlogPostService,
-    private dialogService: DialogService,
-    private httpClient: HttpClient
-  ) { }
-
-
-  private initialized = false;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!this.initialized) {
-      if (this.heroImagePath === '') {
-        this.showHeroImage = false;
-        return;
-      }
-      this.heroImagePath = this.imageDirectory + this.heroImagePath;
-      this.showHeroImage = true;
-    }
-    this.initialized = true;
-  }
-
 
 
   getContent() {

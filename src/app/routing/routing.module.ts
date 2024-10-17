@@ -14,11 +14,6 @@ const routes: Routes = [
     component: BlogListComponent,
     data: { category: "Personal Website" },
   },
-  {
-    path: "about",
-    component: AboutComponent,
-    data: { animation: "isAbove" },
-  },
   { path: "contact", component: ContactComponent },
 ];
 
