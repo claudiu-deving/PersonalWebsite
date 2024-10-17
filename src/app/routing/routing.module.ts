@@ -4,6 +4,7 @@ import { BlogListComponent } from "../blog/components/blog-list/blog-list.compon
 import { HomeComponent } from "../home/home.component";
 import { AboutComponent } from "../about/about.component";
 import { ContactComponent } from "../contact/contact.component";
+import { PortofolioComponent } from "../portofolio/portofolio.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "/welcome", pathMatch: "full" },
@@ -15,6 +16,7 @@ const routes: Routes = [
     data: { category: "Personal Website" },
   },
   { path: "contact", component: ContactComponent },
+  { path: "portfolio", component: PortofolioComponent },
 ];
 
 @NgModule({

@@ -9,7 +9,6 @@ import {
   OnInit,
 } from "@angular/core";
 import { HeaderComponent } from "./header/header.component";
-import { TeklaService } from "./shared/services/tekla.service";
 declare const setCarvesRadiuses: any;
 
 @Component({
@@ -18,16 +17,10 @@ declare const setCarvesRadiuses: any;
   styleUrls: ["./app.component.scss"],
   providers: [],
 })
-export class AppComponent implements AfterViewInit, OnInit {
+export class AppComponent implements AfterViewInit {
   title = "Klaus's Personal Website";
-  content: string = '';
-  constructor(private renderer: Renderer2, private teklaService: TeklaService) { }
+  constructor(private renderer: Renderer2) { }
 
-  ngOnInit(): void {
-    this.teklaService.helloSubject.subscribe((data: string) => {
-      this.content = data;
-    });
-  }
 
   contentToBlur: Element | null = null;
   header: Element | null = null;

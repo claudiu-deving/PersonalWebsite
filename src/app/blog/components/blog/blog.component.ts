@@ -52,7 +52,6 @@ export class BlogComponent implements OnInit {
       this.getContent();
       this.editOrSave = "Save";
     } else {
-      console.log(this.content);
       this.BlogPostService.update(
         this.id,
         this.title,

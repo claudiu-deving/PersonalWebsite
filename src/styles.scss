@@ -369,6 +369,17 @@ article {
 }
 
 
+
+.markdown video {
+  display: block;
+  margin: 0 auto;
+  align-self: center;
+  border-radius: 10px;
+
+  height: 80%;
+  width: 80%;
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
   .image {
@@ -387,6 +398,10 @@ article {
     width: 90%;
   }
 
+  .markdown video {
+    width: 90%;
+  }
+
 }
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
@@ -400,6 +415,10 @@ article {
   }
 
   article {
+    width: 80%;
+  }
+
+  .markdown video {
     width: 80%;
   }
 }
@@ -417,6 +436,10 @@ article {
   .preview {
     width: 70%;
   }
+
+  .markdown video {
+    width: 70%;
+  }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
@@ -432,6 +455,10 @@ article {
   .preview {
     width: 60%;
   }
+
+  .markdown video {
+    width: 80%;
+  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
@@ -446,6 +473,10 @@ article {
 
   .preview {
     width: 50%;
+  }
+
+  .markdown video {
+    width: 80%;
   }
 }
 

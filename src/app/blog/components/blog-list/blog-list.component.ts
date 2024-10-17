@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { BlogPostService } from "src/app/blog/services/blog-service.service";
 import { AuthentificationAuthorizationService } from "../../../auth/services/AuthentificationAuthorization.service";
 import { ViewType } from "../../../shared/types/ViewType.enum";
@@ -11,6 +11,7 @@ import { environment } from "src/environments/environment";
   styleUrls: ["./blog-list.component.scss"],
 })
 export class BlogListComponent implements OnInit {
+  @Input() category: string = '';
   blogs: Array<any> = [];
   constructor(
     private route: ActivatedRoute,
@@ -24,7 +25,7 @@ export class BlogListComponent implements OnInit {
     setTimeout(() => {
       this.AuthentificationAuthorizationService.eventObservable.subscribe(
         (event) => {
-          this.GetBlogs();
+          this.GetBlogs(this.category);
         }
       );
 
@@ -46,17 +47,16 @@ export class BlogListComponent implements OnInit {
       });
 
       this.route.data.subscribe((data) => {
-        const category = data["category"];
-        if (category == undefined || category == null) {
-          this.GetBlogs();
+        if (this.category == undefined || this.category == null) {
+          this.GetBlogs("default");
         } else {
-          this.GetBlogs(category);
+          this.GetBlogs(this.category);
         }
       });
     }, 0);
   }
 
-  private GetBlogs(category: string = "") {
+  private GetBlogs(category: string) {
     const token = localStorage.getItem("accessToken");
     if (token != null) {
       this.userLoggedIn = true;
@@ -64,7 +64,7 @@ export class BlogListComponent implements OnInit {
       this.userLoggedIn = false;
     }
     this.BlogPostService.getBlogs().subscribe((response) => {
-      this.blogs = response;
+
       if (token == null) {
         this.setContentAsGuest(response);
       } else {
@@ -75,7 +75,7 @@ export class BlogListComponent implements OnInit {
             } else {
               response = this.setContentAsAuthor(response, role, category);
             }
-
+            this.blogs = response;
           }
         );
       }
@@ -115,6 +115,8 @@ export class BlogListComponent implements OnInit {
       response = response.filter(
         (x: { category: string; }) => x.category == category
       );
+    } else {
+      response = response.filter((x: { category: string; }) => x.category != "project");
     }
     this.sortFromNewestToOldest();
     return response;
@@ -125,9 +127,13 @@ export class BlogListComponent implements OnInit {
       blog.view = ViewType.GUEST;
     });
 
-    this.blogs = response.filter(
-      (x: { isApproved: boolean; }) => x.isApproved
-    );
+    if (this.category != "" && this.category != undefined) {
+      this.blogs = response.filter(
+        (x: { isApproved: boolean, category: string }) => x.isApproved && x.category === this.category
+      );
+    } else {
+      this.blogs = response.filter((x: { isApproved: boolean, category: string }) => x.isApproved && x.category != "project");
+    }
     this.sortFromNewestToOldest();
   }
 

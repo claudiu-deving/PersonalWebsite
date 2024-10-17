@@ -20,6 +20,7 @@ import { NotificationComponent } from "./shared/components/notification/notifica
 import { MdDemoModule } from "./blog/components/md-demo/md-demo.module";
 import { MarkdownModule } from "ngx-markdown";
 import { AngularMarkdownEditorModule } from "angular-markdown-editor"
+import { PortofolioComponent } from "./portofolio/portofolio.component";
 
 @NgModule({
   declarations: [
@@ -31,8 +32,8 @@ import { AngularMarkdownEditorModule } from "angular-markdown-editor"
     TagListComponent,
     HomeComponent,
     AboutComponent,
-    ObserveElementDirective
-
+    ObserveElementDirective,
+    PortofolioComponent
   ],
   imports: [
     BrowserModule,
