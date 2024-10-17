@@ -6,6 +6,7 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { catchError, map, Observable, of } from "rxjs";
 import { ImageService } from "../../services/image.service";
+import { VideoService } from "../../services/video.service";
 
 @Component({
   selector: "app-blog",
@@ -38,7 +39,9 @@ export class BlogComponent implements OnInit {
     private BlogPostService: BlogPostService,
     private dialogService: DialogService,
     private httpClient: HttpClient,
-    private imageService: ImageService
+    private imageService: ImageService,
+    private videoService: VideoService
+
   ) { }
 
 
@@ -90,11 +93,27 @@ export class BlogComponent implements OnInit {
         const blob = items[i].getAsFile();
         if (blob) this.imageService.uploadImage(blob, this.content);
         break;
+      } else if (items[i].type.indexOf('video') !== -1) {
+        event.preventDefault();
+        const blob = items[i].getAsFile();
+        if (blob) this.uploadVideo(blob);
+        break;
       }
     }
   }
 
-
+  uploadVideo(file: File): void {
+    this.videoService.uploadVideo(file, this.id).subscribe(
+      (response) => {
+        const videoTag = `<video controls><source src="${response.filePath}" type="${file.type}">Your browser does not support the video tag.</video>`;
+        this.content += videoTag;
+      },
+      (error) => {
+        console.error('Error uploading video:', error);
+        // Handle error (e.g., show an error message to the user)
+      }
+    );
+  }
   getContent() {
     if (this.id === 0 || this.id == undefined) return;
     this.BlogPostService.getBlog(this.id).subscribe((x) => {
