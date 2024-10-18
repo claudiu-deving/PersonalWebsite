@@ -12,34 +12,19 @@ export class ImageService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public uploadImage(file: File, content: string): void {
+  public uploadImage(file: File): any {
     const formData = new FormData();
     formData.append('image', file);
 
-    this.httpClient.post<{ filename: string }>(this.apiUrl + '/upload-image', formData).subscribe(
-      response => {
+    return this.httpClient.post<{ filename: string }>(this.apiUrl + '/upload-image', formData).pipe(
+      map(response => {
         const imageUrl = this.imageDirectory + response.filename;
         const markdownImage = `![](${imageUrl})`;
-        this.insertTextAtCursor(markdownImage, content);
-      },
-      error => {
-        console.error('Error uploading image:', error);
-      }
+        return { markdownImage: markdownImage };
+      })
     );
   }
-  insertTextAtCursor(text: string, content: string): void {
-    const textarea = document.querySelector('.blog-edit-input') as HTMLTextAreaElement;
-    if (!textarea) return;
 
-    const startPos = textarea.selectionStart;
-    const endPos = textarea.selectionEnd;
-    const textBefore = content.substring(0, startPos);
-    const textAfter = content.substring(endPos, content.length);
-
-    content = textBefore + text + textAfter;
-    textarea.selectionStart = textarea.selectionEnd = startPos + text.length;
-    textarea.focus();
-  }
 
   public uploadHeroImage(file: File, id: number): any {
     const formData = new FormData();

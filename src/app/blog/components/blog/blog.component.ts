@@ -16,7 +16,7 @@ import { VideoService } from "../../services/video.service";
 export class BlogComponent implements OnInit {
   @Input() content = "Enter here the content of the blog post";
   @Input() title = "Blogpost title";
-  @Input() author = "Author";
+  @Input() author: any;
   @Input() view: ViewType = ViewType.GUEST;
   @Input() created: string = new Date().toDateString();
   @Input() modified: string = new Date().toDateString();
@@ -75,7 +75,6 @@ export class BlogComponent implements OnInit {
           var response = this.imageService.uploadHeroImage(blob, this.id);
           this.heroImagePath = response.filePath;
           this.showHeroImage = response.showHeroImage;
-
         }
         break;
       }
@@ -89,8 +88,11 @@ export class BlogComponent implements OnInit {
     for (let i = 0; i < items.length; i++) {
       if (items[i].type.indexOf('image') !== -1) {
         event.preventDefault();
+
         const blob = items[i].getAsFile();
-        if (blob) this.imageService.uploadImage(blob, this.content);
+        if (blob) {
+          this.uploadImage(blob);
+        }
         break;
       } else if (items[i].type.indexOf('video') !== -1) {
         event.preventDefault();
@@ -99,6 +101,15 @@ export class BlogComponent implements OnInit {
         break;
       }
     }
+  }
+
+  uploadImage(file: File): void {
+    this.imageService.uploadImage(file).subscribe(
+      (response: any) => {
+        const imageTag = response.markdownImage;
+        this.content += imageTag;
+      }
+    );
   }
 
   uploadVideo(file: File): void {

@@ -4,6 +4,7 @@ import { AuthentificationAuthorizationService } from "../../../auth/services/Aut
 import { ViewType } from "../../../shared/types/ViewType.enum";
 import { ActivatedRoute } from "@angular/router";
 import { environment } from "src/environments/environment";
+import { BlogComponent } from "../blog/blog.component";
 
 @Component({
   selector: "app-blog-list",
@@ -12,7 +13,7 @@ import { environment } from "src/environments/environment";
 })
 export class BlogListComponent implements OnInit {
   @Input() category: string = '';
-  blogs: Array<any> = [];
+  blogs: Array<BlogComponent> = [];
   constructor(
     private route: ActivatedRoute,
     private BlogPostService: BlogPostService,
@@ -32,7 +33,7 @@ export class BlogListComponent implements OnInit {
       this.BlogPostService.eventObservable.subscribe((event) => {
         var blog = this.blogs.find((x) => x.id == event.id);
         if (event.action == "delete") {
-          this.blogs.splice(this.blogs.indexOf(blog), 1);
+          this.blogs.splice(this.blogs.indexOf(blog as BlogComponent), 1);
           return;
         }
         if (event.action == "create") {
@@ -138,9 +139,7 @@ export class BlogListComponent implements OnInit {
   }
 
   private sortFromNewestToOldest() {
-    this.blogs.sort((a: { created: Date }, b: { created: Date }) => {
-      console.log(a.created);
-      console.log(b.created);
+    this.blogs.sort((a: BlogComponent, b: BlogComponent) => {
       return new Date(b.created).getTime() - new Date(a.created).getTime();
     });
   }
@@ -156,8 +155,14 @@ export class BlogListComponent implements OnInit {
           isEditable: true,
           editOrSave: "Save",
           view: ViewType.EDIT,
+          id: 0,
+          tags: [],
+          category: "",
+          isApproved: false,
+          heroImagePath: "",
+          slug: "",
         };
-        this.blogs.unshift(blog);
+        this.blogs.unshift(blog as unknown as BlogComponent);
       }
     );
   }
