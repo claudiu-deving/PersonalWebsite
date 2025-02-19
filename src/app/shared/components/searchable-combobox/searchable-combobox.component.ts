@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FilterPipe } from "../../pipes/filter.pipe";
 @Component({
   selector: "app-searchable-combobox",
@@ -6,9 +6,11 @@ import { FilterPipe } from "../../pipes/filter.pipe";
   styleUrls: ["./searchable-combobox.component.scss"],
 })
 export class SearchableComboboxComponent implements OnInit {
-  options: string[] = ["option1", "option2", "option3"];
-  searchTerm: string = "";
+  @Input() options: string[] = [];
+  @Input() searchTerm: string = "";
   display: string = "none";
+  @Output() searchTermChanged = new EventEmitter<any>();
+
   constructor() { }
 
   ngOnInit() { }

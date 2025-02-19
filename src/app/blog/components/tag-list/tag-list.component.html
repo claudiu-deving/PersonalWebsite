@@ -3,19 +3,21 @@
 
 <ng-template #read>
   <div class="tags">
-    <div class="tag" *ngFor="let tag of tags"><app-tag [color]="tag.color" [name]="tag.name" [view]="view" (eventEmitter)="receiveData($event)"></app-tag></div>
+    <div class="tag" *ngFor="let tag of tags"><app-tag [color]="tag.color" [name]="tag.name" [view]="view"
+        (eventEmitter)="receiveData($event)"></app-tag></div>
   </div>
-  </ng-template>  
+</ng-template>
 
-  <ng-template #edit>
-    <div class="tag-list-wrapper">
-      <div class="tags">
-        <div class="tag" *ngFor="let tag of tags"><app-tag [color]="tag.color" [name]="tag.name" [view]="view"  (eventEmitter)="receiveData($event)"></app-tag></div>
-      </div>
-      <div class="tag-list-add">
-        <button class="tag-list-add-button" (click)="addTag()">+</button>
-      </div>
-      <app-searchable-combobox ></app-searchable-combobox>
-
+<ng-template #edit>
+  <div class="tag-list-wrapper">
+    <div class="tags">
+      <div class="tag" *ngFor="let tag of tags"><app-tag [color]="tag.color" [name]="tag.name" [view]="view"
+          (eventEmitter)="receiveData($event)"></app-tag></div>
     </div>
- </ng-template>
+    <div class="tag-list-add">
+      <button class="tag-list-add-button" (click)="addTag()">+</button>
+    </div>
+    <app-searchable-combobox [options]="tags" (searchTermChanged)="searchTermChanged($event)"></app-searchable-combobox>
+
+  </div>
+</ng-template>

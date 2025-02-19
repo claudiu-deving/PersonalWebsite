@@ -257,6 +257,12 @@ article {
   border: 3px double #aaa;
 }
 
+
+.tags {
+  display: flex;
+  align-items: end;
+}
+
 .preview {
   padding: 10px;
   border-radius: 10px;

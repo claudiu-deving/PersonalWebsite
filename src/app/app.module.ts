@@ -21,6 +21,7 @@ import { MdDemoModule } from "./blog/components/md-demo/md-demo.module";
 import { MarkdownModule } from "ngx-markdown";
 import { AngularMarkdownEditorModule } from "angular-markdown-editor"
 import { PortofolioComponent } from "./portofolio/portofolio.component";
+import { NgxColorsModule } from 'ngx-colors';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { PortofolioComponent } from "./portofolio/portofolio.component";
     ContactModule,
     NotificationComponent,
     MdDemoModule,
+    NgxColorsModule,
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE
     }),

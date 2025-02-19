@@ -16,7 +16,7 @@ import { VideoService } from "../../services/video.service";
 export class BlogComponent implements OnInit {
   @Input() content = "Enter here the content of the blog post";
   @Input() title = "Blogpost title";
-  @Input() author: any;
+  @Input({ required: true }) author!: Author;
   @Input() view: ViewType = ViewType.GUEST;
   @Input() created: string = new Date().toDateString();
   @Input() modified: string = new Date().toDateString();
@@ -142,7 +142,6 @@ export class BlogComponent implements OnInit {
     } else {
       this.publishStatus = "Publish"
     }
-
   }
   async fileExists(folderPath: string): Promise<boolean> {
 
@@ -171,7 +170,13 @@ export class BlogComponent implements OnInit {
   }
 
   receiveData($event: any) {
-    this.tags = this.tags.filter((tag) => tag.name !== $event.name);
+    // this.tags = this.tags.filter((tag) => tag.name !== $event.name);
   }
 }
 type PublishOrUnpublish = "Publish" | "Unpublish";
+
+
+export class Author {
+  username = "";
+  isAdmin = false;
+}

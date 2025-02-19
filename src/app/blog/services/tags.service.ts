@@ -7,10 +7,21 @@ import { environment } from 'src/environments/environment';
 })
 export class TagsService {
   private apiUrl = environment.apiUrl;
-constructor(private HttpClient:HttpClient) { }
+  constructor(private HttpClient: HttpClient) { }
 
-getTags(){
-  return this.HttpClient.get(`${this.apiUrl}/tags`);
-}
+  getTags() {
+    return this.HttpClient.get(`${this.apiUrl}/tags`);
+  }
 
+  addTag(name: string, description: string, color: string) {
+    return this.HttpClient.post(`${this.apiUrl}/tags`, { name, description, color });
+  }
+
+  updateTag(tag: any) {
+    return this.HttpClient.put(`${this.apiUrl}/tags`, tag);
+  }
+
+  removeTagFromBlogpost(tags: any[], blogpostId: string) {
+    return this.HttpClient.put(`${this.apiUrl}/blogposts/${blogpostId}`, { tags });
+  }
 }

@@ -15,25 +15,22 @@
 }
 
 @import '/src/styles.scss';
+
 .tag-wrapper {
-  border-radius: 0 5px 5px 0;
+  border-radius: 5px 0 0 5px;
   border: $main 1px solid;
-  display: flex;
-  width: fit-content;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  display: flex;
 }
 
 .tag-ear {
-  width: 15px;
-  display: flex;
+  width: 10px;
 }
+
 .tag-ear-inner {
-  align-self: center;
-  width: 0;
-  height: 0;
   border-top: 15px solid transparent;
   border-bottom: 15px solid transparent;
-  border-right: 15px solid;
+  border-left: 15px solid;
 }
 
 .tag-ear-button {
@@ -52,6 +49,7 @@
   color: hsl(0, 100%, 50%);
   font-weight: bold;
 }
+
 .tag-ear-button:active {
   scale: 0.9;
 }

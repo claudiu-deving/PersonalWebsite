@@ -38,40 +38,47 @@
 </ng-template>
 
 <ng-template #blogInEditMode>
-  <header>
-    <div>
-      By:
-      <strong><em>
-          <p>{{ author }}</p>
-        </em></strong>
-      <textarea class="title" [(ngModel)]="title"></textarea>
-      <textarea class="title" [(ngModel)]="category"></textarea>
-    </div>
-  </header>
-  <app-tag-list [tags]="tags" [view]="'edit'" [parentBlogId]="id" (eventEmitter)="receiveData($event)"></app-tag-list>
-  <div class="blog-edit-wrapper">
-    <div class="editor">
-      <textarea class="blog-edit-input" [(ngModel)]="content" (paste)="onPaste($event)"></textarea>
-    </div>
-    <div class="blog-edit-output">
-      <markdown class="markdown" [data]="content"></markdown>
+  <div>
+    <header>
+      <div>
+        By:
+        <div>
+          <strong><em>
+              <p>{{ author.username }}</p>
+            </em></strong>
+        </div>
+        <textarea class="title" [(ngModel)]="title"></textarea>
+        <textarea class="title" [(ngModel)]="category"></textarea>
+      </div>
+    </header>
+    <!-- <app-tag-list [tags]="tags" [view]="'edit'" [parentBlogId]="id" (eventEmitter)="receiveData($event)"></app-tag-list> -->
+    <div class="blog-edit-wrapper">
+      <div class="editor">
+        <textarea class="blog-edit-input" [(ngModel)]="content" (paste)="onPaste($event)"></textarea>
+      </div>
+      <div class="blog-edit-output">
+        <markdown class="markdown" [data]="content"></markdown>
+      </div>
     </div>
   </div>
 </ng-template>
 
 <ng-template #blogInReadMode>
-  <header>
-    <div>
-      By:
-      <strong><em>
-          <p>{{ author.username }}</p>
-        </em></strong>
-      <h1 class="title">{{ title }}</h1>
-      <p>{{ created | date }}</p>
-    </div>
-  </header>
-  <app-tag-list [tags]="tags" [view]="'read'"></app-tag-list>
-  <markdown class="markdown">{{content}}</markdown>
+  <!-- <app-tag-list [tags]="tags" [view]="'read'" (eventEmitter)="receiveData($event)"></app-tag-list> -->
+  <div>
+    <header>
+      <div>
+        By:
+        <strong><em>
+            <p>{{ author.username }}</p>
+          </em></strong>
+
+        <h1 class="title">{{ title }}</h1>
+        <p>{{ created | date }}</p>
+      </div>
+    </header>
+    <markdown class="markdown">{{content}}</markdown>
+  </div>
 </ng-template>
 
 <ng-template #authorPreheader>
