@@ -3,7 +3,7 @@ name: Deploy Docs to EC2
 on:
   push:
     branches:
-      - main # or any other branch as per your workflow
+      - main 
 
 jobs:
   deploy:
@@ -25,7 +25,8 @@ jobs:
       
       - name: Upload docs to S3
         run: aws s3 cp docs.zip s3://${{ secrets.S3_BUCKET_NAME }}/docs.zip
-      
+      #Copy the zip from S3 Bucket to EC2 instance, unzip and then delete the zip file
+      #Since this is only for the static website files, no other action is required
       - name: Execute SSM command to deploy docs on EC2
         run: |
           aws ssm send-command \
