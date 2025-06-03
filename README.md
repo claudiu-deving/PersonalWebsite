@@ -1,5 +1,4 @@
 # Personal website
-## Hosted on https://ccsflow.com
 
 This project is where I learned the fundamentals of several technologies:
 
